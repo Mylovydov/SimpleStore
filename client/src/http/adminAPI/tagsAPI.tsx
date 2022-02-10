@@ -1,4 +1,4 @@
-import { TypeTag } from '../../store/TagStore'
+import { TypeTag } from '../../store/admin/TagStore'
 import { $authHost } from '../index'
 
 export const createTag = async (tag: Omit<TypeTag, "_id" | "createdDate" | "updatedDate">) => {

@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Button, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { getOneProduct } from '../http/productAPI';
-import { TypeProduct } from '../store/ProductStore';
+import { TypeProduct } from '../store/admin/ProductStore';
 import { SHOP_ROUTE } from '../utils/consts';
 
 const ProductPage: FC = () => {

@@ -163,14 +163,14 @@ export const publicRoutes = [
         path: LOGIN_ROUTE,
         Component: <AuthPage />
     },
-    {
-        // Home
-        path: `${SHOP_ROUTE}/:filters`,
-        Component: <CatalogPage />
-    },
     // {
-    //     // Catalog
-    //     path: `${CATALOG_ROUTE}/:filters`,
-    //     Component: <CatalogPage />
-    // }
+    //     // Home
+    //     path: `${SHOP_ROUTE}`,
+    //     Component: <HomePage />
+    // },
+    {
+        // Catalog
+        path: CATALOG_ROUTE,
+        Component: <CatalogPage />
+    }
 ]

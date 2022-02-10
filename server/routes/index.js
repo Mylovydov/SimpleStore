@@ -18,7 +18,7 @@ router.use('/products', productsRouter)
 router.use('/orders', ordersRouter)
 
 router.use('/catalog', userCatalogRouter)
-// router.use('/types', userTagTypeRouter)
+router.use('/types', userTagTypeRouter)
 // router.use('/checkout')
 
 module.exports = router

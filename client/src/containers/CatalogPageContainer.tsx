@@ -5,10 +5,10 @@ import ProductList from '../components/ProductList';
 import Pages from '../components/Pages';
 import { getAllProducts } from '../http/productAPI';
 import { pagination } from '../utils/pagination';
-import { ShopContext } from '../components/PublickRouter';
+import { ShopContext } from '../components/PublicRouter';
 import { observer } from 'mobx-react-lite';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SHOP_ROUTE } from '../utils/consts';
+import {SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts';
 
 export type TypeQueryStateItem = {filtersTitle: string, filters: string[]}
 
@@ -48,65 +48,79 @@ const generateQueryUrl = (arr: TypeQueryStateItem[], page: number) => {
    return pageUrl + filters
 }
 
-console.log()
-
 const CatalogPageContainer = observer(() => {
 
-   const { shop } = useContext(ShopContext)
+   const { shopProducts, shopTagTypes, shopTags } = useContext(ShopContext)
 
-   const [loading, setLoading] = useState<boolean>(true)
+   const [loading, setLoading] = useState<boolean>(false)
    const [query, setQuery] = useState<TypeQueryStateItem[]>([])
 
    const location = useLocation()
    const navigate = useNavigate()
 
    useEffect(() => {
-      console.log('location', location)
-      if (location.pathname !== '/') {
-         getAllProducts(location.pathname).then(data => {
-            shop.setAllTagTypes(data.allTagTypes)
-            shop.setAllTags(data.allTags)
-            shop.setAllProducts(data.allProducts)
-            shop.setAllFilteredProducts(data.filteredProducts)
-            shop.setPaginatedProducts(data.paginatedProducts)
-            shop.setTotalCount(data.productsTotalCount)
-            shop.setLimit(data.productsLimit)
-         })
-         .catch(e => alert(e.response.data.message))
-      }
+      getAllProducts().then(data => {
+         // shop.setAllTagTypes(data.allTagTypes)
+         // shop.setAllTags(data.allTags)
+         // shop.setAllProducts(data.allProducts)
+         console.log(data)
+         // shop.setAllFilteredProducts(data.filteredProducts)
+         // shop.setPaginatedProducts(data.paginatedProducts)
+         // shop.setTotalCount(data.productsTotalCount)
+         // shop.setLimit(data.productsLimit)
+      })
+          .catch(e => alert(e.response.data.message))
+          .finally(() => setLoading(false))
+   })
 
-      if (location.pathname === '/') {
-         getAllProducts().then(data => {
-            shop.setAllTagTypes(data.allTagTypes)
-            shop.setAllTags(data.allTags)
-            shop.setAllProducts(data.allProducts)
-            shop.setAllFilteredProducts(data.filteredProducts)
-            shop.setPaginatedProducts(data.paginatedProducts)
-            shop.setTotalCount(data.productsTotalCount)
-            shop.setLimit(data.productsLimit)
-         })
-         .catch(e => alert(e.response.data.message))
-         .finally(() => setLoading(false))
-      }
-   }, [location])
-   
+
+   // useEffect(() => {
+   //    console.log('location', location)
+   //    if (location.pathname !== '/') {
+   //       getAllProducts(location.pathname).then(data => {
+   //          shop.setAllTagTypes(data.allTagTypes)
+   //          shop.setAllTags(data.allTags)
+   //          shop.setAllProducts(data.allProducts)
+   //          shop.setAllFilteredProducts(data.filteredProducts)
+   //          shop.setPaginatedProducts(data.paginatedProducts)
+   //          shop.setTotalCount(data.productsTotalCount)
+   //          shop.setLimit(data.productsLimit)
+   //       })
+   //       .catch(e => alert(e.response.data.message))
+   //    }
+   //
+   //    if (location.pathname === '/') {
+   //       getAllProducts().then(data => {
+   //          shop.setAllTagTypes(data.allTagTypes)
+   //          shop.setAllTags(data.allTags)
+   //          shop.setAllProducts(data.allProducts)
+   //          shop.setAllFilteredProducts(data.filteredProducts)
+   //          shop.setPaginatedProducts(data.paginatedProducts)
+   //          shop.setTotalCount(data.productsTotalCount)
+   //          shop.setLimit(data.productsLimit)
+   //       })
+   //       .catch(e => alert(e.response.data.message))
+   //       .finally(() => setLoading(false))
+   //    }
+   // }, [location])
+   //
 
    let tagsIdsArr: string[] = []
    let tagTypeIdsArr: string[] = []
 
-   if (shop.allFilteredProducts.length) {
-      tagsIdsArr = shop.allFilteredProducts.map(product => {
+   if (shopProducts.allFilteredProducts.length) {
+      tagsIdsArr = shopProducts.allFilteredProducts.map(product => {
          return product.tagsIds
       }).flat().filter((tagId, i, arr) => arr.indexOf(tagId) === i)
 
-      tagTypeIdsArr = shop.allTags.map(tag => {
+      tagTypeIdsArr = shopTags.tags.map(tag => {
          return tagsIdsArr.includes(tag._id) ? tag.tagTypeId : ''
       }).flat().filter((typeId, i, arr) => arr.indexOf(typeId) === i && typeId !== '')
    }
    
    const onHandleChangePage = (currentPage: number): void => {
-      shop.setCurrentPage(currentPage)
-   }   
+      shopProducts.setCurrentPage(currentPage)
+   }
 
    const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.checked) {
@@ -137,6 +151,10 @@ const CatalogPageContainer = observer(() => {
       }
    }
    console.log('query', query)
+
+   const onHandleNavProduct = (slug: string) => {
+      navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`)
+   }
 
    // const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
    //    console.log('title', title);
@@ -175,13 +193,13 @@ const CatalogPageContainer = observer(() => {
 
    
 
-   useEffect(() => {
-      const queryUrl = generateQueryUrl(query, shop.currentPage)
-      // const queryUrl = generateQueryUrl(query)
-      navigate(`${SHOP_ROUTE}${queryUrl}`)
-   }, [query, shop.currentPage])
+   // useEffect(() => {
+   //    const queryUrl = generateQueryUrl(query, shop.currentPage)
+   //    // const queryUrl = generateQueryUrl(query)
+   //    navigate(`${SHOP_ROUTE}${queryUrl}`)
+   // }, [query, shop.currentPage])
    
-   const pages = pagination(shop.totalCount, shop.limit)
+   const pages = pagination(shopProducts.totalCount, shopProducts.limit)
 
    if (loading) {
       return (<Spinner 
@@ -202,11 +220,11 @@ const CatalogPageContainer = observer(() => {
             </Col>
 
             <Col md={9}>
-               <ProductList products={shop.paginatedProducts}/>
+               <ProductList products={shopProducts.allProducts} onClick={onHandleNavProduct}/>
                {pages.length > 1 && 
                   <Pages
                      pages={pages}
-                     currentPage={shop.currentPage}
+                     currentPage={shopProducts.currentPage}
                      onChangePage={onHandleChangePage}
                   />}
             </Col>

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
 import { Image, Table } from 'react-bootstrap';
-import { TypeTag } from '../../store/TagStore';
+import { TypeTag } from '../../store/admin/TagStore';
 import { Context } from '../AdminRouter';
 import TableHead from './TableHead'
 import { TBaseTableItem, THeadTableField } from './TagTypesTable';

@@ -5,11 +5,11 @@ import StatisticsPageContainer from '../containers/StatisticsPageContainer';
 import AdminLayout from '../layout/AdminLayout';
 // import StatisticsPage from '../pages/StatisticsPage';
 import { authRoutes } from '../routes';
-import AdministratorsStore, { IAdministratorsStore } from '../store/AdministratorsStore';
-import AdminStore, { IAdminStore } from '../store/AdminStore';
-import ProductStore, { IProductStore } from '../store/ProductStore';
-import TagStore, { ITagStore } from '../store/TagStore';
-import TagTypeStore, { ITagTypeStore } from '../store/TagTypeStore';
+import AdministratorsStore, { IAdministratorsStore } from '../store/admin/AdministratorsStore';
+import AdminStore, { IAdminStore } from '../store/admin/AdminStore';
+import ProductStore, { IProductStore } from '../store/admin/ProductStore';
+import TagStore, { ITagStore } from '../store/admin/TagStore';
+import TagTypeStore, { ITagTypeStore } from '../store/admin/TagTypeStore';
 import { ADMIN_ROUTE, LOGIN_ROUTE } from '../utils/consts';
 
 export type TypeAdminContext = {

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Table } from 'react-bootstrap';
-import { TypeTagType } from '../../store/TagTypeStore';
+import { TypeTagType } from '../../store/admin/TagTypeStore';
 import TableHead from './TableHead';
 import { TBaseTableItem, THeadTableField } from './TagTypesTable';
 

@@ -1,13 +1,9 @@
 import { makeAutoObservable} from "mobx"
-import { TypeProduct } from "./ProductStore"
-import { TypeTag } from "./TagStore"
-import { TypeTagType } from "./TagTypeStore"
+import { TypeProduct } from "../admin/ProductStore"
 
-export interface IShopStore {
+export interface IProductsStore {
    allProducts: TypeProduct[]
    allFilteredProducts: TypeProduct[]
-   allTagTypes: TypeTagType[]
-   allTags: TypeTag[]
    paginatedProducts: TypeProduct[]
    currentPage: number
    totalCount: number
@@ -15,19 +11,15 @@ export interface IShopStore {
    setAllProducts: (products: TypeProduct[]) => void
    setAllFilteredProducts: (products: TypeProduct[]) => void
    setPaginatedProducts: (products: TypeProduct[]) => void
-   setAllTagTypes: (tagTypes: TypeTagType[]) => void
-   setAllTags: (tagTypes: TypeTag[]) => void
    setTotalCount: (totalCount: number) => void
    setCurrentPage: (currentPage: number) => void
    setLimit: (limit: number) => void
 }
 
-class ShopStore implements IShopStore {
+class ProductsStore implements IProductsStore {
    _allProducts: TypeProduct[] = []
    _allFilteredProducts: TypeProduct[] = []
    _paginatedProducts: TypeProduct[] = []
-   _allTagTypes: TypeTagType[] = []
-   _allTags: TypeTag[] = []
    _currentPage: number
    _totalCount: number
    _limit: number
@@ -36,8 +28,6 @@ class ShopStore implements IShopStore {
       this._allProducts = []
       this._allFilteredProducts = []
       this._paginatedProducts = []
-      this._allTagTypes= []
-      this._allTags = []
       this._currentPage = 1
       this._totalCount = 0
       this._limit = 1
@@ -55,14 +45,6 @@ class ShopStore implements IShopStore {
 
    setPaginatedProducts(products: TypeProduct[]): void {
       this._paginatedProducts = products
-   }
-
-   setAllTagTypes(tagTypes: TypeTagType[]): void {
-      this._allTagTypes = tagTypes
-   }
-
-   setAllTags(tagTypes: TypeTag[]): void {
-      this._allTags = tagTypes
    }
 
    setCurrentPage(currentPage: number): void {
@@ -90,14 +72,6 @@ class ShopStore implements IShopStore {
       return this._paginatedProducts
    }
 
-   get allTagTypes(): TypeTagType[] {      
-      return this._allTagTypes
-   }
-
-   get allTags(): TypeTag[] {
-      return this._allTags
-   }
-
    get currentPage(): number {
       return this._currentPage
    }
@@ -111,4 +85,4 @@ class ShopStore implements IShopStore {
    }
 }
 
-export default new ShopStore()
+export default new ProductsStore()
