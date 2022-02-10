@@ -1,7 +1,7 @@
-const Tag = require('../models/Tag')
-const TagType = require('../models/TagType')
-const helpers = require('../helpers/helpers')
-const Product = require('../models/Product')
+const Tag = require('../../models/Tag')
+const TagType = require('../../models/TagType')
+const helpers = require('../../helpers/helpers')
+const Product = require('../../models/Product')
 
 class TagsController {
 

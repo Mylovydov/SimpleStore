@@ -1,8 +1,8 @@
 const Router = require('express')
 const router = new Router()
-const { create, getAll, getOne, update, remove } = require('../controllers/administratorsController')
+const { create, getAll, getOne, update, remove } = require('../../controllers/admin/administratorsController')
 const { check } = require('express-validator')
-const authMiddleware = require('../middleware/authMiddleware')
+const authMiddleware = require('../../middleware/authMiddleware')
 
 router.post('/', [
    check('username', 'Имя пользователя не может быть пустым').notEmpty(),

@@ -1,8 +1,8 @@
-const Product = require('../models/Product')
-const Tag = require('../models/Tag')
-const TagType = require('../models/TagType')
+const Product = require('../../models/Product')
+const Tag = require('../../models/Tag')
+const TagType = require('../../models/TagType')
 
-class UserProductController {
+class ShopProductController {
 
    // Новая функция 5
    async getAll (request, response) {
@@ -327,4 +327,4 @@ class UserProductController {
    }
 }
 
-module.exports = new UserProductController()
+module.exports = new ShopProductController()

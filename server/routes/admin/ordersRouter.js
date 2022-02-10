@@ -2,8 +2,8 @@ const Router = require('express')
 const router = new Router()
 const { check } = require('express-validator')
 
-const { create, update, remove, getOne, getAll } = require('../controllers/orderController')
-const authMiddleware = require('../middleware/authMiddleware')
+const { create, update, remove, getOne, getAll } = require('../../controllers/admin/orderController')
+const authMiddleware = require('../../middleware/authMiddleware')
 
 router.post('/', [
     check('username', 'Укажите Ваше имя').notEmpty(),

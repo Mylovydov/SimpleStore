@@ -1,5 +1,5 @@
-const Admin = require('../models/Admin')
-const helpers = require('../helpers/helpers')
+const Admin = require('../../models/Admin')
+const helpers = require('../../helpers/helpers')
 const { validationResult } = require('express-validator')
 
 class AuthController {

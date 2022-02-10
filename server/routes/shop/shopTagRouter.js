@@ -1,6 +1,6 @@
 const Router = require('express')
 const router = new Router()
-const { getAll } = require('../controllers/userTagTypesController')
+const { getAll } = require('../../controllers/shop/shopTagsController')
 
 router.get('/', getAll)
 

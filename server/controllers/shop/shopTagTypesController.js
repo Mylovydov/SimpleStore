@@ -1,7 +1,7 @@
 
-const TagType = require('../models/TagType')
+const TagType = require('../../models/TagType')
 
-class UserTagTypesController {
+class ShopTagTypesController {
 
    async getAll (request, response) {
       try {
@@ -14,4 +14,4 @@ class UserTagTypesController {
    }
 }
 
-module.exports = new UserTagTypesController()
+module.exports = new ShopTagTypesController()

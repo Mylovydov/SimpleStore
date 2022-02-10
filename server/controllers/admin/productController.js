@@ -1,9 +1,9 @@
-const Product = require('../models/Product')
+const Product = require('../../models/Product')
 const uuid = require('uuid')
 const path = require('path')
 const fs = require('fs')
-const TagType = require('../models/TagType')
-const Tag = require('../models/Tag')
+const TagType = require('../../models/TagType')
+const Tag = require('../../models/Tag')
 
 class productController {
 

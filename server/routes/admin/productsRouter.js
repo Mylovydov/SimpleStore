@@ -1,8 +1,8 @@
 const Router = require('express')
 const router = new Router()
-const { create, update, remove, getOne, getAll } = require('../controllers/productController')
-const authMiddleware = require('../middleware/authMiddleware')
-const paginationMiddleware = require('../middleware/paginationMiddleware')
+const { create, update, remove, getOne, getAll } = require('../../controllers/admin/productController')
+const authMiddleware = require('../../middleware/authMiddleware')
+const paginationMiddleware = require('../../middleware/paginationMiddleware')
 
 router.post('/', authMiddleware, create)
 router.get('/:id', authMiddleware, getOne)
