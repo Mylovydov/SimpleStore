@@ -30,52 +30,44 @@ class ShopProductController {
             // console.log('limit', limit);
             // console.log('skip', skip);
 
-            console.log('controller userFilters', userFilters);
-
-            let allProducts;
-            let allTagTypes;
-            let allTags;
-            let paginatedProducts
-            let productsTotalCount
+            let allProducts,
+                allTagTypes,
+                allTags,
+                productsTotalCount;
 
             if (!(userFilters.length)) {
                 console.log('Нет фильтров');
                 allProducts = await Product.find();
-                allTagTypes = await TagType.find();
-                allTags = await Tag.find();
-                productsTotalCount = allProducts.length
+                allTagTypes = await TagType.find(
+                    {},
+                    {createdDate: false, updatedDate: false, __v: false}
+                );
+                allTags = await Tag.find(
+                    {},
+                    {createdDate: false, updatedDate: false, __v: false}
+                );
+                productsTotalCount = allProducts.length;
             }
 
             if (userFilters.length) {
-                console.log('Есть фильтры')
-                // Получаем массив продуктов по фильтру и делаем пагинацию
-                // paginatedProducts = await Product.find({tagsIds: {$all: userFilters}}).limit(limit).skip(skip)
+                console.log('Есть фильтры');
+                allProducts = await Product.find({tagsIds: {$all: userFilters}});
+                productsTotalCount = allProducts.length;
+                const allProductsTagId = allProducts.map(product => product.tagsIds).flat();
+                allTags = await Tag.find(
+                    {_id: {$in: allProductsTagId}},
+                    {createdDate: false, updatedDate: false}
+                );
 
-                // Получаем весь массив продуктов по фильтру
-                allProducts = await Product.find({tagsIds: {$all: userFilters}})
-                productsTotalCount = allProducts.length
-                // Получаем массив id тегов отфильтрованных продуктов
-                const allProductsTagId = allProducts.map(product => product.tagsIds).flat()
-                allTags = await Tag.find({_id : {$in: allProductsTagId}})
-
-                // Получаем массив id типов всех отфильтрованных продуктов
-                const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId)
-                allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}})
-
-                console.log('allTags', allTags);
-                console.log('allProductsTagId', allProductsTagId);
-                console.log('allProductsTagTypeId', allProductsTagTypeId);
-                console.log('allTagTypes', allTagTypes);
-                // Получаем общее кол-во найденных по фильтрам продуктов
-                productsTotalCount = await Product.find({tagsIds: {$all: userFilters}}).count()
+                const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId);
+                allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}});
+                productsTotalCount = await Product.find({tagsIds: {$all: userFilters}}).count();
             }
 
             return response.json({
                 allTagTypes,
                 allTags,
                 allProducts: allProducts.slice(skip, limit),
-                paginatedProducts,
-                // filteredProducts,
                 productsTotalCount,
                 productsLimit: limit
             });

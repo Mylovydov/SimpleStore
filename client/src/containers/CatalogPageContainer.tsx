@@ -11,8 +11,25 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {getAllTagTypes} from '../http/shopAPI/tagTypeAPI';
 import {getAllTags} from '../http/shopAPI/tagAPI';
+import {TypeShopTag, TypeShopTagType} from '../store/shop/TagStore';
+import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 
 export type TypeQueryStateItem = { filtersTitle: string, filters: string[] }
+
+const tagTypes = [
+    {_id: '61fa89bc2e6bb14e0e47c9f8', title: 'Категория', slug: 'category'},
+    {_id: '61fa89ca2e6bb14e0e47c9fb', title: 'Бренды', slug: 'brands'},
+    {_id: '61fa89d52e6bb14e0e47c9fe', title: 'Автор', slug: 'author'}
+];
+const tags = [
+    {_id: '61fa8b982e6bb14e0e47ca04', title: 'Книги', tagTypeId: '61fa89bc2e6bb14e0e47c9f8', slug: 'books'},
+    {_id: '61fa8ba42e6bb14e0e47ca07', title: 'Машины', tagTypeId: '61fa89bc2e6bb14e0e47c9f8', slug: 'cars'},
+    {_id: '61fa8bc42e6bb14e0e47ca0d', title: 'Reno', tagTypeId: '61fa89ca2e6bb14e0e47c9fb', slug: 'reno'},
+    {_id: '61fa8bcd2e6bb14e0e47ca10', title: 'Audi', tagTypeId: '61fa89ca2e6bb14e0e47c9fb', slug: 'audi'},
+    {_id: '61fa8c252e6bb14e0e47ca1c', title: 'Бушков', tagTypeId: '61fa89d52e6bb14e0e47c9fe', slug: 'bushkov'},
+    {_id: '61fa8c3f2e6bb14e0e47ca1f', title: 'С. Кинг', tagTypeId: '61fa89d52e6bb14e0e47c9fe', slug: 'king'},
+];
+
 
 const generateQueryUrl = (arr: TypeQueryStateItem[]) => {
     return arr.reduce((acc: string, item: TypeQueryStateItem, i: number, arr: TypeQueryStateItem[]) => {
@@ -52,7 +69,7 @@ const generateQueryUrl = (arr: TypeQueryStateItem[]) => {
 
 const CatalogPageContainer = observer(() => {
 
-    const {shopProducts, shopTagTypes, shopTags} = useContext(ShopContext);
+    const {shopProducts, shopTags} = useContext(ShopContext);
 
     const [loading, setLoading] = useState<boolean>(false);
     const [query, setQuery] = useState<TypeQueryStateItem[]>([]);
@@ -61,40 +78,22 @@ const CatalogPageContainer = observer(() => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (location.pathname === '/catalog/') {
-            getAllProducts()
-                .then(data => {
-                    shopProducts.setAllProducts(data.allProducts);
-                    console.log(data);
-                    shopTagTypes.setTagTypes(data.allTagTypes);
-                    shopTags.setTags(data.allTags);
-                    shopProducts.setTotalCount(data.totalCount)
-                    // shopProducts.setTotalCount(data.productsTotalCount)
-                    // shop.setLimit(data.productsLimit)
-                })
-                .catch(e => alert(e.response.data.message))
-                .finally(() => setLoading(false));
-        }
-
-        if (location.pathname !== '/catalog/') {
-
-            getAllProducts(location.pathname)
-                .then(data => {
-                    shopProducts.setAllProducts(data.allProducts);
-                    console.log('data', data);
-                    shopTagTypes.setTagTypes(data.allTagTypes);
-                    shopTags.setTags(data.allTags);
-                    // shop.setPaginatedProducts(data.paginatedProducts)
-                    // shopProducts.setTotalCount(data.productsTotalCount)
-                    // shop.setLimit(data.productsLimit)
-                })
-                .catch(e => alert(e.response.data.message))
-                .finally(() => setLoading(false));
-        }
+        getAllProducts(location.pathname === '/catalog/' ? '/' : location.pathname)
+            .then(data => {
+                shopProducts.setProducts(data.allProducts);
+                shopTags.setTagTypes(data.allTagTypes);
+                shopTags.setTags(data.allTags);
+                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags))
+                shopProducts.setTotalCount(data.productsTotalCount);
+                shopProducts.setLimit(data.productsLimit);
+            })
+            .catch(e => alert(e.response.data.message))
+            .finally(() => setLoading(false));
+        // }
 
     }, [location.pathname]);
 
-    console.log('location.pathname', location.pathname);
+    console.log('shopTags.filterBarData', shopTags.filterBarData);
 
     useEffect(() => {
         // const queryUrl = generateQueryUrl(query, shop.currentPage)
@@ -103,54 +102,11 @@ const CatalogPageContainer = observer(() => {
         navigate(`${CATALOG_ROUTE}/${queryUrl}`);
     }, [query]);
 
-
-    // useEffect(() => {
-    //    console.log('location', location)
-    //    if (location.pathname !== '/') {
-    //       getAllProducts(location.pathname).then(data => {
-    //          shop.setAllTagTypes(data.allTagTypes)
-    //          shop.setAllTags(data.allTags)
-    //          shop.setAllProducts(data.allProducts)
-    //          shop.setAllFilteredProducts(data.filteredProducts)
-    //          shop.setPaginatedProducts(data.paginatedProducts)
-    //          shop.setTotalCount(data.productsTotalCount)
-    //          shop.setLimit(data.productsLimit)
-    //       })
-    //       .catch(e => alert(e.response.data.message))
-    //    }
-    //
-    //    if (location.pathname === '/') {
-    //       getAllProducts().then(data => {
-    //          shop.setAllTagTypes(data.allTagTypes)
-    //          shop.setAllTags(data.allTags)
-    //          shop.setAllProducts(data.allProducts)
-    //          shop.setAllFilteredProducts(data.filteredProducts)
-    //          shop.setPaginatedProducts(data.paginatedProducts)
-    //          shop.setTotalCount(data.productsTotalCount)
-    //          shop.setLimit(data.productsLimit)
-    //       })
-    //       .catch(e => alert(e.response.data.message))
-    //       .finally(() => setLoading(false))
-    //    }
-    // }, [location])
-    //
-
-    let tagsIdsArr: string[] = [];
-    let tagTypeIdsArr: string[] = [];
-
-    // if (shopProducts.allFilteredProducts.length) {
-    //    tagsIdsArr = shopProducts.allFilteredProducts.map(product => {
-    //       return product.tagsIds
-    //    }).flat().filter((tagId, i, arr) => arr.indexOf(tagId) === i)
-    //
-    //    tagTypeIdsArr = shopTags.tags.map(tag => {
-    //       return tagsIdsArr.includes(tag._id) ? tag.tagTypeId : ''
-    //    }).flat().filter((typeId, i, arr) => arr.indexOf(typeId) === i && typeId !== '')
-    // }
-
     const onHandleChangePage = (currentPage: number): void => {
         shopProducts.setCurrentPage(currentPage);
     };
+
+    console.log('shopProducts.currentPage', shopProducts.currentPage);
 
     const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
@@ -185,42 +141,11 @@ const CatalogPageContainer = observer(() => {
         navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
     };
 
-    // const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
-    //    console.log('title', title);
-    //    console.log('filters', e.target.value);
-    //    if (e.target.checked) {
-    //       setQuery((state: TypeQueryStateItem[]) => {
-    //          // if (!state.length) {
-    //          //    return [...state, {filtersTitle: title, filters: [e.target.value]}]
-    //          // }
-    //          const candidate = state.some((item: TypeQueryStateItem) => item.filtersTitle === title)
-    //          if (!candidate) {
-    //             return [...state, {filtersTitle: title, filters: [e.target.value]}]
-    //          } else {
-    //             return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
-    //                ?
-    //                {...item, filters: [...item.filters, e.target.value]}
-    //                :
-    //                item
-    //             )
-    //          }
-    //       })
-    //    }
-    //    else {
-    //       setQuery((state: TypeQueryStateItem[]) => {
-    //          return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
-    //             ?
-    //             {...item, filters: item.filters.filter((slug:string) => slug !== e.target.value)}
-    //             :
-    //             item
-    //             )
-    //       })
-    //    }
-    // }
-
-    console.log('query', query);
+    // console.log('query', query);
     const pages = pagination(shopProducts.totalCount, shopProducts.limit);
 
+    console.log('shopProducts.totalCount', shopProducts.totalCount);
+    console.log(shopProducts.limit);
     if (loading) {
         return (<Spinner
             animation="border"
@@ -234,13 +159,13 @@ const CatalogPageContainer = observer(() => {
                 <Col md={3}>
                     <FilterProductsBar
                         tags={shopTags.tags}
-                        tagTypes={shopTagTypes.tagTypes}
+                        tagTypes={shopTags.tagTypes}
                         onChangeFilter={handleChangeFilter}
                     />
                 </Col>
 
                 <Col md={9}>
-                    <ProductList products={shopProducts.allProducts} onClick={onHandleNavProduct}/>
+                    <ProductList products={shopProducts.products} onClick={onHandleNavProduct}/>
                     {pages.length > 1 &&
                     <Pages
                         pages={pages}

@@ -1,4 +1,4 @@
-import React, { FC, createContext } from 'react';
+import React, {FC, createContext, useEffect} from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import PublicLayout from '../layout/PublicLayout';
 import CatalogPage from '../pages/CatalogPage';
@@ -9,17 +9,18 @@ import HomePage from "../pages/HomePage";
 import { ITagTypeStore } from "../store/shop/TagTypeStore";
 import TagTypeStore from "../store/shop/TagTypeStore";
 import TagStore, {ITagStore} from "../store/shop/TagStore";
+import {check} from '../http/adminAPI/authAPI';
 
 
 export type TypeShopContext = {
    shopProducts: IProductsStore
-   shopTagTypes: ITagTypeStore
+   // shopTagTypes: ITagTypeStore
    shopTags: ITagStore
 }
 
 export const ShopContext = createContext<TypeShopContext>({
    shopProducts: ProductsStore,
-   shopTagTypes: TagTypeStore,
+   // shopTagTypes: TagTypeStore,
    shopTags: TagStore
 })
 
@@ -27,7 +28,7 @@ const PublicRouter:FC = () => {
    return (
       <ShopContext.Provider value={{
          shopProducts: ProductsStore,
-         shopTagTypes: TagTypeStore,
+         // shopTagTypes: TagTypeStore,
          shopTags: TagStore
       }}>
          <Routes>

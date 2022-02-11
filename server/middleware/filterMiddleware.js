@@ -1,6 +1,7 @@
 const Tag = require('../models/Tag');
 
 module.exports = async function (request, response, next) {
+    // console.log('request.params[0]', request.params[0]);
     const filters = request.params[0].slice('catalog/'.length, -1).split(';').reduce((acc, item) => {
         if (item) {
             const [key, value] = item.split('=');
@@ -12,7 +13,6 @@ module.exports = async function (request, response, next) {
             }
             return acc;
         }
-
     }, []);
 
     // Получаем массив объектов id тегов

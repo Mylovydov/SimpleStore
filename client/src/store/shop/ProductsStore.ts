@@ -1,15 +1,14 @@
 import {makeAutoObservable} from 'mobx';
 import {TypeProduct} from '../admin/ProductStore';
+import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
 
 export interface IProductsStore {
-    allProducts: TypeProduct[]
-    allFilteredProducts: TypeProduct[]
+    products: TypeProduct[]
     paginatedProducts: TypeProduct[]
     currentPage: number
     totalCount: number
     limit: number
-    setAllProducts: (products: TypeProduct[]) => void
-    setAllFilteredProducts: (products: TypeProduct[]) => void
+    setProducts: (products: TypeProduct[]) => void
     setPaginatedProducts: (products: TypeProduct[]) => void
     setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
@@ -17,16 +16,14 @@ export interface IProductsStore {
 }
 
 class ProductsStore implements IProductsStore {
-    _allProducts: TypeProduct[] = [];
-    _allFilteredProducts: TypeProduct[] = [];
+    _products: TypeProduct[] = [];
     _paginatedProducts: TypeProduct[] = [];
     _currentPage: number;
     _totalCount: number;
     _limit: number;
 
     constructor() {
-        this._allProducts = [];
-        this._allFilteredProducts = [];
+        this._products = [];
         this._paginatedProducts = [];
         this._currentPage = 1;
         this._totalCount = 0;
@@ -35,12 +32,8 @@ class ProductsStore implements IProductsStore {
     }
 
     // Setters
-    setAllProducts(products: TypeProduct[]): void {
-        this._allProducts = products;
-    }
-
-    setAllFilteredProducts(products: TypeProduct[]): void {
-        this._allFilteredProducts = products;
+    setProducts(products: TypeProduct[]): void {
+        this._products = products;
     }
 
     setPaginatedProducts(products: TypeProduct[]): void {
@@ -60,12 +53,8 @@ class ProductsStore implements IProductsStore {
     }
 
     // Getters
-    get allProducts(): TypeProduct[] {
-        return this._allProducts;
-    }
-
-    get allFilteredProducts(): TypeProduct[] {
-        return this._allFilteredProducts;
+    get products(): TypeProduct[] {
+        return this._products;
     }
 
     get paginatedProducts(): TypeProduct[] {

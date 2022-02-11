@@ -7,19 +7,19 @@ import AppRouter from './components/AppRouter';
 import { check } from './http/adminAPI/authAPI';
 
 const  App = observer(() => {
-  const {admin} = useContext(Context)
-  const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    check().then(_id => {
-      admin.setAdmin({_id})
-      admin.setIsAuth(true)
-    }).finally(() => setLoading(false))
-  }, [])
 
-  if (loading) {
-    return <Spinner animation='border'/>
-  }
+
+  // useEffect(() => {
+  //   check().then(_id => {
+  //     admin.setAdmin({_id})
+  //     admin.setIsAuth(true)
+  //   }).finally(() => setLoading(false))
+  // }, [])
+  //
+  // if (loading) {
+  //   return <Spinner animation='border'/>
+  // }
   
   return (
     <BrowserRouter>
