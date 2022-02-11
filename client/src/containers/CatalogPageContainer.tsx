@@ -161,6 +161,7 @@ const CatalogPageContainer = observer(() => {
                         tags={shopTags.tags}
                         tagTypes={shopTags.tagTypes}
                         onChangeFilter={handleChangeFilter}
+                        filterBarData={shopTags.filterBarData}
                     />
                 </Col>
 
