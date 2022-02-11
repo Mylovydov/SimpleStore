@@ -24,7 +24,7 @@ const NavBarContainer = () => {
                     <Button
                         variant="secondary"
                         className={'w-100 catalog-btn'}
-                        onClick={() => navigate(CATALOG_ROUTE)}
+                        onClick={() => navigate(CATALOG_ROUTE + '/')}
                     >
                         Каталог
                     </Button>
@@ -51,7 +51,7 @@ const NavBarContainer = () => {
                         Корзина
                         <img
                             className={'ms-2'}
-                            src="assets/cart.svg"
+                            src="/assets/cart.svg"
                             alt="cart-icon"
                             style={{width: 20, height: 20}}
                         />

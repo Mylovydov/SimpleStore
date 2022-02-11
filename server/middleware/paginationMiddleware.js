@@ -14,7 +14,7 @@ module.exports = function (myLimit) {
       let { page } = pages
       
       page = parseInt(page) || 1
-      limit = parseInt(myLimit) || 8
+      const limit = parseInt(myLimit) || 8
 
       let skip = page * limit - limit
 

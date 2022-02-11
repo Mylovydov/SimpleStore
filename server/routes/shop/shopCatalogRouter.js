@@ -5,6 +5,6 @@ const filterMiddleware = require('../../middleware/filterMiddleware')
 const paginationMiddleware = require('../../middleware/paginationMiddleware')
 
 router.get('/one-product/:slug', getOne)
-router.get('/*', paginationMiddleware(10), filterMiddleware, getAll)
+router.get('/*', paginationMiddleware(), filterMiddleware, getAll)
 
 module.exports = router

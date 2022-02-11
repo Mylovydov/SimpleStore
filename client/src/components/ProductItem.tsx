@@ -10,22 +10,25 @@ export type TypeProductItem = {
 const ProductItem: FC<TypeProductItem> = ({product, onClick}) => {
 
     return (
-        <Col md={3} style={{marginBottom: 20}}>
+        <Col lg={3} style={{marginBottom: 20}}>
             <Card style={{minHeight: 400, width: '100%', flexDirection: 'column', padding: '0 0 25px 0'}}>
-                <Col style={{cursor: 'pointer', padding: '0 25px'}} onClick={() => onClick(product.slug)}>
+                <Col style={{cursor: 'pointer'}} onClick={() => onClick(product.slug)}>
                     <div
                         style={{position: 'relative', width: '100%', paddingBottom: '130%', overflow: 'hidden'}}
                     >
                         <Image src={`${process.env.REACT_APP_API_URL}${product.image}`} className='img-absolute'/>
                     </div>
-                    <h5
-                        style={{cursor: 'pointer'}}
+                    <h6
+                        style={{cursor: 'pointer', padding: '0 25px', marginTop: 20, marginBottom: 0}}
                     >
                         {product.title}
-                    </h5>
+                    </h6>
+                    <p style={{padding: '0 25px', marginTop: 15}}>
+                        {product.description.slice(0, 40) + '...'}
+                    </p>
                 </Col>
 
-                <Col style={{padding: '0 25px'}} className={'mt-2 d-flex align-items-center justify-content-between'}>
+                <Col style={{padding: '0 25px'}} className={'mt-4 d-flex align-items-center justify-content-between'}>
                     <div style={{fontSize: 24, color: '#198754'}}>
                         {product.price + '₴'}
                     </div>
