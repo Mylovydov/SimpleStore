@@ -1,5 +1,7 @@
 module.exports = function (myLimit) {
    return function (request, response, next) {
+      const paginationQuery = request.params[0]
+
       const pages = request.params[0].split(';').reduce((acc, item) => {
          const [key, value] = item.split('=')
 
