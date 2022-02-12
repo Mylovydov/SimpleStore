@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react-lite';
 import React, {createContext, FC, useContext, useEffect, useState} from 'react';
-import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 import StatisticsPageContainer from '../containers/StatisticsPageContainer';
 import AdminLayout from '../layout/AdminLayout';
 // import StatisticsPage from '../pages/StatisticsPage';
@@ -10,7 +10,7 @@ import AdminStore, {IAdminStore} from '../store/admin/AdminStore';
 import ProductStore, {IProductStore} from '../store/admin/ProductStore';
 import TagStore, {ITagStore} from '../store/admin/TagStore';
 import TagTypeStore, {ITagTypeStore} from '../store/admin/TagTypeStore';
-import {ADMIN_ROUTE, LOGIN_ROUTE} from '../utils/consts';
+import {LOGIN_ROUTE} from '../utils/consts';
 import {check} from '../http/adminAPI/authAPI';
 import {Spinner} from 'react-bootstrap';
 
@@ -35,24 +35,20 @@ const AdminRouter: FC = observer(() => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     check().then(_id => {
-    //         admin.setAdmin({_id});
-    //         admin.setIsAuth(true);
-    //     }).finally(() => setLoading(false));
-    // }, [admin]);
-
-
     useEffect(() => {
         check().then(_id => {
             admin.setAdmin({_id});
             admin.setIsAuth(true);
-        }).finally(() => setLoading(false));
+            // if (!admin.isAuth) {
+            //     return navigate(LOGIN_ROUTE);
+            // }
+        }).catch((e) => {
+            navigate(LOGIN_ROUTE)
+            alert(e.response.data.message)
+        })
+            .finally(() => setLoading(false));
+    }, []);
 
-        if (!admin.isAuth) {
-            return navigate(LOGIN_ROUTE);
-        }
-    }, [admin, navigate]);
 
     if (loading) {
         return <Spinner animation="border"/>;

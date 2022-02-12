@@ -1,9 +1,10 @@
 const Admin = require('../../models/Admin')
 const helpers = require('../../helpers/helpers')
 const { validationResult } = require('express-validator')
+const ApiError = require('../../error/ApiError')
 
 class AuthController {
-   async login (request, response) {
+   async login (request, response, next) {
       try {
          const errors = validationResult(request)
          if (!errors.isEmpty()) {
@@ -14,7 +15,7 @@ class AuthController {
          const admin = await Admin.findOne({email})
 
          if (!admin) {
-            return response.status(400).json({message: `Администратор с email: ${email} не найден`})
+            return next(ApiError.badRequest(`Администратор с email: ${email} не найден`))
          }
 
          const validPassword = helpers.validatePassword(password, admin.password)
