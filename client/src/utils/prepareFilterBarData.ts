@@ -22,3 +22,26 @@ export function prepareFilterBarData(tagTypes: TypeShopTagType[], tags: TypeShop
 
     return prepareTagTypes
 }
+
+
+
+export type TypePrepareTagsDataArrItem = [TypeShopTagType, TypePrepareTagsDataItem[]]
+
+export type TypePrepareFilterBarArrData = TypePrepareTagsDataArrItem[]
+
+export function prepareFilterBarDataArr(tagTypes: TypeShopTagType[], tags: TypeShopTag[]) {
+    const prepareArr =  tagTypes.reduce((acc: TypePrepareFilterBarArrData, tagType: TypeShopTagType)=> {
+        acc.push([tagType, []])
+        return acc
+    }, [])
+
+    prepareArr.forEach((prepareItem: TypePrepareTagsDataArrItem) => {
+        tags.forEach((tagItem: TypeShopTag ) => {
+            if (prepareItem[0]._id === tagItem.tagTypeId) {
+                prepareItem[1].push({...tagItem, isChecked: false})
+            }
+        })
+    })
+
+    return prepareArr
+}

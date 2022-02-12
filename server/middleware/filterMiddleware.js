@@ -1,28 +1,63 @@
 const Tag = require('../models/Tag');
 
 module.exports = async function (request, response, next) {
-    // console.log('request.params[0]', request.params[0]);
-    const filters = request.params[0].slice('catalog/'.length, -1).split(';').reduce((acc, item) => {
-        if (item) {
-            const [key, value] = item.split('=');
-            switch (key) {
-                case 'page':
-                    break;
-                default:
-                    return [...acc, ...value.split(',')];
+    const filtersQuery = request.params[0]
+    console.log('filtersQuery', filtersQuery);
+
+    const filters = filtersQuery === '' || filtersQuery.indexOf('=') === -1
+        ? []
+        : request.params[0].split(';').reduce((acc, item) => {
+            if (item) {
+                const [key, value] = item.split('=');
+                switch (key) {
+                    case 'page':
+                        break;
+                    default:
+                        return [...acc, ...value.split(',')];
+                }
+                return acc;
             }
-            return acc;
-        }
-    }, []);
+        }, []);
 
-    // Получаем массив объектов id тегов
-    const foundTagsIds = await Tag.find({slug: {$in: filters}}, {_id: 1});
-    // Получаем массив id тегов
-    const filteredTagsId = foundTagsIds.map(tagId => tagId._id);
+    console.log('filters', filters);
 
-    request.userFilters = filteredTagsId || [];
+    let filteredTagsId = []
+
+    if (filters.length) {
+        // Получаем массив объектов id тегов
+        const foundTagsIds = await Tag.find({slug: {$in: filters}}, {_id: 1});
+        // Получаем массив id тегов
+        filteredTagsId = foundTagsIds.map(tagId => tagId._id);
+    }
+
+    request.userFilters = filteredTagsId;
     next();
 };
+
+
+//
+// module.exports = async function (request, response, next) {
+//     const filters = request.params[0].slice('catalog/'.length, -1).split(';').reduce((acc, item) => {
+//         if (item) {
+//             const [key, value] = item.split('=');
+//             switch (key) {
+//                 case 'page':
+//                     break;
+//                 default:
+//                     return [...acc, ...value.split(',')];
+//             }
+//             return acc;
+//         }
+//     }, []);
+//
+//     // Получаем массив объектов id тегов
+//     const foundTagsIds = await Tag.find({slug: {$in: filters}}, {_id: 1});
+//     // Получаем массив id тегов
+//     const filteredTagsId = foundTagsIds.map(tagId => tagId._id);
+//
+//     request.userFilters = filteredTagsId || [];
+//     next();
+// };
 
 
 // module.exports = function (request, response, next) {

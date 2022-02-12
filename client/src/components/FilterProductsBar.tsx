@@ -17,7 +17,7 @@ export type FilterProductsBarProps = {
     filterBarData: TypePrepareFilterBarData
 }
 
-const FilterProductsBar: FC<FilterProductsBarProps> = (
+const FilterProductsBar: FC<FilterProductsBarProps> = observer((
     {
         onChangeFilter,
         tags,
@@ -27,27 +27,30 @@ const FilterProductsBar: FC<FilterProductsBarProps> = (
 ) => {
 
     const {shopTags} = useContext(ShopContext);
-
-    console.log('Object.entries(filterBarData)', Object.entries(shopTags.filterBarData).map((item: any) => {
-        console.log(item[1][0]);
-    }));
-
     return (
         <Accordion alwaysOpen>
-            {Object.entries(shopTags.filterBarData).map((filterBarItem: any, i) => {
+            {shopTags.filterBarArrData.map(([tagType, filterData], i) => {
                 return (
                     <Accordion.Item
                         eventKey={i.toString()}
-                        key={filterBarItem[0]}
+                        key={tagType._id}
                     >
                         <Accordion.Header>
-                            {filterBarItem[1][0].title}
+                            {tagType.title}
                         </Accordion.Header>
                         <Accordion.Body>
-                            {filterBarItem[1][1].map((tag: TypeShopTag) => {
+                            {filterData.map((tag: TypeShopTag) => {
                                 return (
                                     <Form.Check
-                                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
+                                        // onChange={() => shopTags.setFilterBarArrData(shopTags.filterBarArrData
+                                        //     .map(([tagType, filterData]) => [tagType, filterData
+                                        //         .map(tagItem => tagItem._id === tag._id
+                                        //         ?
+                                        //             {...tagItem, isChecked: !tagItem.isChecked}
+                                        //         :
+                                        //             tagItem
+                                        //         )]))}
                                         key={tag._id}
                                         value={tag.slug}
                                         className="mb-2 mt-2"
@@ -65,8 +68,41 @@ const FilterProductsBar: FC<FilterProductsBarProps> = (
 
         </Accordion>
     );
-};
+});
 export default FilterProductsBar;
+
+// <Accordion alwaysOpen>
+//     {Object.values(shopTags.filterBarData).map(([tagType, filterData], i) => {
+//         return (
+//             <Accordion.Item
+//                 eventKey={i.toString()}
+//                 key={tagType._id}
+//             >
+//                 <Accordion.Header>
+//                     {tagType.title}
+//                 </Accordion.Header>
+//                 <Accordion.Body>
+//                     {filterData.map((tag: TypeShopTag) => {
+//                         return (
+//                             <Form.Check
+//                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
+//                                 // onChange={() => shopTags.setFilterBarData({...shopTags.filterBarData})}
+//                                 key={tag._id}
+//                                 value={tag.slug}
+//                                 className="mb-2 mt-2"
+//                                 type={'checkbox'}
+//                                 id={tag.title}
+//                                 label={tag.title}
+//                             />
+//                         );
+//                         return null;
+//                     })}
+//                 </Accordion.Body>
+//             </Accordion.Item>
+{/*        );*/}
+{/*    })}*/}
+
+{/*</Accordion>*/}
 
 // <Accordion alwaysOpen>
 //     {tagTypes.map((tagType: TypeShopTagType, i) => {

@@ -12,9 +12,15 @@ import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts
 import {getAllTagTypes} from '../http/shopAPI/tagTypeAPI';
 import {getAllTags} from '../http/shopAPI/tagAPI';
 import {TypeShopTag, TypeShopTagType} from '../store/shop/TagStore';
-import {prepareFilterBarData} from '../utils/prepareFilterBarData';
+import {
+    prepareFilterBarData, prepareFilterBarDataArr,
+    // prepareFilterBarDataArr,
+    TypePrepareFilterBarArrData,
+    TypePrepareFilterBarData
+} from '../utils/prepareFilterBarData';
 
 export type TypeQueryStateItem = { filtersTitle: string, filters: string[] }
+
 
 const tagTypes = [
     {_id: '61fa89bc2e6bb14e0e47c9f8', title: 'Категория', slug: 'category'},
@@ -78,12 +84,13 @@ const CatalogPageContainer = observer(() => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getAllProducts(location.pathname === '/catalog/' ? '/' : location.pathname)
+        const filters = location.pathname === '/catalog/' ? '/' : location.pathname.slice('/catalog'.length, -1)
+        getAllProducts(filters)
             .then(data => {
                 shopProducts.setProducts(data.allProducts);
                 shopTags.setTagTypes(data.allTagTypes);
                 shopTags.setTags(data.allTags);
-                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags))
+                shopTags.setFilterBarArrData(prepareFilterBarDataArr(data.allTagTypes, data.allTags))
                 shopProducts.setTotalCount(data.productsTotalCount);
                 shopProducts.setLimit(data.productsLimit);
             })
@@ -93,7 +100,9 @@ const CatalogPageContainer = observer(() => {
 
     }, [location.pathname]);
 
-    console.log('shopTags.filterBarData', shopTags.filterBarData);
+    console.log('location.pathname', location.pathname);
+    console.log('location.pathname', location.pathname.slice('/catalog/'.length, -1));
+
 
     useEffect(() => {
         // const queryUrl = generateQueryUrl(query, shop.currentPage)
@@ -106,7 +115,7 @@ const CatalogPageContainer = observer(() => {
         shopProducts.setCurrentPage(currentPage);
     };
 
-    console.log('shopProducts.currentPage', shopProducts.currentPage);
+    // console.log('shopProducts.currentPage', shopProducts.currentPage);
 
     const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
@@ -135,7 +144,7 @@ const CatalogPageContainer = observer(() => {
         }
     };
 
-    console.log('query', query);
+    // console.log('query', query);
 
     const onHandleNavProduct = (slug: string) => {
         navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
@@ -144,8 +153,8 @@ const CatalogPageContainer = observer(() => {
     // console.log('query', query);
     const pages = pagination(shopProducts.totalCount, shopProducts.limit);
 
-    console.log('shopProducts.totalCount', shopProducts.totalCount);
-    console.log(shopProducts.limit);
+    // console.log('shopProducts.totalCount', shopProducts.totalCount);
+    // console.log(shopProducts.limit);
     if (loading) {
         return (<Spinner
             animation="border"
