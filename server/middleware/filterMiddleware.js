@@ -1,12 +1,11 @@
 const Tag = require('../models/Tag');
 
 module.exports = async function (request, response, next) {
-    const filtersQuery = request.params[0]
-    // console.log('filtersQuery', filtersQuery);
+    const filtersQuery = request.params[0].slice(0, -1)
 
     const filters = filtersQuery === '' || filtersQuery.indexOf('=') === -1
         ? []
-        : request.params[0].split(';').reduce((acc, item) => {
+        : filtersQuery.split(';').reduce((acc, item) => {
             if (item) {
                 const [key, value] = item.split('=');
                 switch (key) {
@@ -19,7 +18,7 @@ module.exports = async function (request, response, next) {
             }
         }, []);
 
-    // console.log('filters', filters);
+    console.log('filters', filters);
 
     let filteredTagsId = []
 

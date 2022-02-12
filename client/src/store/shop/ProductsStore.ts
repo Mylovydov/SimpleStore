@@ -4,40 +4,36 @@ import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
 
 export interface IProductsStore {
     products: TypeProduct[]
-    paginatedProducts: TypeProduct[]
     currentPage: number
     totalCount: number
     limit: number
+    filter: string
     setProducts: (products: TypeProduct[]) => void
-    setPaginatedProducts: (products: TypeProduct[]) => void
     setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
     setLimit: (limit: number) => void
+    setFilter: (filter: string) => void
 }
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
-    _paginatedProducts: TypeProduct[] = [];
     _currentPage: number;
     _totalCount: number;
     _limit: number;
+    _filter: string
 
     constructor() {
         this._products = [];
-        this._paginatedProducts = [];
         this._currentPage = 1;
         this._totalCount = 0;
         this._limit = 1;
+        this._filter = ''
         makeAutoObservable(this);
     }
 
     // Setters
     setProducts(products: TypeProduct[]): void {
         this._products = products;
-    }
-
-    setPaginatedProducts(products: TypeProduct[]): void {
-        this._paginatedProducts = products;
     }
 
     setCurrentPage(currentPage: number): void {
@@ -52,13 +48,13 @@ class ProductsStore implements IProductsStore {
         this._limit = limit;
     }
 
+    setFilter(filter: string): void {
+        this._filter = filter;
+    }
+
     // Getters
     get products(): TypeProduct[] {
         return this._products;
-    }
-
-    get paginatedProducts(): TypeProduct[] {
-        return this._paginatedProducts;
     }
 
     get currentPage(): number {
@@ -71,6 +67,10 @@ class ProductsStore implements IProductsStore {
 
     get limit(): number {
         return this._limit;
+    }
+
+    get filter(): string {
+        return this._filter;
     }
 }
 

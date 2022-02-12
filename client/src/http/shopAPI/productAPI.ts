@@ -1,7 +1,7 @@
 import { $host } from '../index'
 
-export const getAllProducts = async (filter: string = '/') => {
-   const { data } = await $host.get(`api/catalog${filter}`)
+export const getAllProducts = async (filter: string = '') => {
+   const { data } = await $host.get(`api/catalog/${filter}`)
    return data
 }
 
