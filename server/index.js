@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const router = require('./routes/index')
 const path = require('path')
 const fileUpload = require('express-fileupload')
-
+const ErrorHandlingMiddleware = require('./middleware/ErrorHandlingMiddleware')
 
 const PORT = process.env.PORT || 5000
 
@@ -16,6 +16,7 @@ app.use(express.json())
 app.use(express.static(path.resolve(__dirname, 'static')))
 app.use(fileUpload({}))
 app.use('/api', router)
+app.use(ErrorHandlingMiddleware)
 
 const start = async () => {
    try {

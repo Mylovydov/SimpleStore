@@ -10,7 +10,7 @@ const productsRouter = require('./admin/productsRouter')
 const shopCatalogRouter = require('./shop/shopCatalogRouter')
 const ordersRouter = require('./admin/ordersRouter')
 
-router.use('/admin', authRouter)
+router.use('/auth', authRouter)
 router.use('/administrators', administratorsRouter)
 router.use('/tag-types', tagTypesRouter)
 router.use('/tags', tagsRouter)
