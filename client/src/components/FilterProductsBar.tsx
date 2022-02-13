@@ -13,7 +13,8 @@ export type FilterProductsBarProps = {
     // selectedCheckboxes: string[]
     tags: TypeShopTag[]
     tagTypes: TypeShopTagType[]
-    onChangeFilter: (title: string, e: React.ChangeEvent<HTMLInputElement>) => void
+    // onChangeFilter: (title: string, e: React.ChangeEvent<HTMLInputElement>) => void
+    onChangeFilter: (typeId: string, tagId: string) => void
     filterBarData: TypePrepareFilterBarData
 }
 
@@ -29,7 +30,7 @@ const FilterProductsBar: FC<FilterProductsBarProps> = observer((
     const {shopTags} = useContext(ShopContext);
     return (
         <Accordion alwaysOpen>
-            {shopTags.filterBarArrData.map(([tagType, filterData], i) => {
+            {Object.values(shopTags.filterBarData).map(([tagType, filterData], i) => {
                 return (
                     <Accordion.Item
                         eventKey={i.toString()}
@@ -42,15 +43,8 @@ const FilterProductsBar: FC<FilterProductsBarProps> = observer((
                             {filterData.map((tag: TypeShopTag) => {
                                 return (
                                     <Form.Check
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
-                                        // onChange={() => shopTags.setFilterBarArrData(shopTags.filterBarArrData
-                                        //     .map(([tagType, filterData]) => [tagType, filterData
-                                        //         .map(tagItem => tagItem._id === tag._id
-                                        //         ?
-                                        //             {...tagItem, isChecked: !tagItem.isChecked}
-                                        //         :
-                                        //             tagItem
-                                        //         )]))}
+                                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
+                                        onChange={() => onChangeFilter(tagType._id, tag._id)}
                                         key={tag._id}
                                         value={tag.slug}
                                         className="mb-2 mt-2"
@@ -65,44 +59,51 @@ const FilterProductsBar: FC<FilterProductsBarProps> = observer((
                     </Accordion.Item>
                 );
             })}
-
         </Accordion>
+
+        // <Accordion alwaysOpen>
+        //     {shopTags.filterBarArrData.map(([tagType, filterData], i) => {
+        //         return (
+        //             <Accordion.Item
+        //                 eventKey={i.toString()}
+        //                 key={tagType._id}
+        //             >
+        //                 <Accordion.Header>
+        //                     {tagType.title}
+        //                 </Accordion.Header>
+        //                 <Accordion.Body>
+        //                     {filterData.map((tag: TypeShopTag) => {
+        //                         return (
+        //                             <Form.Check
+        //                                 // onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
+        //                                 onChange={() => shopTags.setFilterBarArrData(shopTags.filterBarArrData
+        //                                     .map(([tagType, filterData]) => [tagType, filterData
+        //                                         .map(tagItem => tagItem._id === tag._id
+        //                                         ?
+        //                                             {...tagItem, isChecked: !tagItem.isChecked}
+        //                                         :
+        //                                             tagItem
+        //                                         )]))}
+        //                                 key={tag._id}
+        //                                 value={tag.slug}
+        //                                 className="mb-2 mt-2"
+        //                                 type={'checkbox'}
+        //                                 id={tag.title}
+        //                                 label={tag.title}
+        //                             />
+        //                         );
+        //                         return null;
+        //                     })}
+        //                 </Accordion.Body>
+        //             </Accordion.Item>
+        //         );
+        //     })}
+        //
+        // </Accordion>
     );
 });
 export default FilterProductsBar;
 
-// <Accordion alwaysOpen>
-//     {Object.values(shopTags.filterBarData).map(([tagType, filterData], i) => {
-//         return (
-//             <Accordion.Item
-//                 eventKey={i.toString()}
-//                 key={tagType._id}
-//             >
-//                 <Accordion.Header>
-//                     {tagType.title}
-//                 </Accordion.Header>
-//                 <Accordion.Body>
-//                     {filterData.map((tag: TypeShopTag) => {
-//                         return (
-//                             <Form.Check
-//                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChangeFilter(tagType.slug, e)}
-//                                 // onChange={() => shopTags.setFilterBarData({...shopTags.filterBarData})}
-//                                 key={tag._id}
-//                                 value={tag.slug}
-//                                 className="mb-2 mt-2"
-//                                 type={'checkbox'}
-//                                 id={tag.title}
-//                                 label={tag.title}
-//                             />
-//                         );
-//                         return null;
-//                     })}
-//                 </Accordion.Body>
-//             </Accordion.Item>
-{/*        );*/}
-{/*    })}*/}
-
-{/*</Accordion>*/}
 
 // <Accordion alwaysOpen>
 //     {tagTypes.map((tagType: TypeShopTagType, i) => {

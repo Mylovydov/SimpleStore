@@ -9,7 +9,7 @@ import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
-import {prepareFilterBarDataArr} from '../utils/prepareFilterBarData';
+import {prepareFilterBarData, prepareFilterBarDataArr} from '../utils/prepareFilterBarData';
 
 export type TypeQueryStateItem = { filtersTitle: string, filters: string[] }
 
@@ -60,17 +60,17 @@ const CatalogPageContainer = observer(() => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
         const filters = location.pathname === '/catalog/' ? '' : location.pathname.slice('/catalog/'.length);
         getAllProducts(filters)
             .then(data => {
                 shopProducts.setProducts(data.allProducts);
                 shopTags.setTagTypes(data.allTagTypes);
                 shopTags.setTags(data.allTags);
-                shopTags.setFilterBarArrData(prepareFilterBarDataArr(data.allTagTypes, data.allTags));
+                // shopTags.setFilterBarArrData(prepareFilterBarDataArr(data.allTagTypes, data.allTags));
+                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags))
                 shopProducts.setTotalCount(data.productsTotalCount);
                 shopProducts.setLimit(data.productsLimit);
-                shopProducts.setFilter(filters)
+                shopProducts.setFilter(filters);
             })
             .catch(e => alert(e.response.data.message))
             .finally(() => setLoading(false));
@@ -78,7 +78,6 @@ const CatalogPageContainer = observer(() => {
 
     }, [location.pathname]);
 
-    console.log('location.pathname', location.pathname);
     useEffect(() => {
         // const queryUrl = generateQueryUrl(query, shop.currentPage)
         const queryUrl = generateQueryUrl(query);
@@ -116,6 +115,12 @@ const CatalogPageContainer = observer(() => {
         }
     };
 
+    const onChangeFilter = (typeId: string, tagId: string) => {
+        console.log('typeId', typeId);
+        console.log('tagId', tagId);
+    }
+
+    // console.log('shopTags.filterBarData', shopTags.filterBarData);
     const onHandleNavProduct = (slug: string) => {
         navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
     };
@@ -137,7 +142,7 @@ const CatalogPageContainer = observer(() => {
                     <FilterProductsBar
                         tags={shopTags.tags}
                         tagTypes={shopTags.tagTypes}
-                        onChangeFilter={handleChangeFilter}
+                        onChangeFilter={onChangeFilter}
                         filterBarData={shopTags.filterBarData}
                     />
                 </Col>

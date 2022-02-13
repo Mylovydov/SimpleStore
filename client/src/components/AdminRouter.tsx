@@ -39,9 +39,6 @@ const AdminRouter: FC = observer(() => {
         check().then(_id => {
             admin.setAdmin({_id});
             admin.setIsAuth(true);
-            // if (!admin.isAuth) {
-            //     return navigate(LOGIN_ROUTE);
-            // }
         }).catch((e) => {
             navigate(LOGIN_ROUTE)
             alert(e.response.data.message)
