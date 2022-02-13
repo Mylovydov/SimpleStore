@@ -61,7 +61,7 @@ class ShopProductController {
 
                 const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId);
                 allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}});
-                productsTotalCount = await Product.find({tagsIds: {$all: userFilters}}).count();
+                // productsTotalCount = await Product.find({tagsIds: {$all: userFilters}}).count();
             }
 
             return response.json({

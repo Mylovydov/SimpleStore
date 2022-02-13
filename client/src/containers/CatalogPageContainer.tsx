@@ -9,25 +9,22 @@ import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
-import {prepareFilterBarData, prepareFilterBarDataArr} from '../utils/prepareFilterBarData';
+import {prepareFilterBarData, TypePrepareFilterBarData, TypePrepareTagsDataItem} from '../utils/prepareFilterBarData';
+import {TypeShopTagType} from '../store/shop/TagStore';
 
-export type TypeQueryStateItem = { filtersTitle: string, filters: string[] }
+const generateQueryUrl = (data: TypePrepareFilterBarData) => {
+    return Object.values(data).reduce((acc: string, item: [TypeShopTagType, TypePrepareTagsDataItem[]]) => {
+        const [tagType, tags] = item;
+        const checkedTagsSlug = tags.filter((tag: TypePrepareTagsDataItem) => tag.isChecked)
+            .map((tag: TypePrepareTagsDataItem) => tag.slug);
 
-
-const generateQueryUrl = (arr: TypeQueryStateItem[]) => {
-    return arr.filter(item => item.filters.length).reduce((acc: string, item: TypeQueryStateItem, i: number, arr: TypeQueryStateItem[]) => {
-        let str = '';
-        if (!item.filters.length) {
+        if (!(checkedTagsSlug.length)) {
             return acc;
         }
-        i === arr.length - 1
-            ?
-            str = `${item.filtersTitle}=${item.filters.join('')}/`
-            :
-            str = `${item.filtersTitle}=${item.filters.join('')};`;
 
+        let str = `${tagType.slug}=${checkedTagsSlug.join()};`;
         return acc.concat(str);
-    }, '');
+    }, '').replace(/;$/, '/');
 };
 
 // const generateQueryUrl = (arr: TypeQueryStateItem[], page: number) => {
@@ -51,81 +48,115 @@ const generateQueryUrl = (arr: TypeQueryStateItem[]) => {
 // }
 
 const CatalogPageContainer = observer(() => {
-
+    console.log('render');
     const {shopProducts, shopTags} = useContext(ShopContext);
 
     const [loading, setLoading] = useState<boolean>(false);
-    const [query, setQuery] = useState<TypeQueryStateItem[]>([]);
     const location = useLocation();
     const navigate = useNavigate();
 
+    // useEffect(() => {
+    //     const filters = location.pathname === '/catalog/' ? '' : location.pathname.slice('/catalog/'.length);
+    //     // console.log('location.pathname', location.pathname);
+    //     getAllProducts(filters)
+    //         .then(data => {
+    //             // console.log('before');
+    //             shopProducts.setProducts(data.allProducts);
+    //             shopProducts.setTotalCount(data.productsTotalCount);
+    //             shopProducts.setLimit(data.productsLimit);
+    //             shopProducts.setFilter(filters);
+    //             shopTags.setTagTypes(data.allTagTypes);
+    //             shopTags.setTags(data.allTags);
+    //             shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags));
+    //             console.log('filters', filters);
+    //             // console.log('after');
+    //         })
+    //         // .catch(e => alert(e.response.data.message))
+    //         .finally(() => setLoading(false));
+    //     // }
+    // }, [location.pathname]);
+
     useEffect(() => {
         const filters = location.pathname === '/catalog/' ? '' : location.pathname.slice('/catalog/'.length);
+        // console.log('location.pathname', location.pathname);
         getAllProducts(filters)
             .then(data => {
-                shopProducts.setProducts(data.allProducts);
-                shopTags.setTagTypes(data.allTagTypes);
-                shopTags.setTags(data.allTags);
-                // shopTags.setFilterBarArrData(prepareFilterBarDataArr(data.allTagTypes, data.allTags));
-                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags))
-                shopProducts.setTotalCount(data.productsTotalCount);
-                shopProducts.setLimit(data.productsLimit);
+                console.log('before');
+                shopProducts.setData(data);
+                shopTags.setData(data);
+                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags));
                 shopProducts.setFilter(filters);
+                console.log('filters', filters);
+                console.log('after');
             })
-            .catch(e => alert(e.response.data.message))
+            // .catch(e => alert(e.response.data.message))
             .finally(() => setLoading(false));
         // }
-
     }, [location.pathname]);
+
+    // console.log('shopTags.filterBarData', shopTags.filterBarData);
 
     useEffect(() => {
         // const queryUrl = generateQueryUrl(query, shop.currentPage)
-        const queryUrl = generateQueryUrl(query);
+        const queryUrl = generateQueryUrl(shopTags.filterBarData);
+        // console.log('queryUrl', queryUrl);
         navigate(`${CATALOG_ROUTE}/${queryUrl}`);
-    }, [query]);
+    }, [shopTags.filterBarData]);
 
     const onHandleChangePage = (currentPage: number): void => {
         shopProducts.setCurrentPage(currentPage);
     };
 
-    const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.checked) {
-            setQuery((state: TypeQueryStateItem[]) => {
-                const candidate = state.some((item: TypeQueryStateItem) => item.filtersTitle === title);
-                if (!candidate) {
-                    return [...state, {filtersTitle: title, filters: [e.target.value]}];
-                } else {
-                    return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
-                        ?
-                        {...item, filters: [...item.filters, e.target.value]}
-                        :
-                        item
-                    );
-                }
-            });
-        } else {
-            setQuery((state: TypeQueryStateItem[]) => {
-                return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
-                    ?
-                    {...item, filters: item.filters.filter((slug: string) => slug !== e.target.value)}
-                    :
-                    item
-                );
-            });
-        }
-    };
+    // console.log('shopTags.filterBarData', shopTags.filterBarData);
+
+    // const handleChangeFilter = (title: string, e: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (e.target.checked) {
+    //         setQuery((state: TypeQueryStateItem[]) => {
+    //             const candidate = state.some((item: TypeQueryStateItem) => item.filtersTitle === title);
+    //             if (!candidate) {
+    //                 return [...state, {filtersTitle: title, filters: [e.target.value]}];
+    //             } else {
+    //                 return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
+    //                     ?
+    //                     {...item, filters: [...item.filters, e.target.value]}
+    //                     :
+    //                     item
+    //                 );
+    //             }
+    //         });
+    //     } else {
+    //         setQuery((state: TypeQueryStateItem[]) => {
+    //             return state.map((item: TypeQueryStateItem) => item.filtersTitle === title
+    //                 ?
+    //                 {...item, filters: item.filters.filter((slug: string) => slug !== e.target.value)}
+    //                 :
+    //                 item
+    //             );
+    //         });
+    //     }
+    // };
 
     const onChangeFilter = (typeId: string, tagId: string) => {
-        console.log('typeId', typeId);
-        console.log('tagId', tagId);
-    }
+        const [type, tags] = shopTags.filterBarData[typeId];
+        const updatedTags = tags.map(tagItem => tagItem._id === tagId ?
+            {
+                ...tagItem,
+                isChecked: !tagItem.isChecked
+            }
+            : tagItem
+        );
 
-    // console.log('shopTags.filterBarData', shopTags.filterBarData);
+        shopTags.setFilterBarData(
+            {
+                ...shopTags.filterBarData, [typeId]: [type, updatedTags]
+            }
+        );
+    };
+
     const onHandleNavProduct = (slug: string) => {
         navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
     };
 
-    // console.log('query', query);
     const pages = pagination(shopProducts.totalCount, shopProducts.limit);
 
     if (loading) {
