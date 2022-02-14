@@ -10,8 +10,6 @@ export type TypePrepareFilterBarData = {
     [key: TypeShopTagType['_id']]: [TypeShopTagType, TypePrepareTagsDataItem[]]
 }
 
-let str = 'category=refrigerator;brands=reno/';
-
 const decodeUrl = (url: string) => {
     if (!url) {
         return {filterType: [], filterTags: []};
@@ -29,7 +27,6 @@ const decodeUrl = (url: string) => {
 export function prepareFilterBarData(tagTypes: TypeShopTagType[], tags: TypeShopTag[], filters: string) {
     const {filterType, filterTags} = decodeUrl(filters);
     const prepareTags = tags.map(tag => filterTags.includes(tag.slug) ? {...tag, isChecked: true} : {...tag, isChecked: false})
-
 
     const prepareData = tagTypes.reduce((acc: TypePrepareFilterBarData, tagType: TypeShopTagType) => {
         acc[tagType._id] = [tagType, []];

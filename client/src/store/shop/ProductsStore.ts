@@ -76,6 +76,7 @@ import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
 export interface IProductsStore {
     products: TypeProduct[]
     currentPage: number
+    prevUrl: string
     totalCount: number
     limit: number
     filter: string
@@ -90,6 +91,7 @@ export interface IProductsStore {
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
     _currentPage: number;
+    _prevUrl: string
     _totalCount: number;
     _limit: number;
     _filter: string
@@ -97,14 +99,14 @@ class ProductsStore implements IProductsStore {
     constructor() {
         this._products = [];
         this._currentPage = 1;
+        this._prevUrl = ''
         this._totalCount = 0;
-        this._limit = 1;
+        this._limit = 8;
         this._filter = ''
         makeAutoObservable(this);
     }
 
     // Setters
-
     setData(data: any): void {
         this._products = data.allProducts;
         this._totalCount = data.productsTotalCount;
@@ -117,6 +119,10 @@ class ProductsStore implements IProductsStore {
 
     setCurrentPage(currentPage: number): void {
         this._currentPage = currentPage;
+    }
+
+    setPrevUrl(prevUrl: string): void {
+        this._prevUrl = prevUrl;
     }
 
     setTotalCount(totalCount: number): void {
@@ -138,6 +144,10 @@ class ProductsStore implements IProductsStore {
 
     get currentPage(): number {
         return this._currentPage;
+    }
+
+    get prevUrl(): string {
+        return this._prevUrl;
     }
 
     get totalCount(): number {

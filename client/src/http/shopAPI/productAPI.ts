@@ -5,6 +5,11 @@ export const getAllProducts = async (filter: string) => {
    return data
 }
 
+export const getPaginatedProducts = async (paginationData: string) => {
+   const { data } = await $host.get(`api/catalog/paginated/${paginationData}`)
+   return data
+}
+
 export const getOneProduct = async (slug: string) => {
    const { data } = await $host.get(`api/catalog/one-product/${slug}`)
    return data

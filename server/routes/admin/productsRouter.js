@@ -8,6 +8,6 @@ router.post('/', authMiddleware, create)
 router.get('/:id', authMiddleware, getOne)
 router.put('/:id', authMiddleware, update)
 router.delete('/:id', authMiddleware, remove)
-router.get('/*', authMiddleware, paginationMiddleware(40), authMiddleware, getAll)
+router.get('/*', authMiddleware, paginationMiddleware, authMiddleware, getAll)
 
 module.exports = router

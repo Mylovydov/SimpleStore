@@ -8,6 +8,6 @@ router.post('/create', authMiddleware, create)
 router.get('/one-tag/:id', authMiddleware, getOne)
 router.put('/up-tag/:id', authMiddleware, update)
 router.delete('/del-tag/:id', authMiddleware, remove)
-router.get('/*', paginationMiddleware(40), authMiddleware, getAll)
+router.get('/*', paginationMiddleware, authMiddleware, getAll)
 
 module.exports = router
