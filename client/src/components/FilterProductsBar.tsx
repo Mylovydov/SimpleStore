@@ -1,29 +1,16 @@
 import {observer} from 'mobx-react-lite';
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext} from 'react';
 import {Accordion, Form} from 'react-bootstrap';
-
-import {TypeTagType} from '../store/admin/TagTypeStore';
-import {TypeTag} from '../store/admin/TagStore';
 import {ShopContext} from './PublicRouter';
-import {useLocation} from 'react-router-dom';
-import {TypeShopTag, TypeShopTagType} from '../store/shop/TagStore';
-import {TypePrepareFilterBarData} from '../utils/prepareFilterBarData';
+import {TypePrepareTagsDataItem} from '../utils/prepareFilterBarData';
 
 export type FilterProductsBarProps = {
-    // selectedCheckboxes: string[]
-    tags: TypeShopTag[]
-    tagTypes: TypeShopTagType[]
-    // onChangeFilter: (title: string, e: React.ChangeEvent<HTMLInputElement>) => void
     onChangeFilter: (typeId: string, tagId: string) => void
-    filterBarData: TypePrepareFilterBarData
 }
 
-const FilterProductsBar: FC<FilterProductsBarProps> = (
+const FilterProductsBar: FC<FilterProductsBarProps> = observer((
     {
         onChangeFilter,
-        tags,
-        tagTypes,
-        filterBarData
     }
 ) => {
 
@@ -40,9 +27,10 @@ const FilterProductsBar: FC<FilterProductsBarProps> = (
                             {tagType.title}
                         </Accordion.Header>
                         <Accordion.Body>
-                            {filterData.map((tag: TypeShopTag) => {
+                            {filterData.map((tag: TypePrepareTagsDataItem) => {
                                 return (
                                     <Form.Check
+                                        checked={tag.isChecked}
                                         onChange={() => onChangeFilter(tagType._id, tag._id)}
                                         key={tag._id}
                                         value={tag.slug}
@@ -59,5 +47,5 @@ const FilterProductsBar: FC<FilterProductsBarProps> = (
             })}
         </Accordion>
     );
-};
+});
 export default FilterProductsBar;

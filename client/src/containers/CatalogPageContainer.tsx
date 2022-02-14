@@ -52,6 +52,7 @@ const CatalogPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [isTouched, setIsTouched] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -78,7 +79,8 @@ const CatalogPageContainer = observer(() => {
 
     useEffect(() => {
         const filters = location.pathname === '/catalog/' ? '' : location.pathname.slice('/catalog/'.length);
-        // console.log('location.pathname', location.pathname);
+        console.log('location.pathname', location);
+
         getAllProducts(filters)
             .then(data => {
                 shopProducts.setData(data);
@@ -86,21 +88,21 @@ const CatalogPageContainer = observer(() => {
                 shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags, filters));
                 shopProducts.setFilter(filters);
             })
-            // .catch(e => alert(e.response.data.message))
-            .finally(() => setLoading(false));
-        // }
+            .catch(e => alert(e.response.data.message))
+            .finally(() => {
+                setLoading(false)
+                setIsTouched(false);
+            });
     }, [location.pathname]);
 
-    Object.values(shopTags.filterBarData).forEach(item => {
-        console.log('item[1]', item[1]);
-    })
-
     useEffect(() => {
-        // const queryUrl = generateQueryUrl(query, shop.currentPage)
-        const queryUrl = generateQueryUrl(shopTags.filterBarData);
-        // console.log('queryUrl', queryUrl);
-        navigate(`${CATALOG_ROUTE}/${queryUrl}`);
-    }, [shopTags.filterBarData]);
+        if (isTouched) {
+            // const queryUrl = generateQueryUrl(query, shop.currentPage)
+            const queryUrl = generateQueryUrl(shopTags.filterBarData);
+            console.log('queryUrl', queryUrl);
+            navigate(`${CATALOG_ROUTE}/${queryUrl}`);
+        }
+    }, [isTouched]);
 
     const onHandleChangePage = (currentPage: number): void => {
         shopProducts.setCurrentPage(currentPage);
@@ -150,6 +152,7 @@ const CatalogPageContainer = observer(() => {
                 ...shopTags.filterBarData, [typeId]: [type, updatedTags]
             }
         );
+        setIsTouched(true);
     };
 
     const onHandleNavProduct = (slug: string) => {
@@ -170,10 +173,7 @@ const CatalogPageContainer = observer(() => {
             <Row>
                 <Col md={3}>
                     <FilterProductsBar
-                        tags={shopTags.tags}
-                        tagTypes={shopTags.tagTypes}
                         onChangeFilter={onChangeFilter}
-                        filterBarData={shopTags.filterBarData}
                     />
                 </Col>
 
