@@ -81,20 +81,19 @@ const CatalogPageContainer = observer(() => {
         // console.log('location.pathname', location.pathname);
         getAllProducts(filters)
             .then(data => {
-                console.log('before');
                 shopProducts.setData(data);
                 shopTags.setData(data);
-                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags));
+                shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags, filters));
                 shopProducts.setFilter(filters);
-                console.log('filters', filters);
-                console.log('after');
             })
             // .catch(e => alert(e.response.data.message))
             .finally(() => setLoading(false));
         // }
     }, [location.pathname]);
 
-    // console.log('shopTags.filterBarData', shopTags.filterBarData);
+    Object.values(shopTags.filterBarData).forEach(item => {
+        console.log('item[1]', item[1]);
+    })
 
     useEffect(() => {
         // const queryUrl = generateQueryUrl(query, shop.currentPage)
