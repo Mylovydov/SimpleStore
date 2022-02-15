@@ -3,9 +3,10 @@ const router = new Router()
 const { getAll, getOne, getPaginated } = require('../../controllers/shop/shopProductController')
 const filterMiddleware = require('../../middleware/filterMiddleware')
 const paginationMiddleware = require('../../middleware/paginationMiddleware')
+const parseQueryMiddleware = require('../../middleware/parseQueryMiddleware')
 
 router.get('/one-product/:slug', getOne)
-router.get('/paginated/*', paginationMiddleware, filterMiddleware, getPaginated)
-router.get('/*', paginationMiddleware, filterMiddleware, getAll)
+router.get('/paginated/*', parseQueryMiddleware, paginationMiddleware, filterMiddleware,  getPaginated)
+router.get('/*', parseQueryMiddleware, paginationMiddleware, filterMiddleware,  getAll)
 
 module.exports = router

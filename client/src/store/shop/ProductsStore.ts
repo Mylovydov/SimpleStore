@@ -76,41 +76,47 @@ import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
 export interface IProductsStore {
     products: TypeProduct[]
     currentPage: number
-    prevUrl: string
+    prevFilters: string | null
     totalCount: number
     limit: number
-    filter: string
+    currentFilters: string
     setProducts: (products: TypeProduct[]) => void
-    setTotalCount: (totalCount: number) => void
+    // setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
-    setLimit: (limit: number) => void
-    setFilter: (filter: string) => void
+    // setLimit: (limit: number) => void
+    setCurrentFilters: (filter: string) => void
     setData: (data: any) => void
+    setPrevFilters: (prevUrl: string) => void
 }
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
     _currentPage: number;
-    _prevUrl: string
+    _prevFilters: string | null;
     _totalCount: number;
     _limit: number;
-    _filter: string
+    _currentFilters: string;
 
     constructor() {
         this._products = [];
         this._currentPage = 1;
-        this._prevUrl = ''
+        this._prevFilters = null;
         this._totalCount = 0;
-        this._limit = 8;
-        this._filter = ''
+        this._limit = 4;
+        this._currentFilters = '';
         makeAutoObservable(this);
     }
 
     // Setters
     setData(data: any): void {
+        console.log('setData', data);
         this._products = data.allProducts;
-        this._totalCount = data.productsTotalCount;
-        this._limit = data.productsLimit;
+        if (data.productsTotalCount) {
+            this._totalCount = data.productsTotalCount;
+        }
+        if (data.productsLimit) {
+            this._limit = data.productsLimit;
+        }
     }
 
     setProducts(products: TypeProduct[]): void {
@@ -121,20 +127,21 @@ class ProductsStore implements IProductsStore {
         this._currentPage = currentPage;
     }
 
-    setPrevUrl(prevUrl: string): void {
-        this._prevUrl = prevUrl;
+    setPrevFilters(prevFilters: string): void {
+        this._prevFilters = prevFilters;
+        console.log('this._prevFilters', this._prevFilters);
     }
 
-    setTotalCount(totalCount: number): void {
-        this._totalCount = totalCount;
-    }
+    // setTotalCount(totalCount: number): void {
+    //     this._totalCount = totalCount;
+    // }
 
-    setLimit(limit: number): void {
-        this._limit = limit;
-    }
+    // setLimit(limit: number): void {
+    //     this._limit = limit;
+    // }
 
-    setFilter(filter: string): void {
-        this._filter = filter;
+    setCurrentFilters(currentFilters: string): void {
+        this._currentFilters = currentFilters;
     }
 
     // Getters
@@ -146,8 +153,8 @@ class ProductsStore implements IProductsStore {
         return this._currentPage;
     }
 
-    get prevUrl(): string {
-        return this._prevUrl;
+    get prevFilters(): string | null {
+        return this._prevFilters;
     }
 
     get totalCount(): number {
@@ -158,8 +165,8 @@ class ProductsStore implements IProductsStore {
         return this._limit;
     }
 
-    get filter(): string {
-        return this._filter;
+    get currentFilters(): string {
+        return this._currentFilters;
     }
 }
 

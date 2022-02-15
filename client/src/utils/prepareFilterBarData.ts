@@ -26,9 +26,7 @@ const decodeUrl = (url: string) => {
 
 export function prepareFilterBarData(tagTypes: TypeShopTagType[], tags: TypeShopTag[], filters: string) {
     const {filterType, filterTags} = decodeUrl(filters);
-    // console.log('filterType', filterType);
-    const prepareTagTypeId = tagTypes.filter(tagType => filterType.includes(tagType.slug)).map(tagType => tagType._id)
-    console.log('prepareTagTypeId', prepareTagTypeId);
+    const prepareTagTypeId = tagTypes.filter(tagType => filterType.includes(tagType.slug)).map(tagType => tagType._id);
     const prepareTags = tags.map(tag => filterTags.includes(tag.slug) && prepareTagTypeId.includes(tag.tagTypeId)
         ? {...tag, isChecked: true}
         : {...tag, isChecked: false}

@@ -1,20 +1,21 @@
-import React, { FC } from 'react';
+import React, {FC, useContext} from 'react';
 import { Row } from 'react-bootstrap';
 import ProductItem from './ProductItem';
 import { useNavigate } from 'react-router-dom';
 import { SELECTED_PRODUCT_ROUTE } from '../utils/consts';
 import { TypeProduct } from '../store/admin/ProductStore';
+import {ShopContext} from './PublicRouter';
 
 export type TypeProductListProps = {
-   products: TypeProduct[]
    onClick: (slug: string) => void
 }
 
-const ProductList: FC<TypeProductListProps> = ({products, onClick}) => {
-   
+const ProductList: FC<TypeProductListProps> = ({ onClick }) => {
+   const {shopProducts} = useContext(ShopContext)
+   console.log('ProductListshopProducts.products', shopProducts.products);
    return (
       <Row className='d-flex'>
-         {products.map((product) => {
+         {shopProducts.products.map((product) => {
             return <ProductItem key={product._id} product={product} onClick={onClick}/>
          })}
       </Row>

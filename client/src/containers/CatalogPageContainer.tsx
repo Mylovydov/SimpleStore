@@ -9,51 +9,8 @@ import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
-import {prepareFilterBarData, TypePrepareFilterBarData, TypePrepareTagsDataItem} from '../utils/prepareFilterBarData';
-import {TypeShopTagType} from '../store/shop/TagStore';
-
-const generateQueryUrl = (data: TypePrepareFilterBarData, page: number) => {
-    const pageUrl = page > 1 ? `page=${page};` : ''
-
-    const filters =  Object.values(data).reduce((acc: string, item: [TypeShopTagType, TypePrepareTagsDataItem[]]) => {
-        const [tagType, tags] = item;
-        const checkedTagsSlug = tags.filter((tag: TypePrepareTagsDataItem) => tag.isChecked)
-            .map((tag: TypePrepareTagsDataItem) => tag.slug);
-
-        if (!(checkedTagsSlug.length)) {
-            return acc;
-        }
-
-        let str = `${tagType.slug}=${checkedTagsSlug.join()};`;
-        return acc.concat(str);
-    }, '').replace(/;$/, '/');
-
-    return pageUrl + filters
-};
-
-const pageUrl = (page: number) => {
-    return page > 1 ? `page=${page};` : ''
-}
-
-// const generateQueryUrl = (arr: TypeQueryStateItem[], page: number) => {
-//     const pageUrl = page > 1 ? `page=${page};` : ''
-//
-//     const filters = arr.reduce((acc: string, item: TypeQueryStateItem, i: number, arr: TypeQueryStateItem[]) => {
-//         let str = ''
-//         if (!item.filters.length) {
-//             return acc
-//         }
-//         i === arr.length - 1
-//             ?
-//             str = `${item.filtersTitle}=${item.filters.join(',')}/`
-//             :
-//             str = `${item.filtersTitle}=${item.filters.join(',')};`
-//
-//         return acc.concat(str)
-//     }, '')
-//
-//     return pageUrl + filters
-// }
+import {prepareFilterBarData} from '../utils/prepareFilterBarData';
+import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 
 const CatalogPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
@@ -64,40 +21,66 @@ const CatalogPageContainer = observer(() => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const filters = location.pathname === '/catalog/' ? '' : location.pathname.slice('/catalog/'.length);
-        console.log('location.pathname', location);
-        console.log('filters', filters);
+        const filters = location.pathname === '/catalog/'
+            ? ''
+            : location.pathname.slice('/catalog/'.length);
 
-        // getPaginatedProducts(filters).then(data => console.log('getPaginatedProducts', data))
-        // getAllProducts(filters).then(data => console.log('getAllProducts', data))
-        getAllProducts(filters)
-            .then(data => {
+        const decode = decodeQueryUrl(filters);
+
+        shopProducts.setCurrentFilters(decode.filters);
+
+        let paginatedFilters = '';
+
+        if (shopProducts.currentFilters === shopProducts.prevFilters) {
+            console.log('отправляем запрос на получение следующих товаров');
+            paginatedFilters = `${decode.filters}page=${decode.page};limit=${shopProducts.limit};`;
+            console.log('paginatedFilters', paginatedFilters);
+            getPaginatedProducts(paginatedFilters).then(data => {
+                shopProducts.setData(data);
+            }).finally(() => {
+                setLoading(false);
+                setIsTouched(false);
+                shopProducts.setPrevFilters(decode.filters);
+                shopProducts.setCurrentPage(Number(decode.page));
+                console.log('decode', decode);
+                console.log('shopProductscurrentPage', shopProducts.currentPage);
+            });
+        } else {
+            console.log('отправляем запрос на получение отфильтрованных товаров');
+            console.log('shopProducts.limit', shopProducts.limit);
+            paginatedFilters = `${decode.filters}limit=${shopProducts.limit};`;
+            getAllProducts(paginatedFilters).then(data => {
                 shopProducts.setData(data);
                 shopTags.setData(data);
                 shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags, filters));
-                shopProducts.setFilter(filters);
-            })
-            .catch(e => alert(e.response.data.message))
-            .finally(() => {
+            }).finally(() => {
                 setLoading(false);
                 setIsTouched(false);
+                shopProducts.setPrevFilters(decode.filters);
+                shopProducts.setCurrentPage(decode.page || 1);
             });
+        }
     }, [location.pathname]);
-    console.log('shopTags.filterBarData', shopTags.filterBarData);
 
     useEffect(() => {
-        // const createdPageUrl = pageUrl(shopProducts.currentPage)
-        // navigate(`${CATALOG_ROUTE}/${createdPageUrl}`);
-        // console.log('createdPageUrl', createdPageUrl);
         if (isTouched) {
-            const queryUrl = generateQueryUrl(shopTags.filterBarData, shopProducts.currentPage);
-            console.log('queryUrl', queryUrl);
+            const queryUrl = generateQueryUrl(shopTags.filterBarData);
             navigate(`${CATALOG_ROUTE}/${queryUrl}`);
         }
-    }, [shopTags.filterBarData, shopProducts.currentPage]);
+    }, [isTouched]);
 
-    const onHandleChangePage = (currentPage: number): void => {
-        shopProducts.setCurrentPage(currentPage);
+    const onHandleChangePage = (newPage: number): void => {
+        let newPath = location.pathname;
+        if (newPage === 1) {
+            newPath = newPath.replace(/(page=[1-9][0-9]*);/, '');
+        } else {
+            if (shopProducts.currentPage > 1) {
+                newPath = newPath.replace(/(page=[1-9][0-9]*)/, `page=${newPage}`);
+            } else {
+                newPath = newPath + `page=${newPage};`;
+            }
+        }
+        navigate(newPath);
     };
 
     const onChangeFilter = (typeId: string, tagId: string) => {
@@ -119,7 +102,9 @@ const CatalogPageContainer = observer(() => {
     };
 
     const onHandleNavProduct = (slug: string) => {
-        navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
+        navigate(
+            `${SELECTED_PRODUCT_ROUTE}/${slug}`
+        );
     };
 
     const pages = pagination(shopProducts.totalCount, shopProducts.limit);
@@ -141,11 +126,10 @@ const CatalogPageContainer = observer(() => {
                 </Col>
 
                 <Col md={9}>
-                    <ProductList products={shopProducts.products} onClick={onHandleNavProduct}/>
+                    <ProductList onClick={onHandleNavProduct}/>
                     {pages.length > 1 &&
                     <Pages
                         pages={pages}
-                        currentPage={shopProducts.currentPage}
                         onChangePage={onHandleChangePage}
                     />}
                 </Col>
