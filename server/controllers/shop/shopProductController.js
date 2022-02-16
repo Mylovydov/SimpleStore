@@ -1,6 +1,7 @@
 const Product = require('../../models/Product');
 const Tag = require('../../models/Tag');
 const TagType = require('../../models/TagType');
+const generateSearchFilters = require('../../helpers/generateSearchFilters');
 
 class ShopProductController {
 
@@ -23,81 +24,27 @@ class ShopProductController {
     async getAll(request, response) {
         try {
             const {limit, skip, filters, search} = request;
-            // console.log('getAll limit', limit);
-            // console.log('getAll skip', skip);
-            console.log('getAll search', search);
 
-            let allProducts,
-                allTagTypes,
-                allTags,
-                productsTotalCount;
+            console.log('searchFilters', generateSearchFilters(search, filters));
 
-            let searchFilters = {};
-            const reqExp = search ? new RegExp(search, 'ig') : '';
+            const generatedFilters = generateSearchFilters(search, filters);
+            const products = await Product.find(generatedFilters);
+            const productsTagId = products.map(product => product.tagsIds).flat();
+            const tags = await Tag.find(
+                {_id: {$in: productsTagId}},
+                {createdDate: false, updatedDate: false, __v: false}
+            );
+            const allProductsTagTypeId = tags.map(tag => tag.tagTypeId);
+            const tagTypes = await TagType.find(
+                {_id: {$in: allProductsTagTypeId}},
+                {createdDate: false, updatedDate: false, __v: false}
+            );
 
-            if (!(filters.length)) {
-                console.log('Нет фильтров');
-
-                if (search) {
-                    console.log('isSearch');
-                    searchFilters = {title: {$regex: reqExp}};
-                    allProducts = await Product.find(searchFilters);
-                    productsTotalCount = allProducts.length;
-                    const allProductsTagId = allProducts.map(product => product.tagsIds).flat();
-                    allTags = await Tag.find(
-                        {_id: {$in: allProductsTagId}},
-                        {createdDate: false, updatedDate: false, __v: false}
-                    );
-                    const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId);
-                    allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}});
-                } else {
-                    allProducts = await Product.find();
-                    allTagTypes = await TagType.find(
-                        {},
-                        {createdDate: false, updatedDate: false, __v: false}
-                    );
-                    allTags = await Tag.find(
-                        {},
-                        {createdDate: false, updatedDate: false, __v: false}
-                    );
-                    productsTotalCount = allProducts.length;
-                }
-
-
-            }
-
-            if (filters.length) {
-                console.log('Есть фильтры');
-                if (search) {
-                    console.log('isSearch');
-                    searchFilters = {
-                        $and: [
-                            {tagsIds: {$all: filters}},
-                            {title: {$regex: reqExp}}
-                        ]
-                    };
-                } else {
-                    console.log('nor Search');
-                    searchFilters = {tagsIds: {$all: filters}};
-                }
-
-                allProducts = await Product.find(searchFilters);
-                productsTotalCount = allProducts.length;
-                const allProductsTagId = allProducts.map(product => product.tagsIds).flat();
-                allTags = await Tag.find(
-                    {_id: {$in: allProductsTagId}},
-                    {createdDate: false, updatedDate: false, __v: false}
-                );
-
-                const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId);
-                allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}});
-            }
-
+            const productsTotalCount = products.length;
             return response.json({
-                allTagTypes,
-                allTags,
-                // allProducts: allProducts.slice(skip, limit + skip),
-                allProducts: allProducts,
+                allTagTypes: tagTypes,
+                allTags: tags,
+                allProducts: products.slice(skip, limit + skip),
                 productsTotalCount,
                 productsLimit: limit
             });
@@ -105,60 +52,6 @@ class ShopProductController {
             console.log(error);
         }
     }
-
-
-    // async getAll(request, response) {
-    //     try {
-    //         const {limit, skip, filters, search} = request;
-    //         // console.log('getAll limit', limit);
-    //         // console.log('getAll skip', skip);
-    //         console.log('getAll search', search);
-    //
-    //         let allProducts,
-    //             allTagTypes,
-    //             allTags,
-    //             productsTotalCount;
-    //
-    //         if (!(filters.length)) {
-    //             console.log('Нет фильтров');
-    //             allProducts = await Product.find();
-    //             allTagTypes = await TagType.find(
-    //                 {},
-    //                 {createdDate: false, updatedDate: false, __v: false}
-    //             );
-    //             allTags = await Tag.find(
-    //                 {},
-    //                 {createdDate: false, updatedDate: false, __v: false}
-    //             );
-    //             productsTotalCount = allProducts.length;
-    //         }
-    //
-    //         if (filters.length) {
-    //             console.log('Есть фильтры');
-    //             allProducts = await Product.find({tagsIds: {$all: filters}});
-    //             productsTotalCount = allProducts.length;
-    //             const allProductsTagId = allProducts.map(product => product.tagsIds).flat();
-    //             allTags = await Tag.find(
-    //                 {_id: {$in: allProductsTagId}},
-    //                 {createdDate: false, updatedDate: false, __v: false}
-    //             );
-    //
-    //             const allProductsTagTypeId = allTags.map(tag => tag.tagTypeId);
-    //             allTagTypes = await TagType.find({_id: {$in: allProductsTagTypeId}});
-    //         }
-    //
-    //
-    //         return response.json({
-    //             allTagTypes,
-    //             allTags,
-    //             allProducts: allProducts.slice(skip, limit + skip),
-    //             productsTotalCount,
-    //             productsLimit: limit
-    //         });
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
     async getOne(request, response) {
         try {
