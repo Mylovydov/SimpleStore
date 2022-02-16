@@ -8,7 +8,7 @@ import {pagination} from '../utils/pagination';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {CATALOG_ROUTE, SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
+import {SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 
@@ -28,12 +28,12 @@ const SearchPageContainer = observer(() => {
         const decode = decodeQueryUrl(filters);
 
         shopProducts.setCurrentFilters(decode.filters);
+        shopProducts.setSearch(decode.search)
 
-        let paginatedFilters = '';
 
         if (shopProducts.currentFilters === shopProducts.prevFilters) {
             console.log('отправляем запрос на получение следующих товаров');
-            paginatedFilters = `${decode.filters}page=${decode.page};limit=${shopProducts.limit};`;
+            const paginatedFilters = `${decode.filters}page=${decode.page};limit=${shopProducts.limit};`;
             getPaginatedProducts(paginatedFilters).then(data => {
                 shopProducts.setData(data);
             }).finally(() => {
@@ -44,7 +44,7 @@ const SearchPageContainer = observer(() => {
             });
         } else {
             console.log('отправляем запрос на получение отфильтрованных товаров');
-            paginatedFilters = `${decode.filters}limit=${shopProducts.limit};`;
+            const paginatedFilters = `search=${decode.search};${decode.filters}limit=${shopProducts.limit};`;
             getAllProducts(paginatedFilters).then(data => {
                 shopProducts.setData(data);
                 shopTags.setData(data);
@@ -62,7 +62,7 @@ const SearchPageContainer = observer(() => {
     useEffect(() => {
         if (isTouched) {
             const queryUrl = generateQueryUrl(shopTags.filterBarData);
-            navigate(`${SEARCH_ROUTE}/${queryUrl}`);
+            navigate(`${SEARCH_ROUTE}/${queryUrl}search=${shopProducts.search};`);
         }
     }, [isTouched]);
 

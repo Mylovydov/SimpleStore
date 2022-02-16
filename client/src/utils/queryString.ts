@@ -2,7 +2,7 @@ import {TypePrepareFilterBarData, TypePrepareTagsDataItem} from './prepareFilter
 import {TypeShopTagType} from '../store/shop/TagStore';
 
 export const generateQueryUrl = (data: TypePrepareFilterBarData) => {
-    const filters = Object.values(data).reduce((acc: string, item: [TypeShopTagType, TypePrepareTagsDataItem[]]) => {
+    return Object.values(data).reduce((acc: string, item: [TypeShopTagType, TypePrepareTagsDataItem[]]) => {
         const [tagType, tags] = item;
         const checkedTagsSlug = tags.filter((tag: TypePrepareTagsDataItem) => tag.isChecked)
             .map((tag: TypePrepareTagsDataItem) => tag.slug);
@@ -14,8 +14,6 @@ export const generateQueryUrl = (data: TypePrepareFilterBarData) => {
         let str = `${tagType.slug}=${checkedTagsSlug.join()};`;
         return acc.concat(str);
     }, '');
-
-    return filters;
 };
 
 
@@ -33,14 +31,16 @@ export const decodeQueryUrl = (url: string) => {
 
             switch (key) {
                 case 'page':
-                    return {...acc, [key]: value};
+                    return {...acc, page: value};
                 case 'sort':
-                    return {...acc, [key]: value};
+                    return {...acc, sort: value};
+                case 'search':
+                    return {...acc, search: value};
                 default:
                     return {...acc, ['filters']: acc['filters'].concat(`${key}=${value};`)};
             }
         }
         return acc;
-    }, {filters: '', page: '1'});
+    }, {filters: '', page: '1', search: ''});
 };
 

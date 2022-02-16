@@ -3,7 +3,7 @@ module.exports = function (request, response, next) {
 
     let queryParams;
     if (queryData === '' || queryData.indexOf('=') === -1) {
-        queryParams = {page: '', limit: '', tagTypes: [], tags: []};
+        queryParams = {page: '', limit: '', tagTypes: [], tags: [], search: ''};
     } else {
         queryParams = queryData.split(';').reduce((acc, item) => {
             if (item) {
@@ -23,7 +23,7 @@ module.exports = function (request, response, next) {
             return acc;
         }, {page: '', limit: '', tagTypes: [], tags: [], search: ''});
     }
-
+    console.log('queryParams.search', queryParams.search);
     request.page = queryParams.page;
     request.limit = queryParams.limit;
     request.search = queryParams.search;

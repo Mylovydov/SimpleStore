@@ -41,6 +41,7 @@ class ShopProductController {
             );
 
             const productsTotalCount = products.length;
+
             return response.json({
                 allTagTypes: tagTypes,
                 allTags: tags,

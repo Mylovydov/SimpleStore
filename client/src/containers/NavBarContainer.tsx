@@ -1,8 +1,8 @@
 import React, {ChangeEvent, useState} from 'react';
-import {Button, Col, Container, Form, FormControl, Nav, Row} from 'react-bootstrap';
+import {Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import CartModal from '../components/CartModal';
-import {CATALOG_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import {CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
 
 const NavBarContainer = () => {
 
@@ -10,11 +10,13 @@ const NavBarContainer = () => {
     const [search, setSearch] = useState<string>('')
 
     const navigate = useNavigate()
-    console.log('search', search);
 
-    // const onSearchProducts = () => {
-    //     navigate()
-    // }
+    const onSearchProducts = () => {
+        if (search) {
+            navigate(`${SEARCH_ROUTE}/search=${encodeURIComponent(search)};`)
+            setSearch('')
+        }
+    }
     return (
         <Container>
             <Row className='d-flex align-items-center w-100'>
@@ -38,13 +40,14 @@ const NavBarContainer = () => {
                 <Col lg={6} className={'d-flex'}>
                     <FormControl
                         value={search}
-                        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setSearch(e.target.value)}
+                        onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setSearch(e.target.value.trim().toLocaleLowerCase())}
                         type="text"
                         placeholder="Поиск..."
                     />
                     <Button
                         variant={"success"}
                         className="ms-2"
+                        onClick={onSearchProducts}
                     >
                         Найти
                     </Button>

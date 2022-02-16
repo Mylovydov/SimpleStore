@@ -1,6 +1,5 @@
 import {makeAutoObservable} from 'mobx';
 import {TypeProduct} from '../admin/ProductStore';
-import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
 
 // export interface IProductsStore {
 //     products: TypeProduct[]
@@ -80,13 +79,15 @@ export interface IProductsStore {
     totalCount: number
     limit: number
     currentFilters: string
+    search: string
     setProducts: (products: TypeProduct[]) => void
     // setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
-    // setLimit: (limit: number) => void
+    setLimit: (limit: number) => void
     setCurrentFilters: (filter: string) => void
     setData: (data: any) => void
     setPrevFilters: (prevUrl: string) => void
+    setSearch: (search: string) => void
 }
 
 class ProductsStore implements IProductsStore {
@@ -96,6 +97,7 @@ class ProductsStore implements IProductsStore {
     _totalCount: number;
     _limit: number;
     _currentFilters: string;
+    _search: string
 
     constructor() {
         this._products = [];
@@ -104,12 +106,12 @@ class ProductsStore implements IProductsStore {
         this._totalCount = 0;
         this._limit = 4;
         this._currentFilters = '';
+        this._search = ''
         makeAutoObservable(this);
     }
 
     // Setters
     setData(data: any): void {
-        console.log('setData', data);
         this._products = data.allProducts;
         if (data.productsTotalCount) {
             this._totalCount = data.productsTotalCount;
@@ -129,19 +131,22 @@ class ProductsStore implements IProductsStore {
 
     setPrevFilters(prevFilters: string): void {
         this._prevFilters = prevFilters;
-        console.log('this._prevFilters', this._prevFilters);
     }
 
     // setTotalCount(totalCount: number): void {
     //     this._totalCount = totalCount;
     // }
 
-    // setLimit(limit: number): void {
-    //     this._limit = limit;
-    // }
+    setLimit(limit: number): void {
+        this._limit = limit;
+    }
 
     setCurrentFilters(currentFilters: string): void {
         this._currentFilters = currentFilters;
+    }
+
+    setSearch(search: string): void {
+        this._search = search;
     }
 
     // Getters
@@ -167,6 +172,10 @@ class ProductsStore implements IProductsStore {
 
     get currentFilters(): string {
         return this._currentFilters;
+    }
+
+    get search(): string {
+        return this._search;
     }
 }
 
