@@ -1,7 +1,21 @@
 import React, { useContext } from 'react';
 import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { ADMIN_ROUTE, ALL_ADMINS_ROUTE, ALL_ORDERS_ROUTE, ALL_PRODUCTS_ROUTE, ALL_TAGS_ROUTE, ALL_TAGTYPES_ROUTE, CREATE_ADMIN_ROUTE, CREATE_ORDER_ROUTE, CREATE_PRODUCTS_ROUTE, CREATE_TAGTYPE_ROUTE, CREATE_TAG_ROUTE, CURRENT_ADMIN_SETTINGS_ROUTE, GET_ONE_ADMIN_ROUTE, GET_ONE_ORDER_ROUTE, GET_ONE_PRODUCT_ROUTE, GET_ONE_TAGTYPE_ROUTE, GET_ONE_TAG_ROUTE, LOGIN_ROUTE, STATISTICS_ROUTE } from '../utils/consts';
+import {
+   ADMIN_ROUTE,
+   ORDERS_ROUTE,
+   PRODUCTS_ROUTE,
+   TAGS_ROUTE,
+   CREATE_ADMIN_ROUTE,
+   CREATE_ORDER_ROUTE,
+   CREATE_PRODUCTS_ROUTE,
+   CREATE_TAGTYPE_ROUTE,
+   CREATE_TAG_ROUTE,
+   CURRENT_ADMIN_SETTINGS_ROUTE,
+   LOGIN_ROUTE,
+   STATISTICS_ROUTE,
+   TAGTYPES_ROUTE, ADMINS_ROUTE
+} from '../utils/consts';
 import { Context } from '../components/AdminRouter';
 
 
@@ -38,11 +52,11 @@ const AdminSydebar = () => {
                   <Nav.Item as='li'>
                      <Nav.Link
                         active={
-                           location.pathname === ADMIN_ROUTE + ALL_PRODUCTS_ROUTE || 
+                           location.pathname === ADMIN_ROUTE + PRODUCTS_ROUTE ||
                            location.pathname === ADMIN_ROUTE + CREATE_PRODUCTS_ROUTE ? true : false
                         }
-                        eventKey={ALL_PRODUCTS_ROUTE} 
-                        onClick={() => navigate(ADMIN_ROUTE + ALL_PRODUCTS_ROUTE)} 
+                        eventKey={PRODUCTS_ROUTE}
+                        onClick={() => navigate(ADMIN_ROUTE + PRODUCTS_ROUTE)}
                         className='sidebar-link'
                      >
                         Продукты
@@ -51,11 +65,11 @@ const AdminSydebar = () => {
                   <Nav.Item as='li'>
                      <Nav.Link 
                         active={
-                           location.pathname === ADMIN_ROUTE + ALL_TAGTYPES_ROUTE || 
+                           location.pathname === ADMIN_ROUTE + TAGTYPES_ROUTE ||
                            location.pathname === ADMIN_ROUTE + CREATE_TAGTYPE_ROUTE ? true : false
                         }
-                        eventKey={ALL_TAGTYPES_ROUTE} 
-                        onClick={() => navigate(ADMIN_ROUTE + ALL_TAGTYPES_ROUTE)} 
+                        eventKey={TAGTYPES_ROUTE}
+                        onClick={() => navigate(ADMIN_ROUTE + TAGTYPES_ROUTE)}
                         className='sidebar-link'
                      >
                         Типы
@@ -64,11 +78,11 @@ const AdminSydebar = () => {
                   <Nav.Item as='li'>
                      <Nav.Link 
                         active={
-                           location.pathname === ADMIN_ROUTE + ALL_TAGS_ROUTE || 
+                           location.pathname === ADMIN_ROUTE + TAGS_ROUTE ||
                            location.pathname === ADMIN_ROUTE + CREATE_TAG_ROUTE ? true : false
                         }
-                        eventKey={ALL_TAGS_ROUTE} 
-                        onClick={() => navigate(ADMIN_ROUTE + ALL_TAGS_ROUTE)} 
+                        eventKey={TAGS_ROUTE}
+                        onClick={() => navigate(ADMIN_ROUTE + TAGS_ROUTE)}
                         className='sidebar-link'
                      >
                         Теги
@@ -77,11 +91,11 @@ const AdminSydebar = () => {
                   <Nav.Item as='li'>
                      <Nav.Link 
                         active={
-                           location.pathname === ADMIN_ROUTE + ALL_ORDERS_ROUTE || 
+                           location.pathname === ADMIN_ROUTE + ORDERS_ROUTE ||
                            location.pathname === ADMIN_ROUTE + CREATE_ORDER_ROUTE ? true : false
                         }
-                        eventKey={ALL_ORDERS_ROUTE} 
-                        onClick={() => navigate(ADMIN_ROUTE + ALL_ORDERS_ROUTE)} 
+                        eventKey={ORDERS_ROUTE}
+                        onClick={() => navigate(ADMIN_ROUTE + ORDERS_ROUTE)}
                         className='sidebar-link'
                      >
                         Заказы
@@ -90,11 +104,11 @@ const AdminSydebar = () => {
                   <Nav.Item as='li'>
                      <Nav.Link 
                         active={
-                           location.pathname === ADMIN_ROUTE + ALL_ADMINS_ROUTE || 
+                           location.pathname === ADMIN_ROUTE + ADMINS_ROUTE ||
                            location.pathname === ADMIN_ROUTE + CREATE_ADMIN_ROUTE ? true : false
                         }
-                        eventKey={ALL_ADMINS_ROUTE} 
-                        onClick={() => navigate(ADMIN_ROUTE + ALL_ADMINS_ROUTE)} 
+                        eventKey={ADMINS_ROUTE}
+                        onClick={() => navigate(ADMIN_ROUTE + ADMINS_ROUTE)}
                         className='sidebar-link'
                      >
                         Администраторы

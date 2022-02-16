@@ -9,7 +9,7 @@ import TagTable from '../components/tables/TagTable';
 import { THeadTableField } from '../components/tables/TagTypesTable';
 import { getAllTags } from '../http/adminAPI/tagsAPI';
 import { getAllTagTypes } from '../http/adminAPI/tagTypesAPI'
-import { ADMIN_ROUTE, GET_ONE_TAG_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, TAGS_ROUTE } from '../utils/consts';
 import { pagination } from '../utils/pagination';
 
 const FIELDS: THeadTableField[] = [
@@ -44,7 +44,7 @@ const TagListContainer = observer(() => {
    const pages = pagination(tag.totalCount, tag.limit)
 
    const handleNavEdit = (id: string) => {
-      navigate(`${ADMIN_ROUTE}${GET_ONE_TAG_ROUTE}/${id}/edit`)
+      navigate(`${ADMIN_ROUTE}${TAGS_ROUTE}/${id}/edit`)
    }
 
    return (

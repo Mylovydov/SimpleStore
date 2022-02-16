@@ -9,7 +9,7 @@ import SearchTableInput from '../components/tables/SearchTableInput';
 import { THeadTableField } from '../components/tables/TagTypesTable';
 import { getAllProducts } from '../http/adminAPI/productsAPI';
 import { getAllTags } from '../http/adminAPI/tagsAPI';
-import { ADMIN_ROUTE, GET_ONE_PRODUCT_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, PRODUCTS_ROUTE } from '../utils/consts';
 import { pagination } from '../utils/pagination';
 
 const FIELDS: THeadTableField[] = [
@@ -46,7 +46,7 @@ const ProductListContainer = observer(() => {
     const pages = pagination(product.totalCount, product.limit)
 
     const handleNavEdit = (id: string): void => {
-        navigate(`${ADMIN_ROUTE}${GET_ONE_PRODUCT_ROUTE}/${id}/edit`)
+        navigate(`${ADMIN_ROUTE}${PRODUCTS_ROUTE}/${id}/edit`)
     }
 
     return (

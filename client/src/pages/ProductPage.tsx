@@ -3,7 +3,7 @@ import { Button, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { getOneProduct } from '../http/shopAPI/productAPI';
 import { TypeProduct } from '../store/admin/ProductStore';
-import { SHOP_ROUTE } from '../utils/consts';
+import {CATALOG_ROUTE, SHOP_ROUTE} from '../utils/consts';
 
 const ProductPage: FC = () => {
 
@@ -53,14 +53,14 @@ const ProductPage: FC = () => {
                 </Col>
                 <Col md={6} className='ps-5 pt-4 pb-4 d-flex flex-column'>
                     <NavLink
-                        to={SHOP_ROUTE}
+                        to={CATALOG_ROUTE}
                         style={{textDecoration: 'none', color: '#198754', marginBottom: 30}}
                     >
                         Вернуться в магазин
                     </NavLink>
                     <div>
                         <h2>{product.title}</h2>
-                    </div>
+                    </div>s
                     <div style={{marginTop: 20}}>
                         <p>{product.description}</p>
                     </div>

@@ -1,13 +1,13 @@
-import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
-import { Form, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { Context } from '../components/AdminRouter';
+import {observer} from 'mobx-react-lite';
+import React, {useContext, useEffect, useState} from 'react';
+import {Spinner} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
+import {Context} from '../components/AdminRouter';
 import SearchTableInput from '../components/tables/SearchTableInput';
-import TagTypesTable, { THeadTableField } from '../components/tables/TagTypesTable';
-import { getAllTagTypes } from '../http/adminAPI/tagTypesAPI';
-import { ADMIN_ROUTE, GET_ONE_TAGTYPE_ROUTE } from '../utils/consts';
-import { pagination } from '../utils/pagination'
+import TagTypesTable, {THeadTableField} from '../components/tables/TagTypesTable';
+import {getAllTagTypes} from '../http/adminAPI/tagTypesAPI';
+import {ADMIN_ROUTE, TAGTYPES_ROUTE} from '../utils/consts';
+import {pagination} from '../utils/pagination';
 import Pages from '../components/Pages';
 
 const FIELDS: THeadTableField[] = [
@@ -39,7 +39,7 @@ const TagTypeListContainer = observer(() => {
    const pages = pagination(tagType.totalCount, tagType.limit)
 
    const handleNavEdit = (id: string) => {
-      navigate(`${ADMIN_ROUTE}${GET_ONE_TAGTYPE_ROUTE}/${id}/edit`)
+      navigate(`${ADMIN_ROUTE}${TAGTYPES_ROUTE}/${id}/edit`)
    }
 
    return (

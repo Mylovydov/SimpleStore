@@ -1,7 +1,14 @@
 import React from 'react';
 import { Button, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { ADMIN_ROUTE, ALL_ADMINS_ROUTE, ALL_ORDERS_ROUTE, ALL_PRODUCTS_ROUTE, ALL_TAGS_ROUTE, ALL_TAGTYPES_ROUTE, STATISTICS_ROUTE } from '../utils/consts';
+import {
+    ADMIN_ROUTE,
+    ADMINS_ROUTE,
+    ORDERS_ROUTE,
+    PRODUCTS_ROUTE,
+    TAGS_ROUTE,
+    STATISTICS_ROUTE, TAGTYPES_ROUTE
+} from '../utils/consts';
 
 
 
@@ -15,7 +22,7 @@ const AdminPage = () => {
             <Card style={{width: 600}} className='p-5'>
                 <h2 className='m-auto'>Панель администратора</h2>
                 <Button 
-                    onClick={() => navigate(ADMIN_ROUTE + ALL_PRODUCTS_ROUTE)} 
+                    onClick={() => navigate(ADMIN_ROUTE + PRODUCTS_ROUTE)}
                     size="lg" 
                     variant="outline-dark" 
                     className='mb-3 mt-4'
@@ -23,7 +30,7 @@ const AdminPage = () => {
                     Продукты
                 </Button>
                 <Button 
-                    onClick={() => navigate(ADMIN_ROUTE + ALL_TAGTYPES_ROUTE)} 
+                    onClick={() => navigate(ADMIN_ROUTE + TAGTYPES_ROUTE)}
                     size="lg" 
                     variant="outline-dark" 
                     className='mb-3'
@@ -31,7 +38,7 @@ const AdminPage = () => {
                     Типы
                 </Button>
                 <Button 
-                    onClick={() => navigate(ADMIN_ROUTE + ALL_TAGS_ROUTE)} 
+                    onClick={() => navigate(ADMIN_ROUTE + TAGS_ROUTE)}
                     size="lg" 
                     variant="outline-dark" 
                     className='mb-3'
@@ -39,7 +46,7 @@ const AdminPage = () => {
                     Теги
                 </Button>
                 <Button 
-                    onClick={() => navigate(ADMIN_ROUTE + ALL_ORDERS_ROUTE)} 
+                    onClick={() => navigate(ADMIN_ROUTE + ORDERS_ROUTE)}
                     size="lg" 
                     variant="outline-dark" 
                     className='mb-3'
@@ -47,7 +54,7 @@ const AdminPage = () => {
                     Заказы
                 </Button>
                 <Button 
-                    onClick={() => navigate(ADMIN_ROUTE + ALL_ADMINS_ROUTE)} 
+                    onClick={() => navigate(ADMIN_ROUTE + ADMINS_ROUTE)}
                     size="lg" 
                     variant="outline-dark" 
                     className='mb-3'

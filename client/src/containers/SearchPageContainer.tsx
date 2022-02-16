@@ -12,7 +12,7 @@ import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 
-const CatalogPageContainer = observer(() => {
+const SearchPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -21,9 +21,9 @@ const CatalogPageContainer = observer(() => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const filters = location.pathname === '/catalog/'
+        const filters = location.pathname === '/search/'
             ? ''
-            : location.pathname.slice('/catalog/'.length);
+            : location.pathname.slice('/search/'.length);
 
         const decode = decodeQueryUrl(filters);
 
@@ -138,4 +138,4 @@ const CatalogPageContainer = observer(() => {
     );
 });
 
-export default CatalogPageContainer;
+export default SearchPageContainer;
