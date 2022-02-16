@@ -8,7 +8,7 @@ import {pagination} from '../utils/pagination';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useLocation, useNavigate} from 'react-router-dom';
-import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
+import {CATALOG_ROUTE, SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 
@@ -62,7 +62,7 @@ const SearchPageContainer = observer(() => {
     useEffect(() => {
         if (isTouched) {
             const queryUrl = generateQueryUrl(shopTags.filterBarData);
-            navigate(`${CATALOG_ROUTE}/${queryUrl}`);
+            navigate(`${SEARCH_ROUTE}/${queryUrl}`);
         }
     }, [isTouched]);
 
