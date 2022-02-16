@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const Admin = require('../models/Admin')
 
 
 class Helpers {
@@ -30,11 +29,6 @@ class Helpers {
       const tagSlag = `${tagTypeTitle.toLocaleLowerCase()}=${tagTitle.toLocaleLowerCase()}`
       return tagSlag
    }
-
-   // checkAdmin = async (id) => {
-   //    const candidate = await Admin.find({_id: decodedData})
-   //    return candidate
-   // }
 }
 
 module.exports = new Helpers()

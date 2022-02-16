@@ -29,7 +29,7 @@ module.exports = async function (request, response, next) {
         filteredTagsId = foundTagsIds.map(tagId => tagId._id);
     }
 
-    console.log('filteredTagsId', filteredTagsId);
+    // console.log('filteredTagsId', filteredTagsId);
     request.filters = filteredTagsId;
     next();
 };
