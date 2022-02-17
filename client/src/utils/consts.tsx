@@ -26,7 +26,7 @@ export const CURRENT_ADMIN_SETTINGS_ROUTE = '/settings'
 
 
 export const SHOP_ROUTE = '/'
-export const CATALOG_ROUTE = '/catalog'
+export const CATALOG_ROUTE = '/catalog/'
 export const SEARCH_ROUTE = '/search'
 
 export const BASKET_ROUTE = '/basket'

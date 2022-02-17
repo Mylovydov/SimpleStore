@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Button, Col, Container, Image, Row, Spinner } from 'react-bootstrap';
-import { NavLink, useLocation, useParams } from 'react-router-dom';
-import { getOneProduct } from '../http/shopAPI/productAPI';
-import { TypeProduct } from '../store/admin/ProductStore';
-import {CATALOG_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import React, {FC, useEffect, useState} from 'react';
+import {Button, Col, Container, Row, Spinner} from 'react-bootstrap';
+import {NavLink, useParams} from 'react-router-dom';
+import {getOneProduct} from '../http/shopAPI/productAPI';
+import {TypeProduct} from '../store/admin/ProductStore';
+import {CATALOG_ROUTE} from '../utils/consts';
 
 const ProductPage: FC = () => {
 
@@ -48,7 +48,7 @@ const ProductPage: FC = () => {
                         overflow: 'hidden',
                         minHeight: 600
                     }}>
-                        <img className='img-absolute' src={`${process.env.REACT_APP_API_URL}${product.image}`} alt=''/>
+                        <img className='img-absolute' src={`${process.env.REACT_APP_API_URL}${product.image}`} alt='product Image'/>
                     </div>
                 </Col>
                 <Col md={6} className='ps-5 pt-4 pb-4 d-flex flex-column'>

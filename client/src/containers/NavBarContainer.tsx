@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import {Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import CartModal from '../components/CartModal';
-import {CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import {BASKET_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
 
 const NavBarContainer = () => {
 
@@ -10,10 +10,6 @@ const NavBarContainer = () => {
     const [search, setSearch] = useState<string>('')
 
     const navigate = useNavigate()
-
-    // const inputRef = useRef<HTMLInputElement | null>(null)
-    // console.log('inputRef.current', inputRef.current);
-
 
     const onSearchProducts = () => {
         if (search) {
@@ -37,7 +33,7 @@ const NavBarContainer = () => {
                     <Button
                         variant="secondary"
                         className={'w-100 catalog-btn'}
-                        onClick={() => navigate(CATALOG_ROUTE + '/')}
+                        onClick={() => navigate(CATALOG_ROUTE)}
                     >
                         Каталог
                     </Button>
@@ -61,7 +57,7 @@ const NavBarContainer = () => {
                     <Button
                         variant="dark"
                         style={{height: 38}}
-                        onClick={() => setVisible(true)}
+                        onClick={() => navigate(BASKET_ROUTE)}
                         className={'d-flex align-items-center justify-content-center'}
                     >
                         Корзина

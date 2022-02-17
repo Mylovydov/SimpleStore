@@ -117,8 +117,14 @@ const SearchPageContainer = observer(() => {
     }
 
     return (
-        <Container className="mt-3">
-            <Row>
+        <Container>
+            <div className={'mt-5'}>
+                <h5 className={'m-0'}>
+                    Поиск по "{decodeURIComponent(shopProducts.currentSearch)}"
+                </h5>
+                <span style={{fontSize: 12}}>Найдено {shopProducts.totalCount} товаров</span>
+            </div>
+            <Row className={'mt-4'}>
                 <Col md={3}>
                     <FilterProductsBar
                         onChangeFilter={onChangeFilter}

@@ -8,35 +8,45 @@ export type TypeProductItem = {
 }
 
 const ProductItem: FC<TypeProductItem> = ({product, onClick}) => {
-
     return (
         <Col lg={3} style={{marginBottom: 20}}>
-            <Card style={{minHeight: 400, width: '100%', flexDirection: 'column', padding: '0 0 25px 0'}}>
-                <Col style={{cursor: 'pointer'}} onClick={() => onClick(product.slug)}>
-                    <div
-                        style={{position: 'relative', width: '100%', paddingBottom: '130%', overflow: 'hidden'}}
-                    >
-                        <Image src={`${process.env.REACT_APP_API_URL}${product.image}`} className='img-absolute'/>
-                    </div>
-                    <h6
-                        style={{cursor: 'pointer', padding: '0 25px', marginTop: 20, marginBottom: 0}}
-                    >
-                        {product.title}
-                    </h6>
-                    <p style={{padding: '0 25px', marginTop: 15}}>
-                        {product.description.slice(0, 40) + '...'}
-                    </p>
-                </Col>
+            <Card style={{minHeight: 300, width: '100%', padding: '0 0 25px 0'}}>
+                <div
+                    style={{
+                        position: 'relative',
+                        width: '100%',
+                        paddingBottom: '120%',
+                        overflow: 'hidden',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => onClick(product.slug)}
+                >
+                    <Image src={`${process.env.REACT_APP_API_URL}${product.image}`} className="img-absolute"/>
+                </div>
+                <h6
+                    style={{
+                        cursor: 'pointer',
+                        padding: '0 25px',
+                        marginTop: 20,
+                        marginBottom: 0,
+                        fontSize: 14,
+                        fontWeight: 400,
+                        color: '#221f1f'
+                    }}
+                >
+                    {product.title.slice(0, 40) + '...'}
+                </h6>
 
                 <Col style={{padding: '0 25px'}} className={'mt-4 d-flex align-items-center justify-content-between'}>
                     <div style={{fontSize: 24, color: '#198754'}}>
-                        {product.price + '₴'}
+                        <span style={{display: 'block', fontSize: 12, color: '#8d8d8d'}}>Цена</span>
+                        {product.price.toLocaleString('ru-RU') + '₴'}
                     </div>
                     <Button
-                        className='d-flex justify-content-center align-items-center ms-2'
+                        className="d-flex justify-content-center align-items-center ms-2"
                         style={{height: 35, width: 35}} variant="success"
                     >
-                        <img style={{width: 18, height: 18}} src="/assets/cart.svg" alt="cart-icon" />
+                        <img style={{width: 18, height: 18}} src="/assets/cart.svg" alt="cart-icon"/>
                     </Button>
                 </Col>
 

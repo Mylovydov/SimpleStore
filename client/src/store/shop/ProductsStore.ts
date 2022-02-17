@@ -75,29 +75,29 @@ import {TypeProduct} from '../admin/ProductStore';
 export interface IProductsStore {
     products: TypeProduct[]
     currentPage: number
+    currentFilters: string
     prevFilters: string | null
+    currentSearch: string
+    prevSearch: string
     totalCount: number
     limit: number
-    currentFilters: string
-    prevSearch: string
-    currentSearch: string
-    setProducts: (products: TypeProduct[]) => void
+    setData: (data: any) => void
+    // setProducts: (products: TypeProduct[]) => void
     // setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
     setLimit: (limit: number) => void
     setCurrentFilters: (filter: string) => void
-    setData: (data: any) => void
     setPrevFilters: (prevUrl: string) => void
-    setPrevSearch: (search: string) => void
     setCurrentSearch: (currentSearch: string) => void
+    setPrevSearch: (search: string) => void
 }
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
     _currentPage: number;
-    _prevFilters: string | null;
     _totalCount: number;
     _limit: number;
+    _prevFilters: string | null;
     _currentFilters: string;
     _prevSearch: string
     _currentSearch: string
@@ -105,12 +105,12 @@ class ProductsStore implements IProductsStore {
     constructor() {
         this._products = [];
         this._currentPage = 1;
-        this._prevFilters = null;
         this._totalCount = 0;
         this._limit = 4;
         this._currentFilters = '';
-        this._prevSearch = ''
+        this._prevFilters = null;
         this._currentSearch = ''
+        this._prevSearch = ''
         makeAutoObservable(this);
     }
 
@@ -125,9 +125,9 @@ class ProductsStore implements IProductsStore {
         }
     }
 
-    setProducts(products: TypeProduct[]): void {
-        this._products = products;
-    }
+    // setProducts(products: TypeProduct[]): void {
+    //     this._products = products;
+    // }
 
     setCurrentPage(currentPage: number): void {
         this._currentPage = currentPage;

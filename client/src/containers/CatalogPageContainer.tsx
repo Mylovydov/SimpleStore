@@ -12,6 +12,7 @@ import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 
+
 const CatalogPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
 
@@ -57,7 +58,6 @@ const CatalogPageContainer = observer(() => {
             });
         }
     }, [location.pathname]);
-
 
     useEffect(() => {
         if (isTouched) {

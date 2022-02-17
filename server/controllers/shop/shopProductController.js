@@ -5,43 +5,20 @@ const generateSearchFilters = require('../../helpers/generateSearchFilters');
 
 class ShopProductController {
 
-    // async getPaginated(request, response) {
-    //     try {
-    //         const {limit, skip, filters} = request;
-    //
-    //         const allProducts = filters.length
-    //             ?
-    //             await Product.find({tagsIds: {$all: filters}}).limit(limit).skip(skip)
-    //             :
-    //             await Product.find().limit(limit).skip(skip);
-    //
-    //         return response.json({allProducts});
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
     async getPaginated(request, response) {
         try {
             const {limit, skip, filters, search} = request;
             const generatedFilters = generateSearchFilters(search, filters);
-            console.log('getPaginated filters', filters);
-            console.log('generatedFilters', generatedFilters);
-            const paginatedProducts = await Product.find(generatedFilters).limit(limit).skip(skip)
-            console.log('getPaginated paginatedProducts', paginatedProducts);
+            const paginatedProducts = await Product.find(generatedFilters).limit(limit).skip(skip);
             return response.json({allProducts: paginatedProducts});
         } catch (error) {
             console.log(error);
         }
     }
 
-
-
     async getAll(request, response) {
         try {
             const {limit, skip, filters, search} = request;
-
-            console.log('getAll searchFilters', generateSearchFilters(search, filters));
 
             const generatedFilters = generateSearchFilters(search, filters);
             const products = await Product.find(generatedFilters);
