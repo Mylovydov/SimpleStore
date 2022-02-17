@@ -1,13 +1,19 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import {Button, Card, Col, Image} from 'react-bootstrap';
 import {TypeProduct} from '../store/admin/ProductStore';
+import {ShopContext} from './PublicRouter';
+import {observer} from 'mobx-react-lite';
+import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
 
 export type TypeProductItem = {
     product: TypeProduct
     onClick: (slug: string) => void
+    onAddToBasket: (id: string) => void
 }
 
-const ProductItem: FC<TypeProductItem> = ({product, onClick}) => {
+const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToBasket}) => {
+    const {shopProducts} = useContext(ShopContext);
+
     return (
         <Col lg={3} style={{marginBottom: 20}}>
             <Card style={{minHeight: 300, width: '100%', padding: '0 0 25px 0'}}>
@@ -46,13 +52,18 @@ const ProductItem: FC<TypeProductItem> = ({product, onClick}) => {
                         className="d-flex justify-content-center align-items-center ms-2"
                         style={{height: 35, width: 35}} variant="success"
                     >
-                        <img style={{width: 18, height: 18}} src="/assets/cart.svg" alt="cart-icon"/>
+                        <img
+                            onClick={() => onAddToBasket(product._id)}
+                            style={{width: 18, height: 18}}
+                            src="/assets/cart.svg"
+                            alt="cart-icon"
+                        />
                     </Button>
                 </Col>
 
             </Card>
         </Col>
     );
-};
+});
 
 export default ProductItem;

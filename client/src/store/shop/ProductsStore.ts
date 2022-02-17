@@ -1,116 +1,62 @@
 import {makeAutoObservable} from 'mobx';
 import {TypeProduct} from '../admin/ProductStore';
 
-// export interface IProductsStore {
-//     products: TypeProduct[]
-//     currentPage: number
-//     totalCount: number
-//     limit: number
-//     filter: string
-//     setProducts: (products: TypeProduct[]) => void
-//     setTotalCount: (totalCount: number) => void
-//     setCurrentPage: (currentPage: number) => void
-//     setLimit: (limit: number) => void
-//     setFilter: (filter: string) => void
-// }
-// class ProductsStore implements IProductsStore {
-//     _products: TypeProduct[] = [];
-//     _currentPage: number;
-//     _totalCount: number;
-//     _limit: number;
-//     _filter: string
-//
-//     constructor() {
-//         this._products = [];
-//         this._currentPage = 1;
-//         this._totalCount = 0;
-//         this._limit = 1;
-//         this._filter = ''
-//         makeAutoObservable(this);
-//     }
-//
-//     // Setters
-//     setProducts(products: TypeProduct[]): void {
-//         this._products = products;
-//     }
-//
-//     setCurrentPage(currentPage: number): void {
-//         this._currentPage = currentPage;
-//     }
-//
-//     setTotalCount(totalCount: number): void {
-//         this._totalCount = totalCount;
-//     }
-//
-//     setLimit(limit: number): void {
-//         this._limit = limit;
-//     }
-//
-//     setFilter(filter: string): void {
-//         this._filter = filter;
-//     }
-//
-//     // Getters
-//     get products(): TypeProduct[] {
-//         return this._products;
-//     }
-//
-//     get currentPage(): number {
-//         return this._currentPage;
-//     }
-//
-//     get totalCount(): number {
-//         return this._totalCount;
-//     }
-//
-//     get limit(): number {
-//         return this._limit;
-//     }
-//
-//     get filter(): string {
-//         return this._filter;
-//     }
-// }
+export type TypeProductsQuantity = {
+    quantity: number
+}
+
+export type TypeBasketItem = Omit<TypeProduct, 'description' | 'orderCounter' | 'tagsIds' | 'slug' | 'createdDate' | 'updatedDate'> & TypeProductsQuantity
 
 export interface IProductsStore {
     products: TypeProduct[]
+
+    basket: TypeBasketItem[]
+    setBasket: (basket: TypeBasketItem[]) => void
+
     currentPage: number
+    setCurrentPage: (currentPage: number) => void
+
     currentFilters: string
     prevFilters: string | null
+    setCurrentFilters: (filter: string) => void
+    setPrevFilters: (prevUrl: string) => void
+
     currentSearch: string
     prevSearch: string
+    setCurrentSearch: (currentSearch: string) => void
+    setPrevSearch: (search: string) => void
+
     totalCount: number
     limit: number
+
     setData: (data: any) => void
     // setProducts: (products: TypeProduct[]) => void
     // setTotalCount: (totalCount: number) => void
-    setCurrentPage: (currentPage: number) => void
+
     setLimit: (limit: number) => void
-    setCurrentFilters: (filter: string) => void
-    setPrevFilters: (prevUrl: string) => void
-    setCurrentSearch: (currentSearch: string) => void
-    setPrevSearch: (search: string) => void
 }
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
+    _basket: TypeBasketItem[];
     _currentPage: number;
     _totalCount: number;
     _limit: number;
     _prevFilters: string | null;
     _currentFilters: string;
-    _prevSearch: string
-    _currentSearch: string
+    _prevSearch: string;
+    _currentSearch: string;
 
     constructor() {
         this._products = [];
+        this._basket = [];
         this._currentPage = 1;
         this._totalCount = 0;
         this._limit = 4;
         this._currentFilters = '';
         this._prevFilters = null;
-        this._currentSearch = ''
-        this._prevSearch = ''
+        this._currentSearch = '';
+        this._prevSearch = '';
         makeAutoObservable(this);
     }
 
@@ -123,6 +69,10 @@ class ProductsStore implements IProductsStore {
         if (data.productsLimit) {
             this._limit = data.productsLimit;
         }
+    }
+
+    setBasket(basket: TypeBasketItem[]): void {
+        this._basket = basket
     }
 
     // setProducts(products: TypeProduct[]): void {
@@ -160,6 +110,10 @@ class ProductsStore implements IProductsStore {
     // Getters
     get products(): TypeProduct[] {
         return this._products;
+    }
+
+    get basket(): TypeBasketItem[] {
+        return this._basket;
     }
 
     get currentPage(): number {

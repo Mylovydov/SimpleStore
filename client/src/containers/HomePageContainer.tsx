@@ -1,8 +1,9 @@
 import React from 'react';
-import {Col, Container, Image, Row} from "react-bootstrap";
-import ProductItem from "../components/ProductItem";
-import {useNavigate} from "react-router-dom";
-import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from "../utils/consts";
+import {Col, Container, Image, Row} from 'react-bootstrap';
+import ProductItem from '../components/ProductItem';
+import {useNavigate} from 'react-router-dom';
+import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
 
 const products = [
     {
@@ -28,7 +29,7 @@ const products = [
         slug: 'samsung-galaxy-m12',
         createdDate: '',
         updatedDate: ''
-    },    {
+    }, {
         _id: '3',
         orderCounter: 0,
         title: 'Мобильный телефон Samsung Galaxy M12 4/64GB',
@@ -39,7 +40,7 @@ const products = [
         slug: 'samsung-galaxy-m12',
         createdDate: '',
         updatedDate: ''
-    },    {
+    }, {
         _id: '4',
         orderCounter: 0,
         title: 'Мобильный телефон Samsung Galaxy M12 4/64GB',
@@ -51,18 +52,29 @@ const products = [
         createdDate: '',
         updatedDate: ''
     }
-]
+];
 
 const HomePageContainer = () => {
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    const {setProductToBasket} = useUpdateBasketFunctions();
 
     const handleNavProduct = (slug: string) => {
-        console.log('slug', slug)
-        navigate(`${CATALOG_ROUTE}/${SELECTED_PRODUCT_ROUTE}/${slug}`)
-    }
+        console.log('slug', slug);
+        navigate(`${CATALOG_ROUTE}/${SELECTED_PRODUCT_ROUTE}/${slug}`);
+    };
 
-    const newItems = products.map(item => <ProductItem key={item._id} product={item} onClick={handleNavProduct}/>)
+    const newItems = products.map(item => {
+        return (
+            <ProductItem
+                key={item._id}
+                product={item}
+                onClick={handleNavProduct}
+                onAddToBasket={setProductToBasket}
+            />
+        )
+    });
 
     return (
         <Container>

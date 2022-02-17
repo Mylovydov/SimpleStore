@@ -11,9 +11,11 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
+import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
 
 const SearchPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
+    const {setProductToBasket} = useUpdateBasketFunctions()
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isTouched, setIsTouched] = useState<boolean>(false);
@@ -133,6 +135,7 @@ const SearchPageContainer = observer(() => {
 
                 <Col md={9}>
                     <ProductList
+                        onAddToBasket={setProductToBasket}
                         products={shopProducts.products}
                         onClick={onHandleNavProduct}
                     />
