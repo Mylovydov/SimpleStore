@@ -11,12 +11,17 @@ const NavBarContainer = () => {
 
     const navigate = useNavigate()
 
+    // const inputRef = useRef<HTMLInputElement | null>(null)
+    // console.log('inputRef.current', inputRef.current);
+
+
     const onSearchProducts = () => {
         if (search) {
             navigate(`${SEARCH_ROUTE}/search=${encodeURIComponent(search)};`)
             setSearch('')
         }
     }
+
     return (
         <Container>
             <Row className='d-flex align-items-center w-100'>

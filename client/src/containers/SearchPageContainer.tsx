@@ -20,25 +20,27 @@ const SearchPageContainer = observer(() => {
     const location = useLocation();
     const navigate = useNavigate();
 
+
     useEffect(() => {
         const filters = location.pathname === '/search/'
             ? ''
             : location.pathname.slice('/search/'.length);
 
         const decode = decodeQueryUrl(filters);
+        console.log('decode', decode);
 
         shopProducts.setCurrentFilters(decode.filters);
-        shopProducts.setSearch(decode.search)
+        shopProducts.setCurrentSearch(decode.search);
 
-
-        if (shopProducts.currentFilters === shopProducts.prevFilters) {
+        if (shopProducts.currentFilters === shopProducts.prevFilters && shopProducts.currentSearch === shopProducts.prevSearch) {
             console.log('отправляем запрос на получение следующих товаров');
-            const paginatedFilters = `${decode.filters}page=${decode.page};limit=${shopProducts.limit};`;
+            const paginatedFilters = `search=${decode.search};${decode.filters}page=${decode.page};limit=${shopProducts.limit};`;
             getPaginatedProducts(paginatedFilters).then(data => {
                 shopProducts.setData(data);
             }).finally(() => {
                 setLoading(false);
                 setIsTouched(false);
+                shopProducts.setPrevSearch(decode.search)
                 shopProducts.setPrevFilters(decode.filters);
                 shopProducts.setCurrentPage(Number(decode.page));
             });
@@ -50,6 +52,7 @@ const SearchPageContainer = observer(() => {
                 shopTags.setData(data);
                 shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags, filters));
             }).finally(() => {
+                shopProducts.setPrevSearch(decode.search)
                 setLoading(false);
                 setIsTouched(false);
                 shopProducts.setPrevFilters(decode.filters);
@@ -62,7 +65,7 @@ const SearchPageContainer = observer(() => {
     useEffect(() => {
         if (isTouched) {
             const queryUrl = generateQueryUrl(shopTags.filterBarData);
-            navigate(`${SEARCH_ROUTE}/${queryUrl}search=${shopProducts.search};`);
+            navigate(`${SEARCH_ROUTE}/${queryUrl}search=${shopProducts.currentSearch};`);
         }
     }, [isTouched]);
 

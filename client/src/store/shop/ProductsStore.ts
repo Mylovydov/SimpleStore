@@ -79,7 +79,8 @@ export interface IProductsStore {
     totalCount: number
     limit: number
     currentFilters: string
-    search: string
+    prevSearch: string
+    currentSearch: string
     setProducts: (products: TypeProduct[]) => void
     // setTotalCount: (totalCount: number) => void
     setCurrentPage: (currentPage: number) => void
@@ -87,7 +88,8 @@ export interface IProductsStore {
     setCurrentFilters: (filter: string) => void
     setData: (data: any) => void
     setPrevFilters: (prevUrl: string) => void
-    setSearch: (search: string) => void
+    setPrevSearch: (search: string) => void
+    setCurrentSearch: (currentSearch: string) => void
 }
 
 class ProductsStore implements IProductsStore {
@@ -97,7 +99,8 @@ class ProductsStore implements IProductsStore {
     _totalCount: number;
     _limit: number;
     _currentFilters: string;
-    _search: string
+    _prevSearch: string
+    _currentSearch: string
 
     constructor() {
         this._products = [];
@@ -106,7 +109,8 @@ class ProductsStore implements IProductsStore {
         this._totalCount = 0;
         this._limit = 4;
         this._currentFilters = '';
-        this._search = ''
+        this._prevSearch = ''
+        this._currentSearch = ''
         makeAutoObservable(this);
     }
 
@@ -145,8 +149,12 @@ class ProductsStore implements IProductsStore {
         this._currentFilters = currentFilters;
     }
 
-    setSearch(search: string): void {
-        this._search = search;
+    setPrevSearch(prevSearch: string): void {
+        this._prevSearch = prevSearch;
+    }
+
+    setCurrentSearch(currentSearch: string): void {
+        this._currentSearch = currentSearch;
     }
 
     // Getters
@@ -174,8 +182,12 @@ class ProductsStore implements IProductsStore {
         return this._currentFilters;
     }
 
-    get search(): string {
-        return this._search;
+    get prevSearch(): string {
+        return this._prevSearch;
+    }
+
+    get currentSearch(): string {
+        return this._currentSearch;
     }
 }
 

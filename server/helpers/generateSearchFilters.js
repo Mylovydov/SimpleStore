@@ -16,7 +16,7 @@ const generateSearchFilters = (search, filters) => {
         searchFilters = {tagsIds: {$all: filters}};
     }
 
-    if (!(filters.length) && search) {
+    if (!(filters.length) && reqExp) {
         console.log('Нет фильтров и есть поиск');
         searchFilters = {title: {$regex: reqExp}};
     }

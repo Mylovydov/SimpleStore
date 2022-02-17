@@ -24,6 +24,7 @@ module.exports = function (request, response, next) {
         }, {page: '', limit: '', tagTypes: [], tags: [], search: ''});
     }
     console.log('queryParams.search', queryParams.search);
+
     request.page = queryParams.page;
     request.limit = queryParams.limit;
     request.search = queryParams.search;
