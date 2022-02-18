@@ -1,17 +1,26 @@
-import React, {FC, useContext} from 'react';
+import React, {FC, useContext, useState} from 'react';
 import {Button, Card, Col, Image} from 'react-bootstrap';
 import {TypeProduct} from '../store/admin/ProductStore';
 import {ShopContext} from './PublicRouter';
 import {observer} from 'mobx-react-lite';
 import useUpdateBasketFunctions from '../hooks/useUpdateCartFunctions';
+import {TypeCartItem} from '../store/shop/ProductsStore';
 
 export type TypeProductItem = {
     product: TypeProduct
-    onClick: (slug: string) => void
-    onAddToCart: (id: string) => void
+    onProductClick: (slug: string) => void
+    onAddToCartBtnClick: (id: string) => void
+    onAddToCartBtnClickAgain: (id: string) => void
 }
 
-const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToCart}) => {
+
+const ProductItem: FC<TypeProductItem> = observer((
+    {
+        product,
+        onProductClick,
+        onAddToCartBtnClick,
+        onAddToCartBtnClickAgain
+    }) => {
     const {shopProducts} = useContext(ShopContext);
 
     return (
@@ -25,7 +34,7 @@ const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToCar
                         overflow: 'hidden',
                         cursor: 'pointer'
                     }}
-                    onClick={() => onClick(product.slug)}
+                    onClick={() => onProductClick(product.slug)}
                 >
                     <Image src={`${process.env.REACT_APP_API_URL}${product.image}`} className="img-absolute"/>
                 </div>
@@ -48,17 +57,36 @@ const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToCar
                         <span style={{display: 'block', fontSize: 12, color: '#8d8d8d'}}>Цена</span>
                         {product.price.toLocaleString('ru-RU') + '₴'}
                     </div>
-                    <Button
-                        className="d-flex justify-content-center align-items-center ms-2"
-                        style={{height: 35, width: 35}} variant="success"
-                    >
-                        <img
-                            onClick={() => onAddToCart(product._id)}
-                            style={{width: 18, height: 18}}
-                            src="/assets/cart.svg"
-                            alt="cart-icon"
-                        />
-                    </Button>
+
+                    {shopProducts.cart.some(cartItem => cartItem._id === product._id)
+                        ?
+                        <Button
+                            className="d-flex justify-content-center align-items-center ms-2"
+                            style={{height: 35, width: 35}} variant="success"
+                        >
+                            <img
+                                onClick={() => {
+                                    onAddToCartBtnClickAgain(product._id);
+                                }}
+                                style={{width: 18, height: 18}}
+                                src="/assets/added_to_cart.svg"
+                                alt="cart-icon"
+                            />
+                        </Button>
+                        :
+                        <Button
+                            className="d-flex justify-content-center align-items-center ms-2"
+                            style={{height: 35, width: 35}} variant="light"
+                        >
+                            <img
+                                onClick={() => onAddToCartBtnClick(product._id)}
+                                style={{width: 22, height: 22}}
+                                src="/assets/cart_green.svg"
+                                alt="cart-icon"
+                            />
+                        </Button>
+                    }
+
                 </Col>
 
             </Card>

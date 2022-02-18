@@ -4,6 +4,7 @@ import ProductItem from '../components/ProductItem';
 import {useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
+import {addToCart, removeFromCart} from './CatalogPageContainer';
 
 const products = [
     {
@@ -58,7 +59,10 @@ const HomePageContainer = () => {
 
     const navigate = useNavigate();
 
-    const {setProductToCart} = useUpdateCartFunctions();
+
+    const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
+    const handleSetProductToCart = addToCart(setProductToCart);
+    const handleRemoveFromCart = removeFromCart(removeProductFromCart)
 
     const handleNavProduct = (slug: string) => {
         console.log('slug', slug);
@@ -70,8 +74,9 @@ const HomePageContainer = () => {
             <ProductItem
                 key={item._id}
                 product={item}
-                onClick={handleNavProduct}
-                onAddToCart={setProductToCart}
+                onProductClick={handleNavProduct}
+                onAddToCartBtnClick={handleSetProductToCart}
+                onAddToCartBtnClickAgain={handleRemoveFromCart}
             />
         )
     });

@@ -80,7 +80,7 @@ const NavBarContainer = observer(() => {
                             style={{width: 20, height: 20}}
                         />
                         {
-                            shopProducts.cart.length >= 1  &&
+                            shopProducts.cart.length >= 1 &&
                             <Badge
                                 className={'ms-3'}
                                 bg="success"

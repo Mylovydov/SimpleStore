@@ -1,14 +1,16 @@
 import React, {FC} from 'react';
 import {Row} from 'react-bootstrap';
 import ProductItem from './ProductItem';
+import {TypeCartItem} from '../store/shop/ProductsStore';
 
 export type TypeProductListProps = {
-    onClick: (slug: string) => void
+    onProductClick: (slug: string) => void
     products: any[]
-    onAddToCart: (id: string) => void
+    onAddToCartBtnClick: (id: string) => void
+    onAddToCartBtnClickAgain: (id: string) => void
 }
 
-const ProductList: FC<TypeProductListProps> = ({onClick, products, onAddToCart}) => {
+const ProductList: FC<TypeProductListProps> = ({onProductClick, products, onAddToCartBtnClick, onAddToCartBtnClickAgain}) => {
 
     return (
         <Row className="d-flex">
@@ -17,8 +19,9 @@ const ProductList: FC<TypeProductListProps> = ({onClick, products, onAddToCart})
                     <ProductItem
                         key={product._id}
                         product={product}
-                        onClick={onClick}
-                        onAddToCart={onAddToCart}
+                        onProductClick={onProductClick}
+                        onAddToCartBtnClick={onAddToCartBtnClick}
+                        onAddToCartBtnClickAgain={onAddToCartBtnClickAgain}
                     />
                 );
             })}

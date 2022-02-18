@@ -1,3 +1,6 @@
+// @ts-ignore
+// @ts-ignore
+
 import React, {useContext, useEffect, useState} from 'react';
 import {Col, Container, Row, Spinner} from 'react-bootstrap';
 import FilterProductsBar from '../components/FilterProductsBar';
@@ -13,15 +16,27 @@ import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 
+export const addToCart = (setProductToCart: (id: string) => void) => (id: string) => {
+    setProductToCart(id);
+};
+
+export const removeFromCart = (removeProductFromCart: (id: string) => void) => (id: string) => {
+    removeProductFromCart(id)
+}
 
 const CatalogPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
-    const {setProductToCart} = useUpdateCartFunctions()
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isTouched, setIsTouched] = useState<boolean>(false);
     const location = useLocation();
     const navigate = useNavigate();
+
+    const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
+
+    const handleSetProductToCart = addToCart(setProductToCart);
+    const handleRemoveFromCart = removeFromCart(removeProductFromCart)
+
 
     useEffect(() => {
         const filters = location.pathname === '/catalog/'
@@ -65,9 +80,9 @@ const CatalogPageContainer = observer(() => {
 
     useEffect(() => {
         return () => {
-            shopProducts.setCurrentFilters('')
-        }
-    }, [])
+            shopProducts.setCurrentFilters('');
+        };
+    }, []);
 
     useEffect(() => {
         if (isTouched) {
@@ -135,8 +150,9 @@ const CatalogPageContainer = observer(() => {
                 <Col md={9}>
                     <ProductList
                         products={shopProducts.products}
-                        onClick={onHandleNavProduct}
-                        onAddToCart={setProductToCart}
+                        onProductClick={onHandleNavProduct}
+                        onAddToCartBtnClick={handleSetProductToCart}
+                        onAddToCartBtnClickAgain={handleRemoveFromCart}
                     />
                     {pages.length > 1 &&
                     <Pages
