@@ -29,10 +29,12 @@ const CatalogPageContainer = observer(() => {
             : location.pathname.slice('/catalog/'.length);
 
         const decode = decodeQueryUrl(filters);
+        console.log('decode', decode);
 
         shopProducts.setCurrentFilters(decode.filters);
-
         let paginatedFilters = '';
+        console.log('shopProducts.currentFilters', shopProducts.currentFilters);
+        console.log('shopProducts.prevFilters', shopProducts.prevFilters);
 
         if (shopProducts.currentFilters === shopProducts.prevFilters) {
             console.log('отправляем запрос на получение следующих товаров');
@@ -62,9 +64,15 @@ const CatalogPageContainer = observer(() => {
     }, [location.pathname]);
 
     useEffect(() => {
+        return () => {
+            shopProducts.setCurrentFilters('')
+        }
+    }, [])
+
+    useEffect(() => {
         if (isTouched) {
             const queryUrl = generateQueryUrl(shopTags.filterBarData);
-            navigate(`${CATALOG_ROUTE}/${queryUrl}`);
+            navigate(`${CATALOG_ROUTE}${queryUrl}`);
         }
     }, [isTouched]);
 

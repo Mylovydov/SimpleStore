@@ -1,44 +1,38 @@
 import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
-import {Button, Col, Container, FormControl, Row} from 'react-bootstrap';
+import {Badge, Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import CartModal from '../components/CartModal';
 import {BASKET_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 
-const NavBarContainer = observer (() => {
+const NavBarContainer = observer(() => {
     const {shopProducts} = useContext(ShopContext);
 
-    const [modalVisible, setVisible] = useState(false)
-    const [search, setSearch] = useState<string>('')
+    const [modalVisible, setVisible] = useState(false);
+    const [search, setSearch] = useState<string>('');
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const storeCartData = shopProducts.cart
+        const storeCartData = shopProducts.cart;
 
         if (!(storeCartData.length)) {
-            let storageCartData = localStorage.getItem('cart')
-            console.log('storageCartData', storageCartData);
-            if (storageCartData) {
-                shopProducts.setCart(JSON.parse(storageCartData))
-                console.log('shopProducts.cart', shopProducts.cart);
-            }
-        } else {
-            localStorage.setItem('cart', JSON.stringify(storeCartData))
+            let storageCartData = localStorage.getItem('cart');
+            storageCartData && shopProducts.setCart(JSON.parse(storageCartData));
         }
-    }, [])
+    }, []);
 
     const onSearchProducts = () => {
         if (search) {
-            navigate(`${SEARCH_ROUTE}/search=${encodeURIComponent(search)};`)
-            setSearch('')
+            navigate(`${SEARCH_ROUTE}/search=${encodeURIComponent(search)};`);
+            setSearch('');
         }
-    }
+    };
 
     return (
         <Container>
-            <Row className='d-flex align-items-center w-100'>
+            <Row className="d-flex align-items-center w-100">
                 <Col lg={2}>
                     <NavLink
                         to={SHOP_ROUTE}
@@ -64,7 +58,7 @@ const NavBarContainer = observer (() => {
                         placeholder="Поиск..."
                     />
                     <Button
-                        variant={"success"}
+                        variant={'success'}
                         className="ms-2"
                         onClick={onSearchProducts}
                     >
@@ -85,6 +79,15 @@ const NavBarContainer = observer (() => {
                             alt="cart-icon"
                             style={{width: 20, height: 20}}
                         />
+                        {
+                            shopProducts.cart.length >= 1  &&
+                            <Badge
+                                className={'ms-3'}
+                                bg="success"
+                            >
+                                {shopProducts.cart.length}
+                            </Badge>
+                        }
                     </Button>
                 </Col>
             </Row>
@@ -93,4 +96,4 @@ const NavBarContainer = observer (() => {
     );
 });
 
-export default NavBarContainer
+export default NavBarContainer;
