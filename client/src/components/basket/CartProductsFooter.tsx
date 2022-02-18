@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BasketProductsFooter = () => {
+const CartProductsFooter = () => {
     return (
         <div className="basket-products__footer">
 
@@ -8,4 +8,4 @@ const BasketProductsFooter = () => {
     );
 };
 
-export default BasketProductsFooter;
+export default CartProductsFooter;

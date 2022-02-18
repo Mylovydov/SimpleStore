@@ -3,7 +3,7 @@ import {Col, Container, Image, Row} from 'react-bootstrap';
 import ProductItem from '../components/ProductItem';
 import {useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE, SHOP_ROUTE} from '../utils/consts';
-import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
+import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 
 const products = [
     {
@@ -58,7 +58,7 @@ const HomePageContainer = () => {
 
     const navigate = useNavigate();
 
-    const {setProductToBasket} = useUpdateBasketFunctions();
+    const {setProductToCart} = useUpdateCartFunctions();
 
     const handleNavProduct = (slug: string) => {
         console.log('slug', slug);
@@ -71,7 +71,7 @@ const HomePageContainer = () => {
                 key={item._id}
                 product={item}
                 onClick={handleNavProduct}
-                onAddToBasket={setProductToBasket}
+                onAddToCart={setProductToCart}
             />
         )
     });

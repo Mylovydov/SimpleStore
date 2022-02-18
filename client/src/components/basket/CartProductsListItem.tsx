@@ -1,13 +1,14 @@
-import React, {FC, useState} from 'react';
+import React, {FC} from 'react';
 import {Button, ButtonGroup, CloseButton, Col, Form, Image, ListGroup, Row} from 'react-bootstrap';
-import {TypeBasketItem} from '../../store/shop/ProductsStore';
+import {TypeCartItem} from '../../store/shop/ProductsStore';
+import {observer} from 'mobx-react-lite';
 
-export type TypeBasketProductsListItem = {
-    product: TypeBasketItem
+export type TypeCartProductsListItem = {
+    product: TypeCartItem
     onRemoveCartItem: (id: string) => void
 }
 
-const BasketProductsListItem: FC<TypeBasketProductsListItem> = ({product, onRemoveCartItem}) => {
+const CartProductsListItem: FC<TypeCartProductsListItem> = observer (({product, onRemoveCartItem}) => {
 
     return (
         <ListGroup.Item className={'basket-item'}>
@@ -54,6 +55,6 @@ const BasketProductsListItem: FC<TypeBasketProductsListItem> = ({product, onRemo
             </Row>
         </ListGroup.Item>
     );
-};
+});
 
-export default BasketProductsListItem;
+export default CartProductsListItem;

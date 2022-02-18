@@ -3,15 +3,15 @@ import {Button, Card, Col, Image} from 'react-bootstrap';
 import {TypeProduct} from '../store/admin/ProductStore';
 import {ShopContext} from './PublicRouter';
 import {observer} from 'mobx-react-lite';
-import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
+import useUpdateBasketFunctions from '../hooks/useUpdateCartFunctions';
 
 export type TypeProductItem = {
     product: TypeProduct
     onClick: (slug: string) => void
-    onAddToBasket: (id: string) => void
+    onAddToCart: (id: string) => void
 }
 
-const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToBasket}) => {
+const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToCart}) => {
     const {shopProducts} = useContext(ShopContext);
 
     return (
@@ -53,7 +53,7 @@ const ProductItem: FC<TypeProductItem> = observer(({product, onClick, onAddToBas
                         style={{height: 35, width: 35}} variant="success"
                     >
                         <img
-                            onClick={() => onAddToBasket(product._id)}
+                            onClick={() => onAddToCart(product._id)}
                             style={{width: 18, height: 18}}
                             src="/assets/cart.svg"
                             alt="cart-icon"

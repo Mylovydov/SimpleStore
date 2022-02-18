@@ -1,20 +1,19 @@
 import React, {FC} from 'react';
 import {ListGroup} from 'react-bootstrap';
-import BasketProductsListItem from './BasketProductsListItem';
-import {TypeBasketItem} from '../../store/shop/ProductsStore';
+import CartProductsListItem from './CartProductsListItem';
+import {TypeCartItem} from '../../store/shop/ProductsStore';
 
-export type TypeBasketProductsList = {
+export type TypeCartProductsList = {
     onRemoveCartItem: (id: string) => void
-    products: TypeBasketItem[]
+    products: TypeCartItem[]
 }
 
-const BasketProductsList: FC<TypeBasketProductsList> = ({onRemoveCartItem, products}) => {
-
+const CartProductsList: FC<TypeCartProductsList> = ({onRemoveCartItem, products}) => {
     return (
         <ListGroup className={'mt-3'}>
             {products.map(product => {
                 return (
-                    <BasketProductsListItem
+                    <CartProductsListItem
                         key={product._id}
                         product={product}
                         onRemoveCartItem={onRemoveCartItem}
@@ -25,4 +24,4 @@ const BasketProductsList: FC<TypeBasketProductsList> = ({onRemoveCartItem, produ
     );
 };
 
-export default BasketProductsList;
+export default CartProductsList;

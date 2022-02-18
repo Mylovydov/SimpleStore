@@ -1,15 +1,33 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
 import {Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import CartModal from '../components/CartModal';
 import {BASKET_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import {ShopContext} from '../components/PublicRouter';
+import {observer} from 'mobx-react-lite';
 
-const NavBarContainer = () => {
+const NavBarContainer = observer (() => {
+    const {shopProducts} = useContext(ShopContext);
 
     const [modalVisible, setVisible] = useState(false)
     const [search, setSearch] = useState<string>('')
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const storeCartData = shopProducts.cart
+
+        if (!(storeCartData.length)) {
+            let storageCartData = localStorage.getItem('cart')
+            console.log('storageCartData', storageCartData);
+            if (storageCartData) {
+                shopProducts.setCart(JSON.parse(storageCartData))
+                console.log('shopProducts.cart', shopProducts.cart);
+            }
+        } else {
+            localStorage.setItem('cart', JSON.stringify(storeCartData))
+        }
+    }, [])
 
     const onSearchProducts = () => {
         if (search) {
@@ -73,6 +91,6 @@ const NavBarContainer = () => {
             <CartModal show={modalVisible} onHide={() => setVisible(false)}/>
         </Container>
     );
-};
+});
 
 export default NavBarContainer

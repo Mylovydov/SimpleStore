@@ -5,13 +5,17 @@ export type TypeProductsQuantity = {
     quantity: number
 }
 
-export type TypeBasketItem = Omit<TypeProduct, 'description' | 'orderCounter' | 'tagsIds' | 'slug' | 'createdDate' | 'updatedDate'> & TypeProductsQuantity
+export type TypeCartItem =
+    Omit<
+        TypeProduct, 'description' | 'orderCounter' | 'tagsIds' | 'slug' | 'createdDate' | 'updatedDate'
+        >
+    & TypeProductsQuantity
 
 export interface IProductsStore {
     products: TypeProduct[]
 
-    basket: TypeBasketItem[]
-    setBasket: (basket: TypeBasketItem[]) => void
+    cart: TypeCartItem[]
+    setCart: (basket: TypeCartItem[]) => void
 
     currentPage: number
     setCurrentPage: (currentPage: number) => void
@@ -38,7 +42,7 @@ export interface IProductsStore {
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
-    _basket: TypeBasketItem[];
+    _basket: TypeCartItem[];
     _currentPage: number;
     _totalCount: number;
     _limit: number;
@@ -71,8 +75,8 @@ class ProductsStore implements IProductsStore {
         }
     }
 
-    setBasket(basket: TypeBasketItem[]): void {
-        this._basket = basket
+    setCart(basket: TypeCartItem[]): void {
+        this._basket = basket;
     }
 
     // setProducts(products: TypeProduct[]): void {
@@ -112,7 +116,7 @@ class ProductsStore implements IProductsStore {
         return this._products;
     }
 
-    get basket(): TypeBasketItem[] {
+    get cart(): TypeCartItem[] {
         return this._basket;
     }
 

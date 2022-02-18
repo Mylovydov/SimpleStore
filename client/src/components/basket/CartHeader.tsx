@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'react-bootstrap';
 
-const BasketHeader = () => {
+const CartHeader = () => {
     return (
         <div className={'basket-header'}>
             <div className={'basket-header__title'}>
@@ -19,4 +19,4 @@ const BasketHeader = () => {
     );
 };
 
-export default BasketHeader;
+export default CartHeader;

@@ -3,7 +3,7 @@ import AllOrdersPage from './pages/AllOrdersPage';
 import AllProductsPage from './pages/AllProductsPage';
 import AllTagsPage from './pages/AllTagsPage';
 import AllTagTypesPage from './pages/AllTagTypesPage';
-import BasketPage from './pages/BasketPage';
+import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import CurrentAdminSettingsPage from './pages/CurrentAdminSettingsPage';
 import ProductPage from './pages/ProductPage';
@@ -127,6 +127,6 @@ export const publicRoutes = [
     },
     {
         path: BASKET_ROUTE,
-        Component: <BasketPage/>
+        Component: <CartPage/>
     }
 ];

@@ -11,11 +11,11 @@ import {useLocation, useNavigate} from 'react-router-dom';
 import {SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
-import useUpdateBasketFunctions from '../hooks/useUpdateBasketFunctions';
+import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 
 const SearchPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
-    const {setProductToBasket} = useUpdateBasketFunctions()
+    const {setProductToCart} = useUpdateCartFunctions();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [isTouched, setIsTouched] = useState<boolean>(false);
@@ -42,7 +42,7 @@ const SearchPageContainer = observer(() => {
             }).finally(() => {
                 setLoading(false);
                 setIsTouched(false);
-                shopProducts.setPrevSearch(decode.search)
+                shopProducts.setPrevSearch(decode.search);
                 shopProducts.setPrevFilters(decode.filters);
                 shopProducts.setCurrentPage(Number(decode.page));
             });
@@ -54,7 +54,7 @@ const SearchPageContainer = observer(() => {
                 shopTags.setData(data);
                 shopTags.setFilterBarData(prepareFilterBarData(data.allTagTypes, data.allTags, filters));
             }).finally(() => {
-                shopProducts.setPrevSearch(decode.search)
+                shopProducts.setPrevSearch(decode.search);
                 setLoading(false);
                 setIsTouched(false);
                 shopProducts.setPrevFilters(decode.filters);
@@ -135,7 +135,7 @@ const SearchPageContainer = observer(() => {
 
                 <Col md={9}>
                     <ProductList
-                        onAddToBasket={setProductToBasket}
+                        onAddToCart={setProductToCart}
                         products={shopProducts.products}
                         onClick={onHandleNavProduct}
                     />

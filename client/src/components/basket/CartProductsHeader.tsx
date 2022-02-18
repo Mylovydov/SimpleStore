@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {Col, ListGroup, Row} from 'react-bootstrap';
 
-const BasketProductsHeader: FC = () => {
+const CartProductsHeader: FC = () => {
     return (
         <ListGroup.Item className="mt-5 pt-3 pb-3 ps-4 pe-4 basket-item">
             <Row>
@@ -22,4 +22,4 @@ const BasketProductsHeader: FC = () => {
     );
 };
 
-export default BasketProductsHeader;
+export default CartProductsHeader;
