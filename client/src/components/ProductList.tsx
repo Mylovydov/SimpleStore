@@ -2,11 +2,12 @@ import React, {FC} from 'react';
 import {Row} from 'react-bootstrap';
 import ProductItem from './ProductItem';
 import {TypeCartItem} from '../store/shop/ProductsStore';
+import {TypeProduct} from '../store/admin/ProductStore';
 
 export type TypeProductListProps = {
     onProductClick: (slug: string) => void
-    products: any[]
-    onAddToCartBtnClick: (id: string) => void
+    products: TypeProduct[]
+    onAddToCartBtnClick: (product: TypeProduct) => void
     onAddToCartBtnClickAgain: (id: string) => void
 }
 

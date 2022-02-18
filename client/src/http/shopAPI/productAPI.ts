@@ -14,3 +14,8 @@ export const getOneProduct = async (slug: string) => {
    const { data } = await $host.get(`api/catalog/one-product/${slug}`)
    return data
 }
+
+export const getNoveltiesAndPopular = async () => {
+   const { data } = await $host.get(`api/catalog/novelties-popular/`)
+   return data
+}

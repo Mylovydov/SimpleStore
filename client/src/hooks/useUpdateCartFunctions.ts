@@ -1,40 +1,35 @@
-import {useContext} from 'react';
+import {useCallback, useContext} from 'react';
 import {ShopContext} from '../components/PublicRouter';
-import {TypeCartItem} from '../store/shop/ProductsStore';
+import {TypeProduct} from '../store/admin/ProductStore';
 
 
 const useUpdateCartFunctions = () => {
     const {shopProducts} = useContext(ShopContext);
 
-    // console.log('shopProducts.basket', shopProducts.cart);
-
-    const setProductToCart = (id: string) => {
-        const candidateForAddingToCart = shopProducts.cart.find(prod => prod._id === id);
+    const setProductToCart = useCallback((product: TypeProduct) => {
+        console.log('product', product);
+        const candidateForAddingToCart = shopProducts.cart.find(cartItem => cartItem._id === product._id);
 
         if (!candidateForAddingToCart) {
-            const product = shopProducts.products.find(prod => prod._id === id);
-            if (!product) {
-                return;
-            }
             const {_id, title, price, image} = product;
             shopProducts.setCart([...shopProducts.cart, {_id, title, price, image, quantity: 1}]);
 
             localStorage.setItem('cart', JSON.stringify(shopProducts.cart));
         }
-    };
+    }, [shopProducts.products, shopProducts.cart]);
 
-    const changeQuantity = (id: string, isIncrease: boolean) => {
+    const changeQuantity = useCallback((id: string, isIncrease: boolean) => {
         shopProducts.setCart(shopProducts.cart.map(item => item._id === id
             ? {...item, quantity: item.quantity + (isIncrease ? 1 : -1)}
             : item
         ));
-    };
+    }, [shopProducts.cart]);
 
-    const removeProductFromCart = (id: string) => {
+    const removeProductFromCart = useCallback((id: string) => {
         const updatedCartData = shopProducts.cart.filter(item => item._id !== id);
         shopProducts.setCart(updatedCartData);
         localStorage.setItem('cart', JSON.stringify(updatedCartData));
-    };
+    }, [shopProducts.cart]);
 
     return {
         setProductToCart,

@@ -8,7 +8,7 @@ export type TypeCartProductsListItem = {
     onRemoveCartItem: (id: string) => void
 }
 
-const CartProductsListItem: FC<TypeCartProductsListItem> = observer (({product, onRemoveCartItem}) => {
+const CartProductsListItem: FC<TypeCartProductsListItem> = observer(({product, onRemoveCartItem}) => {
 
     return (
         <ListGroup.Item className={'basket-item'}>
@@ -34,7 +34,7 @@ const CartProductsListItem: FC<TypeCartProductsListItem> = observer (({product, 
                         </Button>
                         <Form.Control
                             value={product.quantity}
-                            className={'w-25'}
+                            // style={{minWidth: 50, maxWidth: 80}}
                             type="number"
                             inputMode={'numeric'}
                             disabled

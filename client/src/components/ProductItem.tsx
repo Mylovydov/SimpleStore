@@ -1,15 +1,13 @@
-import React, {FC, useContext, useState} from 'react';
+import React, {FC, useContext} from 'react';
 import {Button, Card, Col, Image} from 'react-bootstrap';
 import {TypeProduct} from '../store/admin/ProductStore';
 import {ShopContext} from './PublicRouter';
 import {observer} from 'mobx-react-lite';
-import useUpdateBasketFunctions from '../hooks/useUpdateCartFunctions';
-import {TypeCartItem} from '../store/shop/ProductsStore';
 
 export type TypeProductItem = {
     product: TypeProduct
     onProductClick: (slug: string) => void
-    onAddToCartBtnClick: (id: string) => void
+    onAddToCartBtnClick: (product: TypeProduct) => void
     onAddToCartBtnClickAgain: (id: string) => void
 }
 
@@ -79,7 +77,7 @@ const ProductItem: FC<TypeProductItem> = observer((
                             style={{height: 35, width: 35}} variant="light"
                         >
                             <img
-                                onClick={() => onAddToCartBtnClick(product._id)}
+                                onClick={() => onAddToCartBtnClick(product)}
                                 style={{width: 22, height: 22}}
                                 src="/assets/cart_green.svg"
                                 alt="cart-icon"

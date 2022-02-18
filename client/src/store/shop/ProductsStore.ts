@@ -5,14 +5,22 @@ export type TypeProductsQuantity = {
     quantity: number
 }
 
+export type TypeData = {
+    allProducts: TypeProduct[]
+    productsTotalCount?: number
+    productsLimit?: number
+    noveltiesProducts?:TypeProduct[]
+    popularProducts?:TypeProduct[]
+}
+
 export type TypeCartItem =
-    Omit<
-        TypeProduct, 'description' | 'orderCounter' | 'tagsIds' | 'slug' | 'createdDate' | 'updatedDate'
-        >
+    Omit<TypeProduct, 'description' | 'orderCounter' | 'tagsIds' | 'slug' | 'createdDate' | 'updatedDate'>
     & TypeProductsQuantity
 
 export interface IProductsStore {
     products: TypeProduct[]
+    noveltiesProducts: TypeProduct[]
+    popularProducts: TypeProduct[]
 
     cart: TypeCartItem[]
     setCart: (basket: TypeCartItem[]) => void
@@ -34,7 +42,6 @@ export interface IProductsStore {
     limit: number
 
     setData: (data: any) => void
-    // setProducts: (products: TypeProduct[]) => void
     // setTotalCount: (totalCount: number) => void
 
     setLimit: (limit: number) => void
@@ -42,6 +49,8 @@ export interface IProductsStore {
 
 class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
+    _noveltiesProducts: TypeProduct[] = [];
+    _popularProducts: TypeProduct[] = [];
     _basket: TypeCartItem[];
     _currentPage: number;
     _totalCount: number;
@@ -53,6 +62,8 @@ class ProductsStore implements IProductsStore {
 
     constructor() {
         this._products = [];
+        this._noveltiesProducts = []
+        this._popularProducts = []
         this._basket = [];
         this._currentPage = 1;
         this._totalCount = 0;
@@ -65,23 +76,27 @@ class ProductsStore implements IProductsStore {
     }
 
     // Setters
-    setData(data: any): void {
-        this._products = data.allProducts;
+    setData(data: TypeData): void {
+        if (data.allProducts) {
+            this._products = data.allProducts;
+        }
         if (data.productsTotalCount) {
             this._totalCount = data.productsTotalCount;
         }
         if (data.productsLimit) {
             this._limit = data.productsLimit;
         }
+        if (data.noveltiesProducts) {
+            this._noveltiesProducts = data.noveltiesProducts;
+        }
+        if (data.popularProducts) {
+            this._popularProducts = data.popularProducts;
+        }
     }
 
     setCart(basket: TypeCartItem[]): void {
         this._basket = basket;
     }
-
-    // setProducts(products: TypeProduct[]): void {
-    //     this._products = products;
-    // }
 
     setCurrentPage(currentPage: number): void {
         this._currentPage = currentPage;
@@ -146,6 +161,14 @@ class ProductsStore implements IProductsStore {
 
     get currentSearch(): string {
         return this._currentSearch;
+    }
+
+    get noveltiesProducts(): TypeProduct[] {
+        return this._noveltiesProducts;
+    }
+
+    get popularProducts(): TypeProduct[] {
+        return this._popularProducts;
     }
 }
 

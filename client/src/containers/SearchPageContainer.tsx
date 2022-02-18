@@ -12,7 +12,6 @@ import {SEARCH_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
 import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
-import {addToCart, removeFromCart} from './CatalogPageContainer';
 
 const SearchPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
@@ -23,10 +22,6 @@ const SearchPageContainer = observer(() => {
     const navigate = useNavigate();
 
     const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
-
-    const handleSetProductToCart = addToCart(setProductToCart);
-    const handleRemoveFromCart = removeFromCart(removeProductFromCart)
-
 
     useEffect(() => {
         const filters = location.pathname === '/search/'
@@ -141,8 +136,8 @@ const SearchPageContainer = observer(() => {
                     <ProductList
                         products={shopProducts.products}
                         onProductClick={onHandleNavProduct}
-                        onAddToCartBtnClick={handleSetProductToCart}
-                        onAddToCartBtnClickAgain={handleRemoveFromCart}
+                        onAddToCartBtnClick={setProductToCart}
+                        onAddToCartBtnClickAgain={removeProductFromCart}
                     />
                     {pages.length > 1 &&
                     <Pages

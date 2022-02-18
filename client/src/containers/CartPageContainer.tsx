@@ -9,6 +9,7 @@ import {observer} from 'mobx-react-lite';
 import {useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE} from '../utils/consts';
 
+
 const CartPageContainer = observer(() => {
     const {removeProductFromCart} = useUpdateCartFunctions();
     const {shopProducts} = useContext(ShopContext);

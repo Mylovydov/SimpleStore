@@ -56,6 +56,17 @@ class ShopProductController {
             return response.status(403).json({message: `Продукт ${slug} не найден`});
         }
     }
+
+    async getNoveltiesAndPopular(request, response) {
+        try {
+            const noveltiesProducts = await Product.find().sort({updatedDate: -1}).limit(4)
+            const popularProducts = await Product.find().sort({orderCounter: -1}).limit(4)
+            return response.json({noveltiesProducts, popularProducts})
+        } catch (e) {
+            return response.status(403).json({message: `Продукты не найдены`});
+        }
+    }
+
 }
 
 module.exports = new ShopProductController();

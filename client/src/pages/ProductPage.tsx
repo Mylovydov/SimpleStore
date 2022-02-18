@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {Button, Col, Container, Row, Spinner} from 'react-bootstrap';
-import {NavLink, useParams} from 'react-router-dom';
+import {NavLink, useNavigate, useParams} from 'react-router-dom';
 import {getOneProduct} from '../http/shopAPI/productAPI';
 import {TypeProduct} from '../store/admin/ProductStore';
 import {CATALOG_ROUTE} from '../utils/consts';
@@ -20,8 +20,9 @@ const ProductPage: FC = () => {
         createdDate: '',
         updatedDate: '',
     })
-    
+
     const {slug} = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getOneProduct(slug as string)
@@ -37,14 +38,14 @@ const ProductPage: FC = () => {
             />
         )
     }
-    
+
     return (
         <Container>
             <Row className='mt-4'>
                 <Col md={6} className='pe-5'>
                     <div style={{
-                        position: 'relative', 
-                        paddingBottom: '80%', 
+                        position: 'relative',
+                        paddingBottom: '80%',
                         overflow: 'hidden',
                         minHeight: 600
                     }}>
@@ -53,6 +54,7 @@ const ProductPage: FC = () => {
                 </Col>
                 <Col md={6} className='ps-5 pt-4 pb-4 d-flex flex-column'>
                     <NavLink
+                        // onClick={() => navigate(CATALOG_ROUTE)}
                         to={CATALOG_ROUTE}
                         style={{textDecoration: 'none', color: '#198754', marginBottom: 30}}
                     >

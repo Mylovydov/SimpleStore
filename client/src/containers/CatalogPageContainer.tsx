@@ -16,14 +16,6 @@ import {prepareFilterBarData} from '../utils/prepareFilterBarData';
 import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 
-export const addToCart = (setProductToCart: (id: string) => void) => (id: string) => {
-    setProductToCart(id);
-};
-
-export const removeFromCart = (removeProductFromCart: (id: string) => void) => (id: string) => {
-    removeProductFromCart(id)
-}
-
 const CatalogPageContainer = observer(() => {
     const {shopProducts, shopTags} = useContext(ShopContext);
 
@@ -34,22 +26,16 @@ const CatalogPageContainer = observer(() => {
 
     const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
 
-    const handleSetProductToCart = addToCart(setProductToCart);
-    const handleRemoveFromCart = removeFromCart(removeProductFromCart)
-
-
     useEffect(() => {
         const filters = location.pathname === '/catalog/'
             ? ''
             : location.pathname.slice('/catalog/'.length);
 
         const decode = decodeQueryUrl(filters);
-        console.log('decode', decode);
+        console.log('location.pathname', location.pathname);
 
         shopProducts.setCurrentFilters(decode.filters);
         let paginatedFilters = '';
-        console.log('shopProducts.currentFilters', shopProducts.currentFilters);
-        console.log('shopProducts.prevFilters', shopProducts.prevFilters);
 
         if (shopProducts.currentFilters === shopProducts.prevFilters) {
             console.log('отправляем запрос на получение следующих товаров');
@@ -151,8 +137,8 @@ const CatalogPageContainer = observer(() => {
                     <ProductList
                         products={shopProducts.products}
                         onProductClick={onHandleNavProduct}
-                        onAddToCartBtnClick={handleSetProductToCart}
-                        onAddToCartBtnClickAgain={handleRemoveFromCart}
+                        onAddToCartBtnClick={setProductToCart}
+                        onAddToCartBtnClickAgain={removeProductFromCart}
                     />
                     {pages.length > 1 &&
                     <Pages
