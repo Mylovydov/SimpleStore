@@ -1,17 +1,18 @@
 import React, {useContext} from 'react';
-import {Button, Container, Image} from 'react-bootstrap';
-import CartHeader from '../components/basket/CartHeader';
-import CartProductsList from '../components/basket/CartProductsList';
-import CartProductsHeader from '../components/basket/CartProductsHeader';
+import {Button, Col, Container, Image, Row} from 'react-bootstrap';
+import CartHeader from '../components/cart/CartHeader';
+import CartProductsList from '../components/cart/CartProductsList';
+import CartProductsHeader from '../components/cart/CartProductsHeader';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 import {useNavigate} from 'react-router-dom';
 import {CATALOG_ROUTE} from '../utils/consts';
+import CartTotalInfoBlock from '../components/cart/CartTotalInfoBlock';
 
 
 const CartPageContainer = observer(() => {
-    const {removeProductFromCart} = useUpdateCartFunctions();
+    const {removeProductFromCart, changeQuantity, clearCart} = useUpdateCartFunctions();
     const {shopProducts} = useContext(ShopContext);
     const navigate = useNavigate();
 
@@ -38,9 +39,25 @@ const CartPageContainer = observer(() => {
                 </div>
                 :
                 <>
-                    <CartHeader/>
-                    <CartProductsHeader/>
-                    <CartProductsList onRemoveCartItem={removeProductFromCart} products={shopProducts.cart}/>
+                    <Row className={'mt-5'}>
+                        <Col lg={9}>
+                            <CartHeader
+                                onClearCart={clearCart}
+                            />
+                            <CartProductsHeader/>
+                            <CartProductsList
+                                onRemoveCartItem={removeProductFromCart}
+                                products={shopProducts.cart}
+                                onChangeQuantity={changeQuantity}
+                            />
+                        </Col>
+                        <Col lg={3}>
+                            <CartTotalInfoBlock
+                                products={shopProducts.cart}
+                            />
+                        </Col>
+                    </Row>
+
                 </>
             }
 

@@ -7,7 +7,6 @@ const useUpdateCartFunctions = () => {
     const {shopProducts} = useContext(ShopContext);
 
     const setProductToCart = useCallback((product: TypeProduct) => {
-        console.log('product', product);
         const candidateForAddingToCart = shopProducts.cart.find(cartItem => cartItem._id === product._id);
 
         if (!candidateForAddingToCart) {
@@ -19,10 +18,17 @@ const useUpdateCartFunctions = () => {
     }, [shopProducts.products, shopProducts.cart]);
 
     const changeQuantity = useCallback((id: string, isIncrease: boolean) => {
-        shopProducts.setCart(shopProducts.cart.map(item => item._id === id
-            ? {...item, quantity: item.quantity + (isIncrease ? 1 : -1)}
-            : item
-        ));
+        shopProducts.setCart(shopProducts.cart.map(cartItem => {
+            if (cartItem._id === id) {
+                return cartItem.quantity === 1 && !isIncrease
+                    ?
+                    cartItem
+                    :
+                    {...cartItem, quantity: cartItem.quantity + (isIncrease ? 1 : -1)};
+            }
+            return cartItem;
+        }));
+        localStorage.setItem('cart', JSON.stringify(shopProducts.cart));
     }, [shopProducts.cart]);
 
     const removeProductFromCart = useCallback((id: string) => {
@@ -31,10 +37,16 @@ const useUpdateCartFunctions = () => {
         localStorage.setItem('cart', JSON.stringify(updatedCartData));
     }, [shopProducts.cart]);
 
+    const clearCart = useCallback(() => {
+        shopProducts.setCart([]);
+        localStorage.removeItem('cart')
+    }, [shopProducts.cart]);
+
     return {
         setProductToCart,
         changeQuantity,
-        removeProductFromCart
+        removeProductFromCart,
+        clearCart
     };
 };
 

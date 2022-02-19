@@ -17,12 +17,10 @@ import CreateProductPage from './pages/CreateProductPage';
 import CreateAdminPage from './pages/CreateAdminPage';
 import CreateTagPage from './pages/CreateTagPage';
 import CreateOrderPage from './pages/CreateOrderPage';
-import CatalogPage from './pages/CatalogPage';
 
 import {
     ADMINS_ROUTE,
-    BASKET_ROUTE,
-    CATALOG_ROUTE,
+    CART_ROUTE,
     CHECKOUT_ROUTE,
     CREATE_ADMIN_ROUTE,
     CREATE_ORDER_ROUTE,
@@ -31,7 +29,8 @@ import {
     CREATE_TAGTYPE_ROUTE,
     CURRENT_ADMIN_SETTINGS_ROUTE,
     ORDERS_ROUTE,
-    PRODUCTS_ROUTE, SEARCH_ROUTE,
+    PRODUCTS_ROUTE,
+    SEARCH_ROUTE,
     SELECTED_PRODUCT_ROUTE,
     STATISTICS_ROUTE,
     TAGS_ROUTE,
@@ -126,7 +125,7 @@ export const publicRoutes = [
         Component: <CheckoutPage/>
     },
     {
-        path: BASKET_ROUTE,
+        path: CART_ROUTE,
         Component: <CartPage/>
     }
 ];

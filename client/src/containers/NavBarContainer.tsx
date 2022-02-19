@@ -2,7 +2,7 @@ import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
 import {Badge, Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
 import CartModal from '../components/CartModal';
-import {BASKET_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import {CART_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
 
@@ -69,7 +69,7 @@ const NavBarContainer = observer(() => {
                     <Button
                         variant="dark"
                         style={{height: 38}}
-                        onClick={() => navigate(BASKET_ROUTE)}
+                        onClick={() => navigate(CART_ROUTE)}
                         className={'d-flex align-items-center justify-content-center'}
                     >
                         Корзина

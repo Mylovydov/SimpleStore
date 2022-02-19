@@ -29,6 +29,6 @@ export const SHOP_ROUTE = '/'
 export const CATALOG_ROUTE = '/catalog/'
 export const SEARCH_ROUTE = '/search'
 
-export const BASKET_ROUTE = '/basket'
+export const CART_ROUTE = '/cart'
 export const SELECTED_PRODUCT_ROUTE = '/products'
 export const CHECKOUT_ROUTE = '/checkout'

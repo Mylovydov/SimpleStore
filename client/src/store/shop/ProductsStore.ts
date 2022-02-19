@@ -23,7 +23,7 @@ export interface IProductsStore {
     popularProducts: TypeProduct[]
 
     cart: TypeCartItem[]
-    setCart: (basket: TypeCartItem[]) => void
+    setCart: (cart: TypeCartItem[]) => void
 
     currentPage: number
     setCurrentPage: (currentPage: number) => void
@@ -51,7 +51,7 @@ class ProductsStore implements IProductsStore {
     _products: TypeProduct[] = [];
     _noveltiesProducts: TypeProduct[] = [];
     _popularProducts: TypeProduct[] = [];
-    _basket: TypeCartItem[];
+    _cart: TypeCartItem[];
     _currentPage: number;
     _totalCount: number;
     _limit: number;
@@ -64,7 +64,7 @@ class ProductsStore implements IProductsStore {
         this._products = [];
         this._noveltiesProducts = []
         this._popularProducts = []
-        this._basket = [];
+        this._cart = [];
         this._currentPage = 1;
         this._totalCount = 0;
         this._limit = 4;
@@ -94,8 +94,8 @@ class ProductsStore implements IProductsStore {
         }
     }
 
-    setCart(basket: TypeCartItem[]): void {
-        this._basket = basket;
+    setCart(cart: TypeCartItem[]): void {
+        this._cart = cart;
     }
 
     setCurrentPage(currentPage: number): void {
@@ -132,7 +132,7 @@ class ProductsStore implements IProductsStore {
     }
 
     get cart(): TypeCartItem[] {
-        return this._basket;
+        return this._cart;
     }
 
     get currentPage(): number {
