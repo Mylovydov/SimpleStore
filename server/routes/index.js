@@ -7,6 +7,7 @@ const tagsRouter = require('./admin/tagsRouter')
 const productsRouter = require('./admin/productsRouter')
 const shopCatalogRouter = require('./shop/shopCatalogRouter')
 const ordersRouter = require('./admin/ordersRouter')
+const checkoutRouter = require('./shop/checkoutRouter')
 
 router.use('/auth', authRouter)
 router.use('/administrators', administratorsRouter)
@@ -16,6 +17,6 @@ router.use('/products', productsRouter)
 router.use('/orders', ordersRouter)
 
 router.use('/catalog', shopCatalogRouter)
-// router.use('/checkout')
+router.use('/checkout', checkoutRouter)
 
 module.exports = router

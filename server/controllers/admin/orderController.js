@@ -3,7 +3,6 @@ const { validationResult } = require('express-validator')
 
 
 class OrderController {
-
     async create(request, response) {
         try {
             const errors = validationResult(request)

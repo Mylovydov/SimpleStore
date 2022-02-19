@@ -6,8 +6,7 @@ const router = require('./routes/index')
 const path = require('path')
 const fileUpload = require('express-fileupload')
 const ErrorHandlingMiddleware = require('./middleware/ErrorHandlingMiddleware')
-const stripe = require('stripe')('')
-// TODO: add a stripe key
+
 
 const PORT = process.env.PORT || 5000
 

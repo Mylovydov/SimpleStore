@@ -3,7 +3,7 @@ import {Col, ListGroup, Row} from 'react-bootstrap';
 
 const CartProductsHeader: FC = () => {
     return (
-        <ListGroup.Item className="basket-item">
+        <ListGroup.Item className="basket-item mt-4">
             <Row>
                 <Col lg={5}>
                     <span className={'products-header__item'}>Продукт</span>

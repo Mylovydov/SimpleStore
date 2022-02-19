@@ -19,7 +19,7 @@ const CartProductsListItem: FC<TypeCartProductsListItem> = observer((
 
     const totalCartItemPrice = (product.price * product.quantity).toLocaleString('ru-RU');
     const cartItemPrice = product.price.toLocaleString('ru-RU');
-
+    
     return (
         <ListGroup.Item className={'basket-item'}>
             <Row className={'align-items-center'}>

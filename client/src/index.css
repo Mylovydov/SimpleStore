@@ -101,7 +101,7 @@ body {
 }
 
 .basket-header__title {
-    flex: 1 1 auto;
+    flex: 0 0 300px;
 }
 
 .basket-header__title h5 {
@@ -124,6 +124,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-right: 40px;
+    font-size: 14px;
 }
 
 /*header-actions*/
@@ -248,14 +250,9 @@ body {
     background-color: #EBFFF6;
     border: 1px solid #BDEAD5;
     padding: 20px;
+    max-width: 300px;
 }
 
-@media (min-width: 991px) {
-    .cart-total {
-        position: fixed;
-        width: 300px;
-    }
-}
 
 @media (max-width: 991px) {
     .cart-total {

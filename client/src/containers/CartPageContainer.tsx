@@ -16,8 +16,14 @@ const CartPageContainer = observer(() => {
     const {shopProducts} = useContext(ShopContext);
     const navigate = useNavigate();
 
+    const totalCartItemsInfo = shopProducts.cart.reduce((acc, cartItem) => {
+        acc.paymentAmount += cartItem.price * cartItem.quantity;
+        acc.totalItems += cartItem.quantity;
+        return acc;
+    }, {paymentAmount: 0, totalItems: 0});
+
     return (
-        <Container>
+        <Container className={'pt-5 pb-5'}>
             {!(shopProducts.cart.length)
                 ?
                 <div className={'text-center mt-5'}>
@@ -39,24 +45,19 @@ const CartPageContainer = observer(() => {
                 </div>
                 :
                 <>
-                    <Row className={'mt-5'}>
-                        <Col lg={9}>
-                            <CartHeader
-                                onClearCart={clearCart}
-                            />
-                            <CartProductsHeader/>
-                            <CartProductsList
-                                onRemoveCartItem={removeProductFromCart}
-                                products={shopProducts.cart}
-                                onChangeQuantity={changeQuantity}
-                            />
-                        </Col>
-                        <Col lg={3}>
-                            <CartTotalInfoBlock
-                                products={shopProducts.cart}
-                            />
-                        </Col>
-                    </Row>
+                    <CartHeader
+                        info={totalCartItemsInfo}
+                        onClearCart={clearCart}
+                    />
+                    <CartProductsHeader/>
+                    <CartProductsList
+                        onRemoveCartItem={removeProductFromCart}
+                        products={shopProducts.cart}
+                        onChangeQuantity={changeQuantity}
+                    />
+                    <CartTotalInfoBlock
+                        info={totalCartItemsInfo}
+                    />
 
                 </>
             }
