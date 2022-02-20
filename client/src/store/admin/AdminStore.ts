@@ -1,47 +1,47 @@
-import { makeAutoObservable } from "mobx"
+import {makeAutoObservable} from 'mobx';
 
 export type TypeAdmin = {
-   _id: string
-   // username: string
-   // email: string
-   // createdDate: any
-   // updatedDate: any
+  _id: string
+  // username: string
+  // email: string
+  // createdDate: any
+  // updatedDate: any
 }
 
 export interface IAdminStore {
-   isAuth: boolean
-   admin: TypeAdmin
-   setIsAuth: (bool: boolean) => void
-   setAdmin: (admin: TypeAdmin) => void
+  isAuth: boolean
+  admin: TypeAdmin
+  setIsAuth: (bool: boolean) => void
+  setAdmin: (admin: TypeAdmin) => void
 }
 
 class AdminStore implements IAdminStore {
-   _isAuth: boolean = false
-   _admin: TypeAdmin = { _id: ''}
-   
-   constructor() {
-      this._isAuth = false
-      this._admin = {
-         _id: ''
-      }
-      makeAutoObservable(this)
-   }
+  _isAuth: boolean = false;
+  _admin: TypeAdmin = {_id: ''};
 
-   setIsAuth(bool: boolean): void {
-      this._isAuth = bool
-   }
+  constructor() {
+    this._isAuth = false;
+    this._admin = {
+      _id: ''
+    };
+    makeAutoObservable(this);
+  }
 
-   setAdmin(admin: any): void {
-      this._admin = admin
-   }
+  setIsAuth(bool: boolean): void {
+    this._isAuth = bool;
+  }
 
-   get isAuth(): boolean {
-      return this._isAuth
-   }
+  setAdmin(admin: any): void {
+    this._admin = admin;
+  }
 
-   get admin(): any {
-      return this._admin
-   }
+  get isAuth(): boolean {
+    return this._isAuth;
+  }
+
+  get admin(): any {
+    return this._admin;
+  }
 }
 
-export default new AdminStore()
+export default new AdminStore();

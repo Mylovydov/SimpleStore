@@ -236,7 +236,16 @@ body {
     padding-bottom: 20%;
 }
 
-.cart-image > img {
+.checkout-cart-image {
+    flex: 0 0 80px;
+    position: relative;
+    overflow: hidden;
+    min-height: 50px;
+    padding-bottom: 20%;
+}
+
+.cart-image > img,
+.checkout-cart-image > img {
     position: absolute;
     top: 0;
     left: 0;
@@ -253,9 +262,20 @@ body {
     max-width: 300px;
 }
 
+.modal-body {
+    height: 600px;
+    overflow: auto;
+}
+
 
 @media (max-width: 991px) {
     .cart-total {
         margin-top: 20px;
+    }
+}
+
+@media (min-width: 992px) {
+    .modal-lg, .modal-xl {
+        max-width: 900px;
     }
 }

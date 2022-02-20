@@ -1,23 +1,23 @@
-import React, { FC } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import React, {FC} from 'react';
+import {Button, Modal} from 'react-bootstrap';
 
 export type TypeModalProps = {
-   show: boolean,
-   onHide: () => void
-   // products: any
+  show: boolean,
+  onHide: () => void
+  // products: any
 }
 
-const CartModal: FC<TypeModalProps> = ({ show, onHide }) => {
-   return (
-      <Modal
-         show={show}
-         onHide={onHide}
-         size="lg"
-         centered
-      >
+const CartModal: FC<TypeModalProps> = ({show, onHide}) => {
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-            Корзина
+          Корзина
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -29,11 +29,11 @@ const CartModal: FC<TypeModalProps> = ({ show, onHide }) => {
         </p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='outline-danger' onClick={onHide}>Закрыть</Button>
-        <Button variant='outline-success'>Оформить заказ</Button>
+        <Button variant="outline-danger" onClick={onHide}>Закрыть</Button>
+        <Button variant="outline-success">Оформить заказ</Button>
       </Modal.Footer>
     </Modal>
-   );
+  );
 };
 
 export default CartModal;

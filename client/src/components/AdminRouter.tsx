@@ -3,7 +3,6 @@ import React, {createContext, FC, useContext, useEffect, useState} from 'react';
 import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
 import StatisticsPageContainer from '../containers/StatisticsPageContainer';
 import AdminLayout from './layout/AdminLayout';
-// import StatisticsPage from '../pages/StatisticsPage';
 import {authRoutes} from '../routes';
 import AdministratorsStore, {IAdministratorsStore} from '../store/admin/AdministratorsStore';
 import AdminStore, {IAdminStore} from '../store/admin/AdminStore';
@@ -15,63 +14,63 @@ import {check} from '../http/adminAPI/authAPI';
 import {Spinner} from 'react-bootstrap';
 
 export type TypeAdminContext = {
-    admin: IAdminStore
-    product: IProductStore
-    administrators: IAdministratorsStore
-    tagType: ITagTypeStore
-    tag: ITagStore
+  admin: IAdminStore
+  product: IProductStore
+  administrators: IAdministratorsStore
+  tagType: ITagTypeStore
+  tag: ITagStore
 }
 
 export const Context = createContext<TypeAdminContext>({
-    admin: AdminStore,
-    product: ProductStore,
-    administrators: AdministratorsStore,
-    tagType: TagTypeStore,
-    tag: TagStore
+  admin: AdminStore,
+  product: ProductStore,
+  administrators: AdministratorsStore,
+  tagType: TagTypeStore,
+  tag: TagStore
 });
 
 const AdminRouter: FC = observer(() => {
-    const {admin} = useContext(Context);
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
+  const {admin} = useContext(Context);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        check().then(_id => {
-            admin.setAdmin({_id});
-            admin.setIsAuth(true);
-        }).catch((e) => {
-            navigate(LOGIN_ROUTE);
-            alert(e.response.data.message);
-        })
-            .finally(() => setLoading(false));
-    }, []);
+  useEffect(() => {
+    check().then(_id => {
+      admin.setAdmin({_id});
+      admin.setIsAuth(true);
+    }).catch((e) => {
+      navigate(LOGIN_ROUTE);
+      alert(e.response.data.message);
+    })
+      .finally(() => setLoading(false));
+  }, []);
 
 
-    if (loading) {
-        return <Spinner animation="border"/>;
-    }
+  if (loading) {
+    return <Spinner animation="border"/>;
+  }
 
-    return (
-        <Context.Provider value={{
-            admin: AdminStore,
-            product: ProductStore,
-            administrators: AdministratorsStore,
-            tagType: TagTypeStore,
-            tag: TagStore
-        }}>
-            <Routes>
-                {admin.isAuth &&
-                <Route path="/" element={<AdminLayout/>}>
-                    <Route index element={<StatisticsPageContainer/>}/>
-                    {authRoutes.map(({path, Component}) => {
-                        return <Route key={path} path={path} element={Component}/>;
-                    })}
-                </Route>
-                }
-                <Route path={'*'} element={<Navigate to={ADMIN_ROUTE}/>}/>
-            </Routes>
-        </Context.Provider>
-    );
+  return (
+    <Context.Provider value={{
+      admin: AdminStore,
+      product: ProductStore,
+      administrators: AdministratorsStore,
+      tagType: TagTypeStore,
+      tag: TagStore
+    }}>
+      <Routes>
+        {admin.isAuth &&
+        <Route path="/" element={<AdminLayout/>}>
+            <Route index element={<StatisticsPageContainer/>}/>
+          {authRoutes.map(({path, Component}) => {
+            return <Route key={path} path={path} element={Component}/>;
+          })}
+        </Route>
+        }
+        <Route path={'*'} element={<Navigate to={ADMIN_ROUTE}/>}/>
+      </Routes>
+    </Context.Provider>
+  );
 });
 
 export default AdminRouter;
