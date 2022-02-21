@@ -3,12 +3,13 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import PublicLayout from './layout/PublicLayout';
 import {publicRoutes} from '../routes';
 import ProductsStore, {IProductsStore} from '../store/shop/ProductsStore';
-import {CATALOG_ROUTE, CHECKOUT_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import {CANCEL_ROUTE, CATALOG_ROUTE, CHECKOUT_ROUTE, SHOP_ROUTE, SUCCESS_ROUTE} from '../utils/consts';
 import HomePage from '../pages/HomePage';
 import TagStore, {ITagStore} from '../store/shop/TagStore';
 import CatalogPage from '../pages/CatalogPage';
 import CheckoutPage from '../pages/CheckoutPage';
-
+import SuccessCheckoutPage from '../pages/SuccessCheckoutPage';
+import CanceledCheckoutPage from '../pages/CanceledCheckoutPage';
 
 export type TypeShopContext = {
   shopProducts: IProductsStore
@@ -21,6 +22,7 @@ export const ShopContext = createContext<TypeShopContext>({
 });
 
 const PublicRouter: FC = () => {
+
   return (
     <ShopContext.Provider value={{
       shopProducts: ProductsStore,
@@ -37,6 +39,8 @@ const PublicRouter: FC = () => {
           </Route>
         </Route>
         <Route path={CHECKOUT_ROUTE} element={<CheckoutPage/>}/>
+        <Route path={SUCCESS_ROUTE} element={<SuccessCheckoutPage/>}/>
+        <Route path={CANCEL_ROUTE} element={<CanceledCheckoutPage/>}/>
         <Route path={'*'} element={<Navigate to={SHOP_ROUTE}/>}/>
       </Routes>
     </ShopContext.Provider>

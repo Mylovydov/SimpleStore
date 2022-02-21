@@ -8,6 +8,7 @@ const productsRouter = require('./admin/productsRouter');
 const shopCatalogRouter = require('./shop/shopCatalogRouter');
 const ordersRouter = require('./admin/ordersRouter');
 const checkoutRouter = require('./shop/checkoutRouter');
+const webhookRouter = require('./shop/webhookRouter');
 
 router.use('/auth', authRouter);
 router.use('/administrators', administratorsRouter);
@@ -17,6 +18,7 @@ router.use('/products', productsRouter);
 router.use('/orders', ordersRouter);
 
 router.use('/catalog', shopCatalogRouter);
-router.use('/checkout', checkoutRouter);
+router.use('/create-checkout-session', checkoutRouter);
+router.use('/checkout-webhook', webhookRouter);
 
 module.exports = router;
