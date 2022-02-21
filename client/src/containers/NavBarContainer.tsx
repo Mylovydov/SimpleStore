@@ -1,7 +1,6 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
+import React, {ChangeEvent, useContext, useState} from 'react';
 import {Badge, Button, Col, Container, FormControl, Row} from 'react-bootstrap';
 import {NavLink, useNavigate} from 'react-router-dom';
-import CartModal from '../components/CartModal';
 import {CART_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
 import {ShopContext} from '../components/PublicRouter';
 import {observer} from 'mobx-react-lite';
@@ -10,7 +9,6 @@ import {useGetCartItems} from '../hooks/useGetCartItems';
 const NavBarContainer = observer(() => {
   const {shopProducts} = useContext(ShopContext);
 
-  const [modalVisible, setVisible] = useState(false);
   const [search, setSearch] = useState<string>('');
 
   useGetCartItems();
@@ -75,8 +73,8 @@ const NavBarContainer = observer(() => {
             {
               shopProducts.cart.length >= 1 &&
               <Badge
-                  className={'ms-3'}
-                  bg="success"
+                className={'ms-3'}
+                bg="success"
               >
                 {shopProducts.cart.length}
               </Badge>
@@ -84,7 +82,6 @@ const NavBarContainer = observer(() => {
           </Button>
         </Col>
       </Row>
-      <CartModal show={modalVisible} onHide={() => setVisible(false)}/>
     </Container>
   );
 });

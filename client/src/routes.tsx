@@ -4,7 +4,6 @@ import AllProductsPage from './pages/AllProductsPage';
 import AllTagsPage from './pages/AllTagsPage';
 import AllTagTypesPage from './pages/AllTagTypesPage';
 import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
 import CurrentAdminSettingsPage from './pages/CurrentAdminSettingsPage';
 import ProductPage from './pages/ProductPage';
 import GetOneAdminPage from './pages/GetOneAdminPage';
@@ -21,7 +20,6 @@ import CreateOrderPage from './pages/CreateOrderPage';
 import {
   ADMINS_ROUTE,
   CART_ROUTE,
-  CHECKOUT_ROUTE,
   CREATE_ADMIN_ROUTE,
   CREATE_ORDER_ROUTE,
   CREATE_PRODUCTS_ROUTE,
@@ -123,5 +121,5 @@ export const publicRoutes = [
   {
     path: CART_ROUTE,
     Component: <CartPage/>
-  }
+  },
 ];

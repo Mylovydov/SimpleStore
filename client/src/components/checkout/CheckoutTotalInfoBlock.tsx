@@ -4,9 +4,10 @@ import {TypeTotalCartItemsInfo} from '../../utils/getTotalCartItemsInfo';
 
 export type TypeCheckoutTotalInfoBlockProps = {
   totalOrderInfo: TypeTotalCartItemsInfo
+  confirmOrder: () => void
 }
 
-const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrderInfo}) => {
+const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrderInfo,confirmOrder}) => {
 
   return (
     <Card className={'cart-total ms-auto mt-3 position-fixed w-100'}>
@@ -16,39 +17,43 @@ const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrder
       >
         Всего товаров
         <span className={'ms-2'}>
-                        {totalOrderInfo.totalItems}
-                    </span>
+          {totalOrderInfo.totalItems}
+        </span>
       </div>
 
-      <div style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}
-           className={'mt-3'}
+      <div
+        style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}
+        className={'mt-3'}
       >
         На сумму
         <span className={'ms-2'}>
-                        {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
-                    </span>
+          {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
+        </span>
       </div>
       <div style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center',}}
            className={'mt-3'}
       >
         Стоимость доставки
         <span className={'ms-2'} style={{textAlign: 'end'}}>
-                        по тарифам перевозчика
-                    </span>
+          по тарифам перевозчика
+        </span>
       </div>
-      <div style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}
-           className={'mt-3  pt-3 pb-3 border-top border-bottom'}
+      <div
+        style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}
+        className={'mt-3  pt-3 pb-3 border-top border-bottom'}
       >
         К оплате
-        <span className={'ms-2'}
-              style={{textAlign: 'end', fontSize: 24}}
+        <span
+          className={'ms-2'}
+          style={{textAlign: 'end', fontSize: 24}}
         >
-                        {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
-                    </span>
+          {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
+        </span>
       </div>
 
       <div className={'mt-4 d-flex align-items-end'} style={{flex: '1 1 auto'}}>
         <Button
+          onClick={() => confirmOrder()}
           variant={'success'}
           className={'w-100'}
         >

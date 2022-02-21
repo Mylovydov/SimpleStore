@@ -25,7 +25,6 @@ const FIELDS: THeadTableField[] = [
   {_id: 'updatedDate', title: 'Дата обновления', 'sortable': true}
 ];
 
-
 const ProductListContainer = observer(() => {
   const {product, tag} = useContext(Context);
   const navigate = useNavigate();
@@ -34,12 +33,14 @@ const ProductListContainer = observer(() => {
 
 
   useEffect(() => {
-    getAllProducts().then(data => {
-      product.setProducts(data.products);
-      product.setTotalCount(data.totalCount);
-      product.setLimit(data.limit);
-    });
-    getAllTags().then(data => tag.setTags(data.tags))
+    getAllProducts()
+      .then(data => {
+        product.setProducts(data.products);
+        product.setTotalCount(data.totalCount);
+        product.setLimit(data.limit);
+      });
+    getAllTags()
+      .then(data => tag.setTags(data.tags))
       .finally(() => setLoading(false));
   }, []);
 
@@ -52,11 +53,9 @@ const ProductListContainer = observer(() => {
   return (
     <>
       <SearchTableInput/>
-      {loading
-        ?
+      {loading ?
         <Spinner animation="border" className="m-auto d-block"/>
-        :
-        <>
+        : <>
           <ProductTable
             tags={tag.tags}
             products={product.products}
@@ -65,9 +64,9 @@ const ProductListContainer = observer(() => {
           />
           {pages.length > 1 &&
           <Pages
-              pages={pages}
-              currentPage={currentPage}
-              onChangePage={setCurrentPage}
+            pages={pages}
+            currentPage={currentPage}
+            onChangePage={setCurrentPage}
           />
           }
         </>

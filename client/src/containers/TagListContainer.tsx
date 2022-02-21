@@ -63,9 +63,9 @@ const TagListContainer = observer(() => {
           />
           {pages.length > 1 &&
           <Pages
-              pages={pages}
-              currentPage={currentPage}
-              onChangePage={setCurrentPage}
+            pages={pages}
+            currentPage={currentPage}
+            onChangePage={setCurrentPage}
           />
           }
         </>

@@ -20,7 +20,6 @@ const HomePageContainer = observer(() => {
       .catch(e => console.log(e));
   }, []);
 
-
   const onHandleNavProduct = (slug: string) => {
     navigate(`${SELECTED_PRODUCT_ROUTE}/${slug}`);
   };
@@ -40,9 +39,7 @@ const HomePageContainer = observer(() => {
             }}/>
           </div>
         </Col>
-
         <Col md={6}>
-
           <div className={'position-relative'} style={{overflow: 'hidden', paddingBottom: '55%'}}>
             <Image src={'/assets/banner.jpg'} style={{
               position: 'absolute',

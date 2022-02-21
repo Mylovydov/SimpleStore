@@ -1,7 +1,5 @@
 import React, {FC} from 'react';
 import {Button} from 'react-bootstrap';
-import {TypeCartItem} from '../../store/shop/ProductsStore';
-
 
 export type TypeCartHeaderProps = {
   info: { [key: string]: number }
@@ -23,8 +21,8 @@ const CartHeader: FC<TypeCartHeaderProps> = ({info, onClearCart, navigate}) => {
             style={{color: '#198754', fontSize: 20}}
             className={'ms-2'}
           >
-                        {info.totalItems}
-                    </span>
+            {info.totalItems}
+          </span>
         </div>
         <div className={'header-info__prod'}>
           Сумма к оплате:
@@ -32,8 +30,8 @@ const CartHeader: FC<TypeCartHeaderProps> = ({info, onClearCart, navigate}) => {
             style={{color: '#198754', fontSize: 20}}
             className={'ms-2'}
           >
-                        {info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
-                    </span>
+            {info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
+          </span>
         </div>
       </div>
       <div className={'basket-header__actions header-actions'}>

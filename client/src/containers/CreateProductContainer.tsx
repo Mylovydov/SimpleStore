@@ -1,6 +1,5 @@
 import {observer} from 'mobx-react-lite';
-import React, {useContext, useState} from 'react';
-import {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Dropdown, Form, Row} from 'react-bootstrap';
 import {Context} from '../components/AdminRouter';
 import {getAllTagTypes} from '../http/adminAPI/tagTypesAPI';
@@ -18,7 +17,6 @@ const CreateProductContainer = observer(() => {
     getAllTagTypes().then(data => tagType.setTagTypes(data.tagTypes)).catch(e => alert(e.response.data.message));
     getAllTags().then(data => tag.setTags(data.allTags)).catch(e => alert(e.response.data.message));
   }, []);
-
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');

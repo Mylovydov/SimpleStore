@@ -14,8 +14,8 @@ const CreateTagPageContainer = observer(() => {
   const [type, setType] = useState({title: '', id: ''});
 
   useEffect(() => {
-    getAllTagTypes().then(data => tagType.setTagTypes(data.tagTypes));
-    // return response.json({ tagTypes, totalCount, limit })
+    getAllTagTypes()
+      .then(data => tagType.setTagTypes(data.tagTypes));
   }, []);
 
   const setTagType = (title: string, id: string) => {
@@ -23,12 +23,14 @@ const CreateTagPageContainer = observer(() => {
   };
 
   const addTag = () => {
-    createTag({title, tagTypeId: type.id, slug}).then(data => {
-      alert(data.message);
-      setTitle('');
-      setSlug('');
-      setType({...type, title: '', id: ''});
-    }).catch(e => alert(e.response.data.message));
+    createTag({title, tagTypeId: type.id, slug})
+      .then(data => {
+        alert(data.message);
+        setTitle('');
+        setSlug('');
+        setType({...type, title: '', id: ''});
+      })
+      .catch(e => alert(e.response.data.message));
   };
 
   return (

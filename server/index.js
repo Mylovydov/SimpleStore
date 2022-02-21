@@ -7,7 +7,6 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const ErrorHandlingMiddleware = require('./middleware/ErrorHandlingMiddleware');
 
-
 const PORT = process.env.PORT || 5000;
 
 const app = express();
