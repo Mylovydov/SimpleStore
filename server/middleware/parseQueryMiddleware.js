@@ -26,7 +26,7 @@ module.exports = function (request, response, next) {
       return acc;
     }, {page: '', limit: '', tagTypes: [], tags: [], search: ''});
   }
-  console.log('queryParams.search', queryParams.search);
+  // console.log('queryParams.search', queryParams.search);
 
   request.page = queryParams.page;
   request.limit = queryParams.limit;

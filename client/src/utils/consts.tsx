@@ -29,4 +29,4 @@ export const SELECTED_PRODUCT_ROUTE = '/products';
 export const CHECKOUT_ROUTE = '/checkout/';
 
 export const SUCCESS_ROUTE = '/checkout/success/';
-export const CANCEL_ROUTE = '/checkout/canceled/';
+export const CANCEL_ROUTE = '/checkout/cancel/';

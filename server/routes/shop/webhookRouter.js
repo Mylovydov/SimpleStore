@@ -3,6 +3,6 @@ const express = require('express');
 const router = new Router();
 const {webhook} = require('../../controllers/shop/WebhookController');
 
-router.post('/', express.raw({type: 'application/json'}), webhook);
+router.post('/', webhook);
 
 module.exports = router;

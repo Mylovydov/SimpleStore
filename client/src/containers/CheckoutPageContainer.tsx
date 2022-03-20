@@ -49,8 +49,16 @@ const CheckoutPageContainer = observer(() => {
   };
 
   const confirmOrder = () => {
-    customerData.cartItems = shopProducts.cart.map(cartItem => ({_id: cartItem._id, quantity: cartItem.quantity, price: cartItem.price, title: cartItem.title}))
-    checkout(customerData).then(url => window.location = url)
+    customerData.cartItems = shopProducts.cart.map(cartItem => ({
+      _id: cartItem._id,
+      quantity: cartItem.quantity,
+      price: cartItem.price,
+      title: cartItem.title
+    }));
+    checkout(customerData).then(url => {
+      window.location = url;
+      console.log('url', url);
+    });
   };
 
   return (

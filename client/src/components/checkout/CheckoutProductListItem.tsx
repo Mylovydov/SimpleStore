@@ -16,7 +16,7 @@ const CheckoutProductListItem: FC<TypeCheckoutProductListItemProps> = ({product}
           <div className={'d-flex align-items-center'}>
             <div className={'checkout-cart-image'}>
               <img alt={'product image'}
-                   src={`${process.env.REACT_APP_API_URL}${product.image}`}
+                   src={`${process.env.REACT_APP_API_URL}/${product.image}`}
               />
             </div>
 

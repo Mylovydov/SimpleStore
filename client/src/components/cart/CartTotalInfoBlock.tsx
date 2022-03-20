@@ -17,8 +17,8 @@ const CartTotalInfoBlock: FC<TypeCartTotalInfoBlockProps> = ({info, navigate}) =
           style={{color: '#198754', fontSize: 20}}
           className={'ms-2'}
         >
-                        {info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
-                    </span>
+          {info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
+        </span>
       </div>
       <div className={'mt-2 d-flex align-items-end'} style={{flex: '1 1 auto'}}>
         <Button
