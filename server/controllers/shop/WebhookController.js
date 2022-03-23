@@ -19,8 +19,7 @@ async function webhook(request, response) {
     case 'checkout.session.completed': {
       const session = event.data.object;
       // Save an order in your database, marked as 'awaiting payment'
-      createOrder(session);
-      console.log('checkout.session.completed!!!!!!');
+      await createOrder(session);
 
       // Check if the order is paid (for example, from a card payment)
       //
@@ -31,7 +30,7 @@ async function webhook(request, response) {
       if (session.payment_status === 'paid') {
         console.log('paid!!!!!!');
         //fulfill Order = выполнить заказ
-        fulfillOrder(session);
+        await fulfillOrder(session);
       }
       break;
     }
@@ -39,7 +38,7 @@ async function webhook(request, response) {
     case 'checkout.session.async_payment_succeeded': {
       const session = event.data.object;
       // Fulfill the purchase...
-      fulfillOrder(session);
+      await fulfillOrder(session);
       break;
     }
 

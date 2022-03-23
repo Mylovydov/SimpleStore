@@ -15,14 +15,15 @@ export type TypeCustomerDataState = {
   name: string
   email: string
   phone: string
-  delivery: string
-  cartItems: Omit<TypeCartItem, 'image'>[]
+  deliveryAddrs: string
+  cartItems: Omit<TypeCartItem, 'image' | 'price' | 'title'>[]
 }
 
 const CheckoutPageContainer = observer(() => {
-  // const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false);
   const {shopProducts} = useContext(ShopContext);
   const [show, setShow] = useState(false);
+  const [deliveryType, setDeliveryType] = useState('');
 
   const totalOrderInfo = getTotalCartItemsInfo(shopProducts.cart);
 
@@ -37,7 +38,7 @@ const CheckoutPageContainer = observer(() => {
     name: '',
     email: '',
     phone: '',
-    delivery: '',
+    deliveryAddrs: '',
     cartItems: []
   });
 
@@ -48,18 +49,31 @@ const CheckoutPageContainer = observer(() => {
     }));
   };
 
-  const confirmOrder = () => {
-    customerData.cartItems = shopProducts.cart.map(cartItem => ({
-      _id: cartItem._id,
-      quantity: cartItem.quantity,
-      price: cartItem.price,
-      title: cartItem.title
-    }));
-    checkout(customerData).then(url => {
-      window.location = url;
-      console.log('url', url);
-    });
+  const clearDeliveryAddrs = () => {
+    setCustomerData((state => ({
+      ...state,
+      deliveryAddrs: ''
+    })))
+  }
+
+  const confirmOrder = (event: React.FormEvent<HTMLFormElement>) => {
+    const form = event.currentTarget;
+    if (!form.checkValidity()) {
+      event.preventDefault();
+      event.stopPropagation();
+      customerData.cartItems = shopProducts.cart.map(cartItem => ({
+        _id: cartItem._id,
+        quantity: cartItem.quantity
+      }));
+      checkout(customerData).then(url => {
+        window.location = url;
+      });
+    }
+    setValidated(true);
   };
+
+  console.log('customerData', customerData);
+  console.log('deliveryType', deliveryType);
 
   return (
     <>
@@ -67,12 +81,14 @@ const CheckoutPageContainer = observer(() => {
         <h1 className={'mt-5'}>
           Оформление заказа
         </h1>
-        <Row className={'mt-4'}>
-          <Col lg={8}>
-            <div>
-              <div>Ваши контактные данные</div>
+        <Form noValidate validated={validated} onSubmit={confirmOrder}>
+          <Row className={'mt-5'}>
+            <Col lg={8}>
+              <div style={{fontSize: 18}}>
+                Ваши контактные данные
+              </div>
               <Row className="mt-3">
-                <Form.Group as={Col} lg={6}>
+                <Form.Group as={Col} lg={6} controlId="validationCustomName">
                   <Form.Control
                     value={customerData.name}
                     onChange={(e) => onChangeCustomerData('name', e.target.value)}
@@ -81,8 +97,12 @@ const CheckoutPageContainer = observer(() => {
                     style={{height: 50}}
                     placeholder={'Введите имя...'}
                   />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Пожалуйста, введите Ваше имя
+                  </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} lg={6}>
+                <Form.Group as={Col} lg={6} controlId="validationCustomEmail">
                   <Form.Control
                     value={customerData.email}
                     onChange={(e) => onChangeCustomerData('email', e.target.value)}
@@ -91,9 +111,13 @@ const CheckoutPageContainer = observer(() => {
                     style={{height: 50}}
                     placeholder={'Введите email...'}
                   />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid">
+                    Пожалуйста, введите Ваш email
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Row>
-              <Form.Group as={Col} className="mt-3">
+              <Form.Group as={Col} className="mt-3" controlId="validationCustomPhone">
                 <Form.Control
                   value={customerData.phone}
                   onChange={(e) => onChangeCustomerData('phone', e.target.value)}
@@ -102,48 +126,81 @@ const CheckoutPageContainer = observer(() => {
                   style={{height: 50}}
                   placeholder={'Введите номер телефона...'}
                 />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Пожалуйста, введите Ваш телефон
+                </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} className="mt-3">
-                <Form.Control
-                  value={customerData.delivery}
-                  onChange={(e) => onChangeCustomerData('delivery', e.target.value)}
-                  required
-                  type="text"
-                  style={{height: 50}}
-                  placeholder={'Введите адрес доставки...'}
+              <div className={'mt-4'}>
+                <div style={{fontSize: 18}}>
+                  Данные доставки
+                </div>
+                <Form.Group as={Col} className="mt-3">
+                  <Form.Check
+                    onClick={() => clearDeliveryAddrs()}
+                    onChange={(e) => setDeliveryType(e.target.value)}
+                    type="radio"
+                    defaultChecked
+                    label="Самовывоз"
+                    value="self-delivery"
+                    name="delivery"
+                    id={`radio-1`}
+                  />
+                  <Form.Check
+                    onChange={(e) => setDeliveryType(e.target.value)}
+                    className={'mt-2'}
+                    type="radio"
+                    label="Адресная доставка"
+                    name="delivery"
+                    value="addressDelivery"
+                    id={`radio-2`}
+                  />
+                  {deliveryType === 'addressDelivery'
+                    ?
+                    <Form.Control
+                      className={'mt-3'}
+                      value={customerData.deliveryAddrs}
+                      onChange={(e) => onChangeCustomerData('deliveryAddrs', e.target.value)}
+                      required
+                      type="text"
+                      style={{height: 50, transition: '.2s linear'}}
+                      placeholder={'Введите адрес доставки...'}
+                    />
+                    :
+                    null
+                  }
+                </Form.Group>
+              </div>
+              <div className={'mt-5'}>
+                <Row>
+                  <Col lg={6}>
+                    <h3 style={{margin: 0}}>Ваш заказ</h3>
+                  </Col>
+                  <Col lg={3} className={'d-flex align-items-center'}>
+                    <p style={{margin: 0}}>на сумму: {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}</p>
+                  </Col>
+                  <Col lg={3} className={'d-flex justify-content-end'}>
+                    <Button
+                      variant={'outline-dark'}
+                      onClick={handleShow}
+                      className={'ms-3'}
+                    >
+                      Редактировать
+                    </Button>
+                  </Col>
+                </Row>
+                <CheckoutProductList
+                  cartProducts={shopProducts.cart}
                 />
-              </Form.Group>
-            </div>
-            <div className={'mt-5'}>
-              <Row>
-                <Col lg={6}>
-                  <h3 style={{margin: 0}}>Ваш заказ</h3>
-                </Col>
-                <Col lg={3} className={'d-flex align-items-center'}>
-                  <p style={{margin: 0}}>на сумму: {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}</p>
-                </Col>
-                <Col lg={3} className={'d-flex justify-content-end'}>
-                  <Button
-                    variant={'outline-dark'}
-                    onClick={handleShow}
-                    className={'ms-3'}
-                  >
-                    Редактировать
-                  </Button>
-                </Col>
-              </Row>
-              <CheckoutProductList
-                cartProducts={shopProducts.cart}
+              </div>
+            </Col>
+            <Col lg={4}>
+              <CheckoutTotalInfoBlock
+                totalOrderInfo={totalOrderInfo}
               />
-            </div>
-          </Col>
-          <Col lg={4}>
-            <CheckoutTotalInfoBlock
-              confirmOrder={confirmOrder}
-              totalOrderInfo={totalOrderInfo}
-            />
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        </Form>
       </Container>
 
       <CheckoutModal

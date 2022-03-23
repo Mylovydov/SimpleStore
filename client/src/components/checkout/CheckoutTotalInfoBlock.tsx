@@ -4,13 +4,12 @@ import {TypeTotalCartItemsInfo} from '../../utils/getTotalCartItemsInfo';
 
 export type TypeCheckoutTotalInfoBlockProps = {
   totalOrderInfo: TypeTotalCartItemsInfo
-  confirmOrder: () => void
 }
 
-const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrderInfo,confirmOrder}) => {
+const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrderInfo}) => {
 
   return (
-    <Card className={'cart-total ms-auto mt-3 position-fixed w-100'}>
+    <Card className={'cart-total ms-auto position-fixed w-100'}>
       <h4>Итого</h4>
       <div style={{fontSize: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}
            className={'mt-3'}
@@ -53,7 +52,7 @@ const CheckoutTotalInfoBlock: FC<TypeCheckoutTotalInfoBlockProps> = ({totalOrder
 
       <div className={'mt-4 d-flex align-items-end'} style={{flex: '1 1 auto'}}>
         <Button
-          onClick={() => confirmOrder()}
+          type='submit'
           variant={'success'}
           className={'w-100'}
         >
