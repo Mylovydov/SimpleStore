@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Col, Container, Form, Row} from 'react-bootstrap';
+import {Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
 import CheckoutProductList from '../components/checkout/CheckoutProductList';
 import {getTotalCartItemsInfo} from '../utils/getTotalCartItemsInfo';
 import {ShopContext} from '../components/PublicRouter';
@@ -53,27 +53,31 @@ const CheckoutPageContainer = observer(() => {
     setCustomerData((state => ({
       ...state,
       deliveryAddrs: ''
-    })))
-  }
+    })));
+  };
 
   const confirmOrder = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
+
     if (!form.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
+    }
+
+    setValidated(true);
+
+    if (form.checkValidity()) {
+      event.preventDefault();
       customerData.cartItems = shopProducts.cart.map(cartItem => ({
         _id: cartItem._id,
         quantity: cartItem.quantity
       }));
+      console.log(customerData.cartItems);
       checkout(customerData).then(url => {
         window.location = url;
       });
     }
-    setValidated(true);
   };
-
-  console.log('customerData', customerData);
-  console.log('deliveryType', deliveryType);
 
   return (
     <>
@@ -97,9 +101,8 @@ const CheckoutPageContainer = observer(() => {
                     style={{height: 50}}
                     placeholder={'Введите имя...'}
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
-                    Пожалуйста, введите Ваше имя
+                    Введите Ваше имя
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} lg={6} controlId="validationCustomEmail">
@@ -111,9 +114,8 @@ const CheckoutPageContainer = observer(() => {
                     style={{height: 50}}
                     placeholder={'Введите email...'}
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Control.Feedback type="invalid">
-                    Пожалуйста, введите Ваш email
+                    Введите Ваш email
                   </Form.Control.Feedback>
                 </Form.Group>
               </Row>
@@ -126,12 +128,11 @@ const CheckoutPageContainer = observer(() => {
                   style={{height: 50}}
                   placeholder={'Введите номер телефона...'}
                 />
-                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">
-                  Пожалуйста, введите Ваш телефон
+                  Введите Ваш телефон
                 </Form.Control.Feedback>
               </Form.Group>
-              <div className={'mt-4'}>
+              <div className={'mt-5'}>
                 <div style={{fontSize: 18}}>
                   Данные доставки
                 </div>
@@ -146,6 +147,8 @@ const CheckoutPageContainer = observer(() => {
                     name="delivery"
                     id={`radio-1`}
                   />
+                </Form.Group>
+                <Form.Group as={Col} className="mt-2">
                   <Form.Check
                     onChange={(e) => setDeliveryType(e.target.value)}
                     className={'mt-2'}
@@ -155,20 +158,18 @@ const CheckoutPageContainer = observer(() => {
                     value="addressDelivery"
                     id={`radio-2`}
                   />
-                  {deliveryType === 'addressDelivery'
-                    ?
-                    <Form.Control
-                      className={'mt-3'}
-                      value={customerData.deliveryAddrs}
-                      onChange={(e) => onChangeCustomerData('deliveryAddrs', e.target.value)}
-                      required
-                      type="text"
-                      style={{height: 50, transition: '.2s linear'}}
-                      placeholder={'Введите адрес доставки...'}
-                    />
-                    :
-                    null
-                  }
+                </Form.Group>
+                <Form.Group as={Col} className="mt-3">
+                  <Form.Control
+                    className={'mt-3'}
+                    required
+                    disabled={deliveryType !== 'addressDelivery'}
+                    value={customerData.deliveryAddrs}
+                    onChange={(e) => onChangeCustomerData('deliveryAddrs', e.target.value)}
+                    type="text"
+                    style={{height: 50, transition: '.2s linear'}}
+                    placeholder={'Введите адрес доставки...'}
+                  />
                 </Form.Group>
               </div>
               <div className={'mt-5'}>

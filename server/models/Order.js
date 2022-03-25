@@ -12,7 +12,7 @@ const Order = new Schema({
     userEmail: {type: String},
     username: {type: String},
     userPhone: {type: String},
-    checkPay: {type: String, enum: ['not paid', 'paid'], default: 'not paid'},
+    checkPay: {type: String, enum: ['awaiting payment', 'paid'], default: 'not paid'},
     totalPrice: {type: Number}
   },
   {timestamps: {createdAt: 'orderDate', updatedAt: 'updatedDate'}}

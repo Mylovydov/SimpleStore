@@ -49,9 +49,8 @@ async function webhook(request, response) {
       break;
     }
   }
-  console.log('work!!!');
 
-  return response.status(200);
+  return response.status(200).end();
 }
 
 module.exports = {

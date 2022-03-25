@@ -37,82 +37,59 @@ const orderItems = (cartProducts, cartItems) => {
 class CheckoutController {
 
   async checkout(request, response) {
+    let {cartItems, name, email, phone, deliveryAddrs} = request.body;
+
+    if (!name || !email || !phone) {
+      return response.status(400).json({message: 'Заполните все поля'});
+    }
+
+    console.log('work');
+    const cartItemsIds = cartItems.map(item => item._id);
+    const cartProducts = await Product.find({_id: {$in: cartItemsIds}});
+
+    const cartProd = orderItems(cartProducts, cartItems);
+    const totalPrice = cartProd.reduce((acc, cartProdItem) => acc += cartProdItem.price * cartProdItem.quantity, 0);
+
+    let order;
     try {
-      const {cartItems, name, email, phone, deliveryAddrs} = request.body;
-
-      if (!name || !email || !phone || !deliveryAddrs) {
-        return response.status(400).json({message: 'Заполните все поля'});
-      }
-
-      const cartItemsIds = cartItems.map(item => item._id);
-      const cartProducts = await Product.find({_id: {$in: cartItemsIds}});
-
-      const cartProd = orderItems(cartProducts, cartItems);
-      const totalPrice = cartProd.reduce((acc, cartProdItem) => {
-        return acc += cartProdItem.price;
-      }, 0);
-
-      const order = await Order.create({
+      order = await Order.create({
         prodItems: cartProd,
-        deliveryAddrs,
+        deliveryAddrs: deliveryAddrs ? deliveryAddrs : 'self-delivery',
         userEmail: email,
         username: name,
         userPhone: phone,
-        checkPay: 'not paid',
+        checkPay: 'awaiting payment',
         totalPrice
       });
-      console.log('order', order);
+    } catch (e) {
+      console.log(e.message);
+    }
 
-      const session = await stripe.checkout.sessions.create({
+    console.log('order', order);
+
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create({
         metadata: {
           orderId: String(order._id)
         },
         customer_email: email,
-        // phone_number_collection: {
-        //   enabled: true
-        // },
-        // billing_address_collection: 'auto',
-        // shipping_address_collection: {
-        //   allowed_countries: ['UA'],
-        // },
         payment_method_types: ['card'],
         mode: 'payment',
         line_items: setLineItems(cartProducts, cartItems),
         success_url: `${process.env.CLIENT_URL}/checkout/success/`,
         cancel_url: `${process.env.CLIENT_URL}/checkout/cancel/`,
       });
-
-      return response.status(200).json({url: session.url});
-    } catch (err) {
-      return response.status(400);
+    } catch (e) {
+      console.log(e.message);
     }
+
+    return response.status(200).json({url: session.url});
   }
 
   createOrder = async (session) => {
     // TODO: fill me in
     console.log('Creating order', session);
-
-    const deliveryData = session.shipping.address;
-    const customerDetails = session.customer_details;
-    const deliveryAddrs = `Город: ${deliveryData.city}, ул.${deliveryData.line1}, ${deliveryData.line2}, индекс: ${deliveryData.postal_code}`;
-    const userEmail = customerDetails.email;
-    const username = session.shipping.name;
-    const userPhone = customerDetails.phone;
-
-    // try {
-    //   const order = await Order.updateOne(
-    //     {_id: session.metadata.orderId},
-    //     {
-    //       $set: {
-    //         deliveryAddrs,
-    //         userEmail,
-    //         username,
-    //         userPhone
-    //       }
-    //     });
-    // } catch (err) {
-    //   console.log(err.message);
-    // }
   };
 
   fulfillOrder = async (session) => {
@@ -121,8 +98,10 @@ class CheckoutController {
         {_id: session.metadata.orderId},
         {
           $set: {
-            checkPay: 'paid' }
+            checkPay: 'paid'
+          }
         });
+      console.log('fulfillOrder', order);
     } catch (err) {
       console.log(err.message);
     }
