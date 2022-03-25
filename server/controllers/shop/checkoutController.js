@@ -1,38 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Product = require('../../models/Product');
 const Order = require('../../models/Order');
-
-const calculateOrderAmount = (items) => {
-  const usdOrderAmount = items.reduce((acc, item) => {
-    return acc + (item.price * item.quantity);
-  }, 0) / 28.51;
-  return Math.ceil(usdOrderAmount) * 100;
-};
-
-const setLineItems = (cartProducts, cartItems) => {
-  return cartProducts.map(cartProductItem => {
-    return {
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: cartProductItem.title
-        },
-        unit_amount: cartProductItem.price
-      },
-      quantity: cartItems.find(item => item._id === String(cartProductItem._id)).quantity
-    };
-  });
-};
-
-const orderItems = (cartProducts, cartItems) => {
-  return cartProducts.map(cartProductItem => {
-    return {
-      itemId: cartProductItem._id,
-      quantity: cartItems.find(item => item._id === String(cartProductItem._id)).quantity,
-      price: cartProductItem.price
-    };
-  });
-};
+const {setLineItems, setOrderItems} = require('../../helpers/checkout')
 
 class CheckoutController {
 
@@ -47,7 +16,9 @@ class CheckoutController {
     const cartItemsIds = cartItems.map(item => item._id);
     const cartProducts = await Product.find({_id: {$in: cartItemsIds}});
 
-    const cartProd = orderItems(cartProducts, cartItems);
+    const cartProd = setOrderItems(cartProducts, cartItems);
+    console.log('cartProd', cartProd);
+
     const totalPrice = cartProd.reduce((acc, cartProdItem) => acc += cartProdItem.price * cartProdItem.quantity, 0);
 
     let order;
@@ -64,8 +35,6 @@ class CheckoutController {
     } catch (e) {
       console.log(e.message);
     }
-
-    console.log('order', order);
 
     let session;
     try {
