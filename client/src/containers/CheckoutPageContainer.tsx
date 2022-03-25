@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
 import CheckoutProductList from '../components/checkout/CheckoutProductList';
 import {getTotalCartItemsInfo} from '../utils/getTotalCartItemsInfo';
@@ -23,10 +23,10 @@ const CheckoutPageContainer = observer(() => {
   const [validated, setValidated] = useState(false);
   const {shopProducts} = useContext(ShopContext);
   const [show, setShow] = useState(false);
-  const [deliveryType, setDeliveryType] = useState('');
+  const [deliveryType, setDeliveryType] = useState('self-delivery');
 
   const totalOrderInfo = getTotalCartItemsInfo(shopProducts.cart);
-
+  console.log(deliveryType);
   useGetCartItems();
 
   const {removeProductFromCart, changeQuantity} = useUpdateCartFunctions();
@@ -41,6 +41,13 @@ const CheckoutPageContainer = observer(() => {
     deliveryAddrs: '',
     cartItems: []
   });
+
+  useEffect(() => {
+    return () => {
+      const userFormInfo = {name: customerData.name, email: customerData.email, phone: customerData.phone, deliveryAddrs: customerData.deliveryAddrs}
+      // localStorage.setItem('userFormInfo', )
+    }
+  }, [])
 
   const onChangeCustomerData = (key: string, value: string) => {
     setCustomerData((customerData) => ({
@@ -72,7 +79,6 @@ const CheckoutPageContainer = observer(() => {
         _id: cartItem._id,
         quantity: cartItem.quantity
       }));
-      console.log(customerData.cartItems);
       checkout(customerData).then(url => {
         window.location = url;
       });

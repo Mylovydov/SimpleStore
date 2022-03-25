@@ -30,6 +30,7 @@ async function webhook(request, response) {
       if (session.payment_status === 'paid') {
         console.log('paid!!!!!!');
         //fulfill Order = выполнить заказ
+        console.log('session',session);
         await fulfillOrder(session);
       }
       break;
