@@ -19,20 +19,36 @@ export type TypeCustomerDataState = {
   cartItems: Omit<TypeCartItem, 'image' | 'price' | 'title'>[]
 }
 
+const phoneEdit = (value: string) => {
+  const regionRegExp = /^\+/;
+  const regExp = /^\d/;
+
+  let res = '';
+
+  if (regionRegExp.test(value)) {
+    res = `${value.substring(0, 3)} ${value.substring(3, 6)} ${value.substring(6, 9)} ${value.substring(9, 11)} ${value.substring(11, value.length)}`.trim();
+  }
+  if (regExp.test(value)) {
+    res = `${value.substring(0, 3)} ${value.substring(3, 6)} ${value.substring(6, 8)} ${value.substring(8, value.length)}`.trim();
+  }
+  return res;
+};
+
+const editPhone = (value: string) => {
+  const reg = /\W|_|\D/gi;
+  return value.replace(reg, '')
+}
+
+const phoneIsValid = (value: string) => {
+  const regex = /^\+?([0-9]{2})?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{2})[-. ]?([0-9]{2})$/;
+  return regex.test(value);
+};
+
 const CheckoutPageContainer = observer(() => {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState<boolean>(false);
   const {shopProducts} = useContext(ShopContext);
-  const [show, setShow] = useState(false);
-  const [deliveryType, setDeliveryType] = useState('self-delivery');
-
-  const totalOrderInfo = getTotalCartItemsInfo(shopProducts.cart);
-  console.log(deliveryType);
-  useGetCartItems();
-
-  const {removeProductFromCart, changeQuantity} = useUpdateCartFunctions();
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [show, setShow] = useState<boolean>(false);
+  const [deliveryType, setDeliveryType] = useState<string>('self-delivery');
 
   const [customerData, setCustomerData] = useState<TypeCustomerDataState>({
     name: '',
@@ -42,18 +58,29 @@ const CheckoutPageContainer = observer(() => {
     cartItems: []
   });
 
-  useEffect(() => {
-    return () => {
-      const userFormInfo = {name: customerData.name, email: customerData.email, phone: customerData.phone, deliveryAddrs: customerData.deliveryAddrs}
-      // localStorage.setItem('userFormInfo', )
-    }
-  }, [])
+  useGetCartItems();
+
+  const totalOrderInfo = getTotalCartItemsInfo(shopProducts.cart);
+
+  const {removeProductFromCart, changeQuantity} = useUpdateCartFunctions();
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const onChangeCustomerData = (key: string, value: string) => {
-    setCustomerData((customerData) => ({
-      ...customerData,
-      [key]: value
-    }));
+    switch (key) {
+      case 'phone':
+        setCustomerData((customerData) => ({
+          ...customerData,
+          [key]: editPhone(value)
+        }));
+        break;
+      default:
+        setCustomerData((customerData) => ({
+          ...customerData,
+          [key]: value
+        }));
+    }
   };
 
   const clearDeliveryAddrs = () => {
@@ -66,15 +93,16 @@ const CheckoutPageContainer = observer(() => {
   const confirmOrder = (event: React.FormEvent<HTMLFormElement>) => {
     const form = event.currentTarget;
 
-    if (!form.checkValidity()) {
+    if (!form.checkValidity() || !phoneIsValid(customerData.phone)) {
       event.preventDefault();
       event.stopPropagation();
     }
 
     setValidated(true);
 
-    if (form.checkValidity()) {
+    if (phoneIsValid(customerData.phone) && form.checkValidity()) {
       event.preventDefault();
+      event.stopPropagation();
       customerData.cartItems = shopProducts.cart.map(cartItem => ({
         _id: cartItem._id,
         quantity: cartItem.quantity
@@ -130,9 +158,9 @@ const CheckoutPageContainer = observer(() => {
                   value={customerData.phone}
                   onChange={(e) => onChangeCustomerData('phone', e.target.value)}
                   required
+                  placeholder='Введите телефон'
                   type="tel"
                   style={{height: 50}}
-                  placeholder={'Введите номер телефона...'}
                 />
                 <Form.Control.Feedback type="invalid">
                   Введите Ваш телефон
@@ -147,11 +175,14 @@ const CheckoutPageContainer = observer(() => {
                     onClick={() => clearDeliveryAddrs()}
                     onChange={(e) => setDeliveryType(e.target.value)}
                     type="radio"
-                    defaultChecked
+                    checked={deliveryType === 'self-delivery'}
+                    // defaultChecked
                     label="Самовывоз"
                     value="self-delivery"
                     name="delivery"
-                    id={`radio-1`}
+                    id={`;
+      radio - 1`
+                    }
                   />
                 </Form.Group>
                 <Form.Group as={Col} className="mt-2">
@@ -159,10 +190,14 @@ const CheckoutPageContainer = observer(() => {
                     onChange={(e) => setDeliveryType(e.target.value)}
                     className={'mt-2'}
                     type="radio"
+                    checked={deliveryType === 'addressDelivery'}
                     label="Адресная доставка"
                     name="delivery"
                     value="addressDelivery"
-                    id={`radio-2`}
+                    id={
+                      `;
+      radio - 2`
+                    }
                   />
                 </Form.Group>
                 <Form.Group as={Col} className="mt-3">
