@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
 import CheckoutProductList from '../components/checkout/CheckoutProductList';
 import {getTotalCartItemsInfo} from '../utils/getTotalCartItemsInfo';
@@ -36,12 +36,58 @@ const phoneEdit = (value: string) => {
 
 const editPhone = (value: string) => {
   const reg = /\W|_|\D/gi;
-  return value.replace(reg, '')
-}
+  return value.replace(reg, '');
+};
 
 const phoneIsValid = (value: string) => {
   const regex = /^\+?([0-9]{2})?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{2})[-. ]?([0-9]{2})$/;
   return regex.test(value);
+};
+
+const useValidation = (value: any, validations: any) => {
+  const [isEmpty, setEmpty] = useState(true);
+  const [minLengthError, setMinLengthError] = useState(false);
+
+  useEffect(() => {
+    for (const validation in validations) {
+      switch (validation) {
+        case 'minLength':
+          value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false);
+          break;
+        case 'isEmpty':
+          value ? setEmpty(false) : setEmpty(true);
+          break;
+      }
+    }
+  }, [value]);
+
+  return {
+    isEmpty,
+    minLengthError
+  };
+};
+
+const useInput = (initialValue: any, validations: any) => {
+  const [value, setValue] = useState(initialValue);
+  const [isDirty, setDirty] = useState(false);
+  const valid = useValidation(value, validations);
+
+  const onChange = (e: any) => {
+    console.log(e.target.name);
+    setValue(e.target.value);
+  };
+
+  const onBlur = (e: any) => {
+    setDirty(true);
+  };
+
+  return {
+    value,
+    onChange,
+    onBlur,
+    isDirty,
+    ...valid
+  };
 };
 
 const CheckoutPageContainer = observer(() => {
@@ -67,18 +113,20 @@ const CheckoutPageContainer = observer(() => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const onChangeCustomerData = (key: string, value: string) => {
-    switch (key) {
+  const onChangeCustomerData = (e: ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+
+    switch (name) {
       case 'phone':
-        setCustomerData((customerData) => ({
+        setCustomerData({
           ...customerData,
-          [key]: editPhone(value)
-        }));
+          [name]: editPhone(value)
+        });
         break;
       default:
         setCustomerData((customerData) => ({
           ...customerData,
-          [key]: value
+          [name]: value
         }));
     }
   };
@@ -128,8 +176,9 @@ const CheckoutPageContainer = observer(() => {
               <Row className="mt-3">
                 <Form.Group as={Col} lg={6} controlId="validationCustomName">
                   <Form.Control
+                    name="name"
                     value={customerData.name}
-                    onChange={(e) => onChangeCustomerData('name', e.target.value)}
+                    onChange={onChangeCustomerData}
                     required
                     type="text"
                     style={{height: 50}}
@@ -141,9 +190,11 @@ const CheckoutPageContainer = observer(() => {
                 </Form.Group>
                 <Form.Group as={Col} lg={6} controlId="validationCustomEmail">
                   <Form.Control
+                    name="email"
                     value={customerData.email}
-                    onChange={(e) => onChangeCustomerData('email', e.target.value)}
+                    onChange={onChangeCustomerData}
                     required
+
                     type="email"
                     style={{height: 50}}
                     placeholder={'Введите email...'}
@@ -155,10 +206,11 @@ const CheckoutPageContainer = observer(() => {
               </Row>
               <Form.Group as={Col} className="mt-3" controlId="validationCustomPhone">
                 <Form.Control
+                  name="phone"
                   value={customerData.phone}
-                  onChange={(e) => onChangeCustomerData('phone', e.target.value)}
+                  onChange={onChangeCustomerData}
                   required
-                  placeholder='Введите телефон'
+                  placeholder="Введите телефон"
                   type="tel"
                   style={{height: 50}}
                 />
@@ -176,13 +228,10 @@ const CheckoutPageContainer = observer(() => {
                     onChange={(e) => setDeliveryType(e.target.value)}
                     type="radio"
                     checked={deliveryType === 'self-delivery'}
-                    // defaultChecked
                     label="Самовывоз"
                     value="self-delivery"
                     name="delivery"
-                    id={`;
-      radio - 1`
-                    }
+                    id={`radio - 1`}
                   />
                 </Form.Group>
                 <Form.Group as={Col} className="mt-2">
@@ -194,19 +243,17 @@ const CheckoutPageContainer = observer(() => {
                     label="Адресная доставка"
                     name="delivery"
                     value="addressDelivery"
-                    id={
-                      `;
-      radio - 2`
-                    }
+                    id={`radio - 2`}
                   />
                 </Form.Group>
                 <Form.Group as={Col} className="mt-3">
                   <Form.Control
+                    name="deliveryAddrs"
                     className={'mt-3'}
                     required
                     disabled={deliveryType !== 'addressDelivery'}
                     value={customerData.deliveryAddrs}
-                    onChange={(e) => onChangeCustomerData('deliveryAddrs', e.target.value)}
+                    onChange={onChangeCustomerData}
                     type="text"
                     style={{height: 50, transition: '.2s linear'}}
                     placeholder={'Введите адрес доставки...'}
