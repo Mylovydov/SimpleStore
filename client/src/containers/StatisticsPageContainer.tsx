@@ -10,18 +10,18 @@ import {useNavigate} from 'react-router-dom';
 import {LOGIN_ROUTE} from '../utils/consts';
 
 const StatisticsPageContainer = observer(() => {
-  const {tag, tagType, product, admin} = useContext(Context);
-  // const [loading, setLoading] = useState(true)
+	const {tag, tagType, product, admin} = useContext(Context);
+	// const [loading, setLoading] = useState(true)
 
 
-  // if (loading) {
-  //    return <Spinner animation='border'
-  //       style={{position: 'relative', top: '50%', left: '50%'}}/>
-  //  }
+	// if (loading) {
+	//    return <Spinner animation='border'
+	//       style={{position: 'relative', top: '50%', left: '50%'}}/>
+	//  }
 
-  return (
-    <StatisticsPage/>
-  );
+	return (
+		<StatisticsPage/>
+	);
 });
 
 export default StatisticsPageContainer;

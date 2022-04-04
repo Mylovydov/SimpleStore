@@ -6,13 +6,13 @@ import PublicRouter from './PublicRouter';
 import AuthPage from '../pages/AuthPage';
 
 const AppRouter: FC = () => {
-  return (
-    <Routes>
-      <Route path={ADMIN_ROUTE + '/*'} element={<AdminRouter/>}/>
-      <Route path={SHOP_ROUTE + '*'} element={<PublicRouter/>}/>
-      <Route path={LOGIN_ROUTE} element={<AuthPage/>}/>
-    </Routes>
-  );
+	return (
+		<Routes>
+			<Route path={ADMIN_ROUTE + '/*'} element={<AdminRouter/>}/>
+			<Route path={SHOP_ROUTE + '*'} element={<PublicRouter/>}/>
+			<Route path={LOGIN_ROUTE} element={<AuthPage/>}/>
+		</Routes>
+	);
 };
 
 export default AppRouter;

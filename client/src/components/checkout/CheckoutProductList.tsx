@@ -4,20 +4,20 @@ import CheckoutProductListItem from './CheckoutProductListItem';
 import {TypeCartItem} from '../../store/shop/ProductsStore';
 
 export type TypeCheckoutProductListProps = {
-  cartProducts: TypeCartItem[]
+	cartProducts: TypeCartItem[]
 }
 
 const CheckoutProductList: FC<TypeCheckoutProductListProps> = ({cartProducts}) => {
 
-  const items = cartProducts.map(cartItem => {
-    return <CheckoutProductListItem key={cartItem._id} product={cartItem}/>;
-  });
+	const items = cartProducts.map(cartItem => {
+		return <CheckoutProductListItem key={cartItem._id} product={cartItem}/>;
+	});
 
-  return (
-    <ListGroup className={'mt-3'}>
-      {items}
-    </ListGroup>
-  );
+	return (
+		<ListGroup className={'mt-3'}>
+			{items}
+		</ListGroup>
+	);
 };
 
 export default CheckoutProductList;

@@ -3,14 +3,14 @@ import {Navbar} from 'react-bootstrap';
 import NavBarContainer from '../containers/NavBarContainer';
 
 export const NavBar: FC<any> = () => {
-  return (
-    <Navbar
-      sticky="top"
-      bg="dark"
-      className="pt-3 pb-3"
-      style={{boxShadow: 'rgb(33 37 41) 0px 0px 0.35rem'}}
-    >
-      <NavBarContainer/>
-    </Navbar>
-  );
+	return (
+		<Navbar
+			sticky="top"
+			bg="dark"
+			className="pt-3 pb-3"
+			style={{boxShadow: 'rgb(33 37 41) 0px 0px 0.35rem'}}
+		>
+			<NavBarContainer/>
+		</Navbar>
+	);
 };

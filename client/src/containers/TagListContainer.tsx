@@ -13,65 +13,65 @@ import {ADMIN_ROUTE, TAGS_ROUTE} from '../utils/consts';
 import {pagination} from '../utils/pagination';
 
 const FIELDS: THeadTableField[] = [
-  {_id: '_id', title: '_id', sortable: true},
-  {_id: 'title', title: 'Название', sortable: true},
-  {_id: 'tagTypeId', title: 'Тип', sortable: false},
-  {_id: 'slug', title: 'Slug', 'sortable': true},
-  {_id: 'createdDate', title: 'Дата создания', 'sortable': true},
-  {_id: 'updatedDate', title: 'Дата обновления', 'sortable': true}
+	{_id: '_id', title: '_id', sortable: true},
+	{_id: 'title', title: 'Название', sortable: true},
+	{_id: 'tagTypeId', title: 'Тип', sortable: false},
+	{_id: 'slug', title: 'Slug', 'sortable': true},
+	{_id: 'createdDate', title: 'Дата создания', 'sortable': true},
+	{_id: 'updatedDate', title: 'Дата обновления', 'sortable': true}
 ];
 
 const TagListContainer = observer(() => {
-  const {tag, tagType} = useContext(Context);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+	const {tag, tagType} = useContext(Context);
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+	const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    getAllTags().then(data => {
-      tag.setTags(data.tags);
-      tag.setTotalCount(data.totalCount);
-      tag.setLimit(data.limit);
+	useEffect(() => {
+		getAllTags().then(data => {
+			tag.setTags(data.tags);
+			tag.setTotalCount(data.totalCount);
+			tag.setLimit(data.limit);
 
-    }).catch(e => alert(e.data.message));
-    getAllTagTypes()
-      .then(data => tagType.setTagTypes(data.tagTypes))
-      .catch(e => alert(e.data.message))
-      .finally(() => setLoading(false));
-  }, []);
+		}).catch(e => alert(e.data.message));
+		getAllTagTypes()
+			.then(data => tagType.setTagTypes(data.tagTypes))
+			.catch(e => alert(e.data.message))
+			.finally(() => setLoading(false));
+	}, []);
 
 
-  const pages = pagination(tag.totalCount, tag.limit);
+	const pages = pagination(tag.totalCount, tag.limit);
 
-  const handleNavEdit = (id: string) => {
-    navigate(`${ADMIN_ROUTE}${TAGS_ROUTE}/${id}/edit`);
-  };
+	const handleNavEdit = (id: string) => {
+		navigate(`${ADMIN_ROUTE}${TAGS_ROUTE}/${id}/edit`);
+	};
 
-  return (
-    <>
-      <SearchTableInput/>
-      {loading
-        ?
-        <Spinner animation="border" className="m-auto d-block"/>
-        :
-        <>
-          <TagTable
-            types={tagType.tagTypes}
-            tags={tag.tags}
-            fields={FIELDS}
-            onClick={handleNavEdit}
-          />
-          {pages.length > 1 &&
-          <Pages
-            pages={pages}
-            currentPage={currentPage}
-            onChangePage={setCurrentPage}
-          />
-          }
-        </>
-      }
-    </>
-  );
+	return (
+		<>
+			<SearchTableInput/>
+			{loading
+				?
+				<Spinner animation="border" className="m-auto d-block"/>
+				:
+				<>
+					<TagTable
+						types={tagType.tagTypes}
+						tags={tag.tags}
+						fields={FIELDS}
+						onClick={handleNavEdit}
+					/>
+					{pages.length > 1 &&
+					<Pages
+						pages={pages}
+						currentPage={currentPage}
+						onChangePage={setCurrentPage}
+					/>
+					}
+				</>
+			}
+		</>
+	);
 });
 
 export default TagListContainer;

@@ -4,13 +4,13 @@ import {BrowserRouter} from 'react-router-dom';
 import AppRouter from './components/AppRouter';
 
 const App = observer(() => {
-  return (
-    <BrowserRouter>
-      <StrictMode>
-        <AppRouter/>
-      </StrictMode>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<StrictMode>
+				<AppRouter/>
+			</StrictMode>
+		</BrowserRouter>
+	);
 });
 
 export default App;

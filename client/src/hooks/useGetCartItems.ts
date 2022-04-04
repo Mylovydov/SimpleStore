@@ -3,14 +3,14 @@ import {ShopContext} from '../components/PublicRouter';
 
 
 export const useGetCartItems = () => {
-  const {shopProducts} = useContext(ShopContext);
+	const {shopProducts} = useContext(ShopContext);
 
-  useEffect(() => {
-    const storeCartData = shopProducts.cart;
+	useEffect(() => {
+		const storeCartData = shopProducts.cart;
 
-    if (!(storeCartData.length)) {
-      let storageCartData = localStorage.getItem('cart');
-      storageCartData && shopProducts.setCart(JSON.parse(storageCartData));
-    }
-  }, []);
+		if (!(storeCartData.length)) {
+			let storageCartData = localStorage.getItem('cart');
+			storageCartData && shopProducts.setCart(JSON.parse(storageCartData));
+		}
+	}, []);
 };

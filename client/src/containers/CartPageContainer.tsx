@@ -13,58 +13,58 @@ import {getTotalCartItemsInfo} from '../utils/getTotalCartItemsInfo';
 
 
 const CartPageContainer = observer(() => {
-  const {removeProductFromCart, changeQuantity, clearCart} = useUpdateCartFunctions();
-  const {shopProducts} = useContext(ShopContext);
-  const navigate = useNavigate();
+	const {removeProductFromCart, changeQuantity, clearCart} = useUpdateCartFunctions();
+	const {shopProducts} = useContext(ShopContext);
+	const navigate = useNavigate();
 
-  const handleNavigateCheckoutPage = () => {
-    navigate(CHECKOUT_ROUTE);
-  };
+	const handleNavigateCheckoutPage = () => {
+		navigate(CHECKOUT_ROUTE);
+	};
 
-  const totalItemsInfo = getTotalCartItemsInfo(shopProducts.cart);
+	const totalItemsInfo = getTotalCartItemsInfo(shopProducts.cart);
 
-  return (
-    <Container className={'pt-5 pb-5'}>
-      {!(shopProducts.cart.length)
-        ?
-        <div className={'text-center mt-5'}>
-          <Image
-            className={'m-auto d-block'}
-            style={{width: 300, height: 300}}
-            src={'/assets/empty_cart.svg'}
-          />
-          <h5 style={{color: '#198754'}} className={'mt-3'}>Упс! Ваша корзина пуста!</h5>
-          <p className={'mt-3'} style={{fontSize: 14}}>
-            Может быть, вы хотите добавить что-то в корзину?
-          </p>
-          <Button
-            onClick={() => navigate(CATALOG_ROUTE)}
-            variant={'outline-success'}
-          >
-            Начать покупки
-          </Button>
-        </div>
-        :
-        <>
-          <CartHeader
-            navigate={handleNavigateCheckoutPage}
-            info={totalItemsInfo}
-            onClearCart={clearCart}
-          />
-          <CartProductsHeader/>
-          <CartProductsList
-            onRemoveCartItem={removeProductFromCart}
-            cartProducts={shopProducts.cart}
-            onChangeQuantity={changeQuantity}
-          />
-          <CartTotalInfoBlock
-            navigate={handleNavigateCheckoutPage}
-            info={totalItemsInfo}
-          />
-        </>
-      }
-    </Container>
-  );
+	return (
+		<Container className={'pt-5 pb-5'}>
+			{!(shopProducts.cart.length)
+				?
+				<div className={'text-center mt-5'}>
+					<Image
+						className={'m-auto d-block'}
+						style={{width: 300, height: 300}}
+						src={'/assets/empty_cart.svg'}
+					/>
+					<h5 style={{color: '#198754'}} className={'mt-3'}>Упс! Ваша корзина пуста!</h5>
+					<p className={'mt-3'} style={{fontSize: 14}}>
+						Может быть, вы хотите добавить что-то в корзину?
+					</p>
+					<Button
+						onClick={() => navigate(CATALOG_ROUTE)}
+						variant={'outline-success'}
+					>
+						Начать покупки
+					</Button>
+				</div>
+				:
+				<>
+					<CartHeader
+						navigate={handleNavigateCheckoutPage}
+						info={totalItemsInfo}
+						onClearCart={clearCart}
+					/>
+					<CartProductsHeader/>
+					<CartProductsList
+						onRemoveCartItem={removeProductFromCart}
+						cartProducts={shopProducts.cart}
+						onChangeQuantity={changeQuantity}
+					/>
+					<CartTotalInfoBlock
+						navigate={handleNavigateCheckoutPage}
+						info={totalItemsInfo}
+					/>
+				</>
+			}
+		</Container>
+	);
 });
 
 export default CartPageContainer;

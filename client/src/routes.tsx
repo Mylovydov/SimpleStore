@@ -18,108 +18,108 @@ import CreateTagPage from './pages/CreateTagPage';
 import CreateOrderPage from './pages/CreateOrderPage';
 
 import {
-  ADMINS_ROUTE,
-  CART_ROUTE,
-  CREATE_ADMIN_ROUTE,
-  CREATE_ORDER_ROUTE,
-  CREATE_PRODUCTS_ROUTE,
-  CREATE_TAG_ROUTE,
-  CREATE_TAGTYPE_ROUTE,
-  CURRENT_ADMIN_SETTINGS_ROUTE,
-  ORDERS_ROUTE,
-  PRODUCTS_ROUTE,
-  SEARCH_ROUTE,
-  SELECTED_PRODUCT_ROUTE,
-  STATISTICS_ROUTE,
-  TAGS_ROUTE,
-  TAGTYPES_ROUTE,
+	ADMINS_ROUTE,
+	CART_ROUTE,
+	CREATE_ADMIN_ROUTE,
+	CREATE_ORDER_ROUTE,
+	CREATE_PRODUCTS_ROUTE,
+	CREATE_TAG_ROUTE,
+	CREATE_TAGTYPE_ROUTE,
+	CURRENT_ADMIN_SETTINGS_ROUTE,
+	ORDERS_ROUTE,
+	PRODUCTS_ROUTE,
+	SEARCH_ROUTE,
+	SELECTED_PRODUCT_ROUTE,
+	STATISTICS_ROUTE,
+	TAGS_ROUTE,
+	TAGTYPES_ROUTE,
 } from './utils/consts';
 import StatisticsPageContainer from './containers/StatisticsPageContainer';
 import SearchPage from './pages/SearchPage';
 
 export const authRoutes = [
-  {
-    path: CURRENT_ADMIN_SETTINGS_ROUTE,
-    Component: <CurrentAdminSettingsPage/>
-  },
-  {
-    path: ADMINS_ROUTE,
-    Component: <AllAdminsPage/>
-  },
-  {
-    // Редактирование, удаление админа
-    path: `${ADMINS_ROUTE}/:id/edit`,
-    Component: <GetOneAdminPage/>
-  },
-  {
-    path: CREATE_ADMIN_ROUTE,
-    Component: <CreateAdminPage/>
-  },
-  {
-    path: TAGTYPES_ROUTE,
-    Component: <AllTagTypesPage/>
-  },
-  {
-    path: `${TAGTYPES_ROUTE}/:id/edit`,
-    Component: <GetOneTagTypePage/>
-  },
-  {
-    path: CREATE_TAGTYPE_ROUTE,
-    Component: <CreateTagTypePage/>
-  },
-  {
-    path: TAGS_ROUTE,
-    Component: <AllTagsPage/>
-  },
-  {
-    path: `${TAGS_ROUTE}/:id/edit`,
-    Component: <GetOneTagPage/>
-  },
-  {
-    path: CREATE_TAG_ROUTE,
-    Component: <CreateTagPage/>
-  },
-  {
-    path: PRODUCTS_ROUTE,
-    Component: <AllProductsPage/>
-  },
-  {
-    path: `${PRODUCTS_ROUTE}/:id/edit`,
-    Component: <GetOneProductPage/>
-  },
-  {
-    path: CREATE_PRODUCTS_ROUTE,
-    Component: <CreateProductPage/>
-  },
-  {
-    path: ORDERS_ROUTE,
-    Component: <AllOrdersPage/>
-  },
-  {
-    path: `${ORDERS_ROUTE}/:id/edit`,
-    Component: <GetOneOrderPage/>
-  },
-  {
-    path: CREATE_ORDER_ROUTE,
-    Component: <CreateOrderPage/>
-  },
-  {
-    path: STATISTICS_ROUTE,
-    Component: <StatisticsPageContainer/>
-  },
+	{
+		path: CURRENT_ADMIN_SETTINGS_ROUTE,
+		Component: <CurrentAdminSettingsPage/>
+	},
+	{
+		path: ADMINS_ROUTE,
+		Component: <AllAdminsPage/>
+	},
+	{
+		// Редактирование, удаление админа
+		path: `${ADMINS_ROUTE}/:id/edit`,
+		Component: <GetOneAdminPage/>
+	},
+	{
+		path: CREATE_ADMIN_ROUTE,
+		Component: <CreateAdminPage/>
+	},
+	{
+		path: TAGTYPES_ROUTE,
+		Component: <AllTagTypesPage/>
+	},
+	{
+		path: `${TAGTYPES_ROUTE}/:id/edit`,
+		Component: <GetOneTagTypePage/>
+	},
+	{
+		path: CREATE_TAGTYPE_ROUTE,
+		Component: <CreateTagTypePage/>
+	},
+	{
+		path: TAGS_ROUTE,
+		Component: <AllTagsPage/>
+	},
+	{
+		path: `${TAGS_ROUTE}/:id/edit`,
+		Component: <GetOneTagPage/>
+	},
+	{
+		path: CREATE_TAG_ROUTE,
+		Component: <CreateTagPage/>
+	},
+	{
+		path: PRODUCTS_ROUTE,
+		Component: <AllProductsPage/>
+	},
+	{
+		path: `${PRODUCTS_ROUTE}/:id/edit`,
+		Component: <GetOneProductPage/>
+	},
+	{
+		path: CREATE_PRODUCTS_ROUTE,
+		Component: <CreateProductPage/>
+	},
+	{
+		path: ORDERS_ROUTE,
+		Component: <AllOrdersPage/>
+	},
+	{
+		path: `${ORDERS_ROUTE}/:id/edit`,
+		Component: <GetOneOrderPage/>
+	},
+	{
+		path: CREATE_ORDER_ROUTE,
+		Component: <CreateOrderPage/>
+	},
+	{
+		path: STATISTICS_ROUTE,
+		Component: <StatisticsPageContainer/>
+	},
 ];
 
 export const publicRoutes = [
-  {
-    path: `${SELECTED_PRODUCT_ROUTE}/:slug`,
-    Component: <ProductPage/>
-  },
-  {
-    path: `${SEARCH_ROUTE}/:searchParams`,
-    Component: <SearchPage/>
-  },
-  {
-    path: CART_ROUTE,
-    Component: <CartPage/>
-  },
+	{
+		path: `${SELECTED_PRODUCT_ROUTE}/:slug`,
+		Component: <ProductPage/>
+	},
+	{
+		path: `${SEARCH_ROUTE}/:searchParams`,
+		Component: <SearchPage/>
+	},
+	{
+		path: CART_ROUTE,
+		Component: <CartPage/>
+	},
 ];

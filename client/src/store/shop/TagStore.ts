@@ -7,53 +7,53 @@ export type TypeShopTag = Omit<TypeTag, 'createdDate' | 'updatedDate' | '__v'>
 export type TypeShopTagType = Omit<TypeTagType, 'createdDate' | 'updatedDate' | '__v'>
 
 export interface ITagStore {
-  tags: TypeShopTag[]
-  tagTypes: TypeShopTagType[]
-  filterBarData: TypePrepareFilterBarData
-  setFilterBarData: (filterBarData: TypePrepareFilterBarData) => void
-  setData: (data: any) => void
+	tags: TypeShopTag[];
+	tagTypes: TypeShopTagType[];
+	filterBarData: TypePrepareFilterBarData;
+	setFilterBarData: (filterBarData: TypePrepareFilterBarData) => void;
+	setData: (data: any) => void;
 }
 
 class TagStore implements ITagStore {
-  _tags: TypeTag[] = [];
-  _tagTypes: TypeTagType[] = [];
-  _filterBarData: TypePrepareFilterBarData = {};
+	_tags: TypeTag[] = [];
+	_tagTypes: TypeTagType[] = [];
+	_filterBarData: TypePrepareFilterBarData = {};
 
-  constructor() {
-    this._tags = [];
-    this._tagTypes = [];
-    this._filterBarData = {};
-    makeAutoObservable(this);
-  }
+	constructor() {
+		this._tags = [];
+		this._tagTypes = [];
+		this._filterBarData = {};
+		makeAutoObservable(this);
+	}
 
-  setData(data: any): void {
-    this._tagTypes = data.allTagTypes;
-    this._tags = data.allTags;
-  }
+	setData(data: any): void {
+		this._tagTypes = data.allTagTypes;
+		this._tags = data.allTags;
+	}
 
-  setTags(tags: TypeTag[]): void {
-    this._tags = tags;
-  }
+	setTags(tags: TypeTag[]): void {
+		this._tags = tags;
+	}
 
-  setTagTypes(tagTypes: TypeTagType[]): void {
-    this._tagTypes = tagTypes;
-  }
+	setTagTypes(tagTypes: TypeTagType[]): void {
+		this._tagTypes = tagTypes;
+	}
 
-  setFilterBarData(filterBarData: TypePrepareFilterBarData): void {
-    this._filterBarData = filterBarData;
-  }
+	setFilterBarData(filterBarData: TypePrepareFilterBarData): void {
+		this._filterBarData = filterBarData;
+	}
 
-  get tags(): TypeTag[] {
-    return this._tags;
-  }
+	get tags(): TypeTag[] {
+		return this._tags;
+	}
 
-  get tagTypes(): TypeTagType[] {
-    return this._tagTypes;
-  }
+	get tagTypes(): TypeTagType[] {
+		return this._tagTypes;
+	}
 
-  get filterBarData(): TypePrepareFilterBarData {
-    return this._filterBarData;
-  }
+	get filterBarData(): TypePrepareFilterBarData {
+		return this._filterBarData;
+	}
 }
 
 export default new TagStore();
