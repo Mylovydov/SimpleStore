@@ -49,7 +49,7 @@ const ProductPage: FC = () => {
             overflow: 'hidden',
             minHeight: 600
           }}>
-            <img className="img-absolute" src={`${process.env.REACT_APP_API_URL}${product.image}`} alt="product Image"/>
+            <img className="img-absolute" src={`${process.env.REACT_APP_API_URL}/${product.image}`} alt="product Image"/>
           </div>
         </Col>
         <Col md={6} className="ps-5 pt-4 pb-4 d-flex flex-column">

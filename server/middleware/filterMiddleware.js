@@ -7,7 +7,7 @@ module.exports = async function (request, response, next) {
   let filteredTagsId = [];
 
   if (filters.tagTypes.length && filters.tags.length) {
-    console.log('есть фильтры');
+    // console.log('есть фильтры');
 
     // Get an array of object id types
     const foundTagTypes = await TagType.find(

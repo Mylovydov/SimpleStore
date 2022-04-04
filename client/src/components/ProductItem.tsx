@@ -34,7 +34,7 @@ const ProductItem: FC<TypeProductItem> = observer((
           }}
           onClick={() => onProductClick(product.slug)}
         >
-          <Image src={`${process.env.REACT_APP_API_URL}${product.image}`} className="img-absolute"/>
+          <Image src={`${process.env.REACT_APP_API_URL}/${product.image}`} className="img-absolute"/>
         </div>
         <h6
           style={{

@@ -67,7 +67,7 @@ class ProductsStore implements IProductsStore {
     this._cart = [];
     this._currentPage = 1;
     this._totalCount = 0;
-    this._limit = 4;
+    this._limit = 8;
     this._currentFilters = '';
     this._prevFilters = null;
     this._currentSearch = '';

@@ -26,7 +26,7 @@ const CartProductsListItem: FC<TypeCartProductsListItem> = observer((
         <Col lg={5}>
           <div className={'d-flex align-items-center'}>
             <div className={'cart-image'}>
-              <img alt={'product image'} src={`${process.env.REACT_APP_API_URL}${product.image}`}/>
+              <img alt={'product image'} src={`${process.env.REACT_APP_API_URL}/${product.image}`}/>
             </div>
 
             <div style={{
