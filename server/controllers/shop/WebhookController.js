@@ -1,8 +1,11 @@
-async function webhook(request, response) {
-  let event = request.body;
-  // Only verify the event if you have an endpoint secret defined.
-  // Otherwise use the basic event deserialized with JSON.parse
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const endpointSecret = 'lively-poetic-bonny-favour';
 
+async function webhook(request, response) {
+  const payload = request.body;
+
+  console.log("Got payload: " + payload);
+  response.status(200);
 }
 
 module.exports = {

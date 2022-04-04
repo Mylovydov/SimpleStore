@@ -19,6 +19,6 @@ router.use('/orders', ordersRouter);
 
 router.use('/catalog', shopCatalogRouter);
 router.use('/create-checkout-session', checkoutRouter);
-router.use('/checkout-webhook', webhookRouter);
+// router.use('/webhook', webhookRouter);
 
 module.exports = router;

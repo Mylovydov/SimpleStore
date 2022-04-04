@@ -29,7 +29,6 @@ const CatalogPageContainer = observer(() => {
       : location.pathname.slice('/catalog/'.length);
 
     const decode = decodeQueryUrl(filters);
-    console.log('location.pathname', location.pathname);
 
     shopProducts.setCurrentFilters(decode.filters);
     let paginatedFilters = '';
