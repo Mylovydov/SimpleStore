@@ -1,11 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {
-	PaymentElement,
-	useStripe,
-	useElements
-} from '@stripe/react-stripe-js';
-import {SUCCESS_ROUTE} from '../utils/consts';
+import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { SUCCESS_ROUTE } from '../utils/consts';
 
 export default function CheckoutForm() {
 	const stripe = useStripe();
@@ -27,20 +23,20 @@ export default function CheckoutForm() {
 			return;
 		}
 
-		stripe.retrievePaymentIntent(clientSecret).then(({paymentIntent}) => {
+		stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
 			switch (paymentIntent?.status) {
-			case 'succeeded':
-				setMessage('Payment succeeded!');
-				break;
-			case 'processing':
-				setMessage('Your payment is processing.');
-				break;
-			case 'requires_payment_method':
-				setMessage('Your payment was not successful, please try again.');
-				break;
-			default:
-				setMessage('Something went wrong.');
-				break;
+				case 'succeeded':
+					setMessage('Payment succeeded!');
+					break;
+				case 'processing':
+					setMessage('Your payment is processing.');
+					break;
+				case 'requires_payment_method':
+					setMessage('Your payment was not successful, please try again.');
+					break;
+				default:
+					setMessage('Something went wrong.');
+					break;
 			}
 		});
 	}, [stripe]);
@@ -56,12 +52,12 @@ export default function CheckoutForm() {
 
 		setIsLoading(true);
 
-		const {error} = await stripe.confirmPayment({
+		const { error } = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
 				// Make sure to change this to your payment completion page
-				return_url: 'http://localhost:3000' + SUCCESS_ROUTE,
-			},
+				return_url: 'http://localhost:3000' + SUCCESS_ROUTE
+			}
 		});
 
 		// This point will only be reached if there is an immediate error when

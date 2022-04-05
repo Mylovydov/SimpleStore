@@ -1,5 +1,5 @@
-import {TypePrepareFilterBarData, TypePrepareTagsDataItem} from './prepareFilterBarData';
-import {TypeShopTagType} from '../store/shop/TagStore';
+import { TypePrepareFilterBarData, TypePrepareTagsDataItem } from './prepareFilterBarData';
+import { TypeShopTagType } from '../store/shop/TagStore';
 
 export const generateQueryUrl = (data: TypePrepareFilterBarData) => {
 	return Object.values(data).reduce((acc: string, item: [TypeShopTagType, TypePrepareTagsDataItem[]]) => {
@@ -25,22 +25,22 @@ export const decodeQueryUrl = (url: string) => {
 		};
 	}
 
-	return url.split(';').reduce((acc: any, item: string) => {
+	return url.split(';').reduce((acc: {[key: string]: string}, item: string) => {
 		if (item) {
 			const [key, value] = item.split('=');
 
 			switch (key) {
-			case 'page':
-				return {...acc, page: value};
-			case 'sort':
-				return {...acc, sort: value};
-			case 'search':
-				return {...acc, search: value};
-			default:
-				return {...acc, ['filters']: acc['filters'].concat(`${key}=${value};`)};
+				case 'page':
+					return { ...acc, page: value };
+				case 'sort':
+					return { ...acc, sort: value };
+				case 'search':
+					return { ...acc, search: value };
+				default:
+					return { ...acc, ['filters']: acc['filters'].concat(`${key}=${value};`) };
 			}
 		}
 		return acc;
-	}, {filters: '', page: '1', search: ''});
+	}, { filters: '', page: '1', search: '' });
 };
 

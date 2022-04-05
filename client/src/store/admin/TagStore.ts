@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 export type TypeTag = {
 	_id: string

@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
-import {Button, ButtonGroup, CloseButton, Col, ListGroup, Row} from 'react-bootstrap';
-import {TypeCartItem} from '../../store/shop/ProductsStore';
-import {observer} from 'mobx-react-lite';
+import React, { FC } from 'react';
+import { Button, ButtonGroup, CloseButton, Col, ListGroup, Row } from 'react-bootstrap';
+import { TypeCartItem } from '../../store/shop/ProductsStore';
+import { observer } from 'mobx-react-lite';
 
 export type TypeCartProductsListItem = {
 	product: TypeCartItem
@@ -62,14 +62,14 @@ const CartProductsListItem: FC<TypeCartProductsListItem> = observer((
 					</ButtonGroup>
 				</Col>
 				<Col lg={2}>
-					<div style={{fontSize: 20, color: '#787878'}}>
+					<div style={{ fontSize: 20, color: '#787878' }}>
 						{cartItemPrice + ' ₴'}
 					</div>
 				</Col>
 				<Col lg={2}>
 					<div className={'d-flex align-items-center justify-content-between'}>
 						<div
-							style={{fontSize: 20, color: '#157347'}}
+							style={{ fontSize: 20, color: '#157347' }}
 						>
 							{totalCartItemPrice + ' ₴'}
 						</div>

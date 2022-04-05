@@ -1,6 +1,6 @@
 import React from 'react';
 import CheckoutPageContainer from '../containers/CheckoutPageContainer';
-import {Container, Navbar} from 'react-bootstrap';
+import { Container, Navbar } from 'react-bootstrap';
 
 const CheckoutPage = () => {
 	return (
@@ -8,11 +8,11 @@ const CheckoutPage = () => {
 			<Navbar
 				className="pt-3 pb-3"
 				bg="light"
-				style={{borderBottom: '1px solid #eee'}}
+				style={{ borderBottom: '1px solid #eee' }}
 			>
 				<Container>
 					<div
-						style={{color: '#212529', fontSize: 22}}
+						style={{ color: '#212529', fontSize: 22 }}
 					>
 						SimpleStore
 					</div>

@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
-import {Row} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { Row } from 'react-bootstrap';
 import ProductItem from './ProductItem';
-import {TypeProduct} from '../store/admin/ProductStore';
+import { TypeProduct } from '../store/admin/ProductStore';
 
 export type TypeProductListProps = {
 	onProductClick: (slug: string) => void

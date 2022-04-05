@@ -1,18 +1,18 @@
-import React, {useContext, useEffect} from 'react';
-import {Col, Container, Image, Row} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
-import {SELECTED_PRODUCT_ROUTE} from '../utils/consts';
+import React, { useContext, useEffect } from 'react';
+import { Col, Container, Image, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { SELECTED_PRODUCT_ROUTE } from '../utils/consts';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
-import {getNoveltiesAndPopular} from '../http/shopAPI/productAPI';
-import {ShopContext} from '../components/PublicRouter';
-import {observer} from 'mobx-react-lite';
+import { getNoveltiesAndPopular } from '../http/shopAPI/productAPI';
+import { ShopContext } from '../components/PublicRouter';
+import { observer } from 'mobx-react-lite';
 import ProductList from '../components/ProductList';
 
 const HomePageContainer = observer(() => {
 
-	const {shopProducts} = useContext(ShopContext);
+	const { shopProducts } = useContext(ShopContext);
 	const navigate = useNavigate();
-	const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
+	const { setProductToCart, removeProductFromCart } = useUpdateCartFunctions();
 
 	useEffect(() => {
 		getNoveltiesAndPopular()
@@ -28,7 +28,7 @@ const HomePageContainer = observer(() => {
 		<Container>
 			<Row className={'mt-4'}>
 				<Col md={6}>
-					<div className={'position-relative'} style={{overflow: 'hidden', paddingBottom: '55%'}}>
+					<div className={'position-relative'} style={{ overflow: 'hidden', paddingBottom: '55%' }}>
 						<Image src={'/assets/banner-1.jpg'} style={{
 							position: 'absolute',
 							top: 0,
@@ -40,7 +40,7 @@ const HomePageContainer = observer(() => {
 					</div>
 				</Col>
 				<Col md={6}>
-					<div className={'position-relative'} style={{overflow: 'hidden', paddingBottom: '55%'}}>
+					<div className={'position-relative'} style={{ overflow: 'hidden', paddingBottom: '55%' }}>
 						<Image src={'/assets/banner.jpg'} style={{
 							position: 'absolute',
 							top: 0,

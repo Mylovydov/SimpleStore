@@ -1,8 +1,8 @@
-import {observer} from 'mobx-react-lite';
-import React, {FC, useContext} from 'react';
-import {Accordion, Form} from 'react-bootstrap';
-import {ShopContext} from './PublicRouter';
-import {TypePrepareTagsDataItem} from '../utils/prepareFilterBarData';
+import { observer } from 'mobx-react-lite';
+import React, { FC, useContext } from 'react';
+import { Accordion, Form } from 'react-bootstrap';
+import { ShopContext } from './PublicRouter';
+import { TypePrepareTagsDataItem } from '../utils/prepareFilterBarData';
 
 export type FilterProductsBarProps = {
 	onChangeFilter: (typeId: string, tagId: string) => void
@@ -10,11 +10,11 @@ export type FilterProductsBarProps = {
 
 const FilterProductsBar: FC<FilterProductsBarProps> = observer((
 	{
-		onChangeFilter,
+		onChangeFilter
 	}
 ) => {
 
-	const {shopTags} = useContext(ShopContext);
+	const { shopTags } = useContext(ShopContext);
 	return (
 		<Accordion alwaysOpen>
 			{Object.values(shopTags.filterBarData).map(([tagType, filterData], i) => {

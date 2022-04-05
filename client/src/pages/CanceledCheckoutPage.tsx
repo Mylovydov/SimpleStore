@@ -1,5 +1,4 @@
 import React from 'react';
-import {CANCEL_ROUTE} from '../utils/consts';
 
 const CanceledCheckoutPage = () => {
 	return (

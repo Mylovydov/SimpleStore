@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Col, Form, Row} from 'react-bootstrap';
+import { Button, Card, Col, Form, Row } from 'react-bootstrap';
 
 const CreateAdmin = () => {
 	return (
@@ -8,14 +8,14 @@ const CreateAdmin = () => {
 				<h2 className="m-auto text-center">Добавить нового администратора</h2>
 			</Col>
 			<Col className="mt-5">
-				<Card style={{width: 600}} className="p-5 m-auto">
+				<Card style={{ width: 600 }} className="p-5 m-auto">
 					<Form>
 						<Form.Control
-							style={{height: 50}}
+							style={{ height: 50 }}
 							placeholder="Введите название типа"
 						/>
 						<Form.Control
-							style={{height: 50}}
+							style={{ height: 50 }}
 							className="mt-3"
 							placeholder="Введите slug типа"
 						/>
@@ -23,7 +23,7 @@ const CreateAdmin = () => {
 					<Button
 						className="mt-4"
 						variant="outline-success"
-						style={{height: 50}}
+						style={{ height: 50 }}
 					>
 						Добавить
 					</Button>

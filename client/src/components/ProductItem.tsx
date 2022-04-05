@@ -1,8 +1,8 @@
-import React, {FC, useContext} from 'react';
-import {Button, Card, Col, Image} from 'react-bootstrap';
-import {TypeProduct} from '../store/admin/ProductStore';
-import {ShopContext} from './PublicRouter';
-import {observer} from 'mobx-react-lite';
+import React, { FC, useContext } from 'react';
+import { Button, Card, Col, Image } from 'react-bootstrap';
+import { TypeProduct } from '../store/admin/ProductStore';
+import { ShopContext } from './PublicRouter';
+import { observer } from 'mobx-react-lite';
 
 export type TypeProductItem = {
 	product: TypeProduct
@@ -19,11 +19,11 @@ const ProductItem: FC<TypeProductItem> = observer((
 		onAddToCartBtnClick,
 		onAddToCartBtnClickAgain
 	}) => {
-	const {shopProducts} = useContext(ShopContext);
+	const { shopProducts } = useContext(ShopContext);
 
 	return (
-		<Col lg={3} style={{marginBottom: 20}}>
-			<Card style={{minHeight: 300, width: '100%', padding: '0 0 25px 0'}}>
+		<Col lg={3} style={{ marginBottom: 20 }}>
+			<Card style={{ minHeight: 300, width: '100%', padding: '0 0 25px 0' }}>
 				<div
 					style={{
 						position: 'relative',
@@ -50,9 +50,9 @@ const ProductItem: FC<TypeProductItem> = observer((
 					{product.title.slice(0, 40) + '...'}
 				</h6>
 
-				<Col style={{padding: '0 25px'}} className={'mt-4 d-flex align-items-center justify-content-between'}>
-					<div style={{fontSize: 24, color: '#198754'}}>
-						<span style={{display: 'block', fontSize: 12, color: '#8d8d8d'}}>Цена</span>
+				<Col style={{ padding: '0 25px' }} className={'mt-4 d-flex align-items-center justify-content-between'}>
+					<div style={{ fontSize: 24, color: '#198754' }}>
+						<span style={{ display: 'block', fontSize: 12, color: '#8d8d8d' }}>Цена</span>
 						{product.price.toLocaleString('ru-RU') + '₴'}
 					</div>
 
@@ -60,13 +60,13 @@ const ProductItem: FC<TypeProductItem> = observer((
 						?
 						<Button
 							className="d-flex justify-content-center align-items-center ms-2"
-							style={{height: 35, width: 35}} variant="success"
+							style={{ height: 35, width: 35 }} variant="success"
 						>
 							<img
 								onClick={() => {
 									onAddToCartBtnClickAgain(product._id);
 								}}
-								style={{width: 18, height: 18}}
+								style={{ width: 18, height: 18 }}
 								src="/assets/added_to_cart.svg"
 								alt="cart-icon"
 							/>
@@ -74,11 +74,11 @@ const ProductItem: FC<TypeProductItem> = observer((
 						:
 						<Button
 							className="d-flex justify-content-center align-items-center ms-2"
-							style={{height: 35, width: 35}} variant="light"
+							style={{ height: 35, width: 35 }} variant="light"
 						>
 							<img
 								onClick={() => onAddToCartBtnClick(product)}
-								style={{width: 22, height: 22}}
+								style={{ width: 22, height: 22 }}
 								src="/assets/cart_green.svg"
 								alt="cart-icon"
 							/>

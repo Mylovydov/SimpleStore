@@ -1,5 +1,5 @@
-import {makeAutoObservable} from 'mobx';
-import {TypeProduct} from '../admin/ProductStore';
+import { makeAutoObservable } from 'mobx';
+import { TypeProduct } from '../admin/ProductStore';
 
 export type TypeProductsQuantity = {
 	quantity: number
@@ -41,8 +41,7 @@ export interface IProductsStore {
 	totalCount: number;
 	limit: number;
 
-	setData: (data: any) => void;
-	// setTotalCount: (totalCount: number) => void
+	setData: (data: TypeData) => void;
 
 	setLimit: (limit: number) => void;
 }

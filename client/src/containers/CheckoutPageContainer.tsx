@@ -1,15 +1,15 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
-import {Button, Card, Col, Container, Form, Row} from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import CheckoutProductList from '../components/checkout/CheckoutProductList';
-import {getTotalCartItemsInfo} from '../utils/getTotalCartItemsInfo';
-import {ShopContext} from '../components/PublicRouter';
+import { getTotalCartItemsInfo } from '../utils/getTotalCartItemsInfo';
+import { ShopContext } from '../components/PublicRouter';
 import CheckoutModal from '../components/modal/CheckoutModal';
-import {observer} from 'mobx-react-lite';
-import {useGetCartItems} from '../hooks/useGetCartItems';
+import { observer } from 'mobx-react-lite';
+import { useGetCartItems } from '../hooks/useGetCartItems';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 import CheckoutTotalInfoBlock from '../components/checkout/CheckoutTotalInfoBlock';
-import {checkout} from '../http/shopAPI/checkoutAPI';
-import {TypeCartItem} from '../store/shop/ProductsStore';
+import { checkout } from '../http/shopAPI/checkoutAPI';
+import { TypeCartItem } from '../store/shop/ProductsStore';
 import useForm from '../hooks/useForm';
 
 export type TypeCustomerDataState = {
@@ -47,12 +47,12 @@ const useValidation = (value: any, validations: any) => {
 	useEffect(() => {
 		for (const validation in validations) {
 			switch (validation) {
-			case 'minLength':
-				value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false);
-				break;
-			case 'isEmpty':
-				value ? setEmpty(false) : setEmpty(true);
-				break;
+				case 'minLength':
+					value.length < validations[validation] ? setMinLengthError(true) : setMinLengthError(false);
+					break;
+				case 'isEmpty':
+					value ? setEmpty(false) : setEmpty(true);
+					break;
 			}
 		}
 	}, [value]);
@@ -88,17 +88,17 @@ const useInput = (initialValue: any, validations: any) => {
 
 const CheckoutPageContainer = observer(() => {
 	const [validated, setValidated] = useState<boolean>(false);
-	const {shopProducts} = useContext(ShopContext);
+	const { shopProducts } = useContext(ShopContext);
 	const [show, setShow] = useState<boolean>(false);
 	const [deliveryType, setDeliveryType] = useState<string>('self-delivery');
 
-	const {handleChange, customerData, clearDeliveryAddrs} = useForm();
+	const { handleChange, customerData, clearDeliveryAddrs } = useForm();
 
 	useGetCartItems();
 
 	const totalOrderInfo = getTotalCartItemsInfo(shopProducts.cart);
 
-	const {removeProductFromCart, changeQuantity} = useUpdateCartFunctions();
+	const { removeProductFromCart, changeQuantity } = useUpdateCartFunctions();
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -137,7 +137,7 @@ const CheckoutPageContainer = observer(() => {
 				<Form noValidate validated={validated} onSubmit={confirmOrder}>
 					<Row className={'mt-5'}>
 						<Col lg={8}>
-							<div style={{fontSize: 18}}>
+							<div style={{ fontSize: 18 }}>
 								Ваши контактные данные
 							</div>
 							<Row className="mt-3">
@@ -148,7 +148,7 @@ const CheckoutPageContainer = observer(() => {
 										onChange={handleChange}
 										required
 										type="text"
-										style={{height: 50}}
+										style={{ height: 50 }}
 										placeholder={'Введите имя...'}
 									/>
 									<Form.Control.Feedback type="invalid">
@@ -163,7 +163,7 @@ const CheckoutPageContainer = observer(() => {
 										required
 
 										type="email"
-										style={{height: 50}}
+										style={{ height: 50 }}
 										placeholder={'Введите email...'}
 									/>
 									<Form.Control.Feedback type="invalid">
@@ -179,14 +179,14 @@ const CheckoutPageContainer = observer(() => {
 									required
 									placeholder="Введите телефон"
 									type="tel"
-									style={{height: 50}}
+									style={{ height: 50 }}
 								/>
 								<Form.Control.Feedback type="invalid">
 									Введите Ваш телефон
 								</Form.Control.Feedback>
 							</Form.Group>
 							<div className={'mt-5'}>
-								<div style={{fontSize: 18}}>
+								<div style={{ fontSize: 18 }}>
 									Данные доставки
 								</div>
 								<Form.Group as={Col} className="mt-3">
@@ -222,7 +222,7 @@ const CheckoutPageContainer = observer(() => {
 										value={customerData.deliveryAddrs}
 										onChange={handleChange}
 										type="text"
-										style={{height: 50, transition: '.2s linear'}}
+										style={{ height: 50, transition: '.2s linear' }}
 										placeholder={'Введите адрес доставки...'}
 									/>
 								</Form.Group>
@@ -230,10 +230,10 @@ const CheckoutPageContainer = observer(() => {
 							<div className={'mt-5'}>
 								<Row>
 									<Col lg={6}>
-										<h3 style={{margin: 0}}>Ваш заказ</h3>
+										<h3 style={{ margin: 0 }}>Ваш заказ</h3>
 									</Col>
 									<Col lg={3} className={'d-flex align-items-center'}>
-										<p style={{margin: 0}}>на сумму: {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}</p>
+										<p style={{ margin: 0 }}>на сумму: {totalOrderInfo.paymentAmount.toLocaleString('ru-RU') + ' ₴'}</p>
 									</Col>
 									<Col lg={3} className={'d-flex justify-content-end'}>
 										<Button

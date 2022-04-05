@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { Button, Modal } from 'react-bootstrap';
 
 export type TypeModalProps = {
 	show: boolean,
@@ -7,7 +7,7 @@ export type TypeModalProps = {
 	// products: any
 }
 
-const CartModal: FC<TypeModalProps> = ({show, onHide}) => {
+const CartModal: FC<TypeModalProps> = ({ show, onHide }) => {
 	return (
 		<Modal
 			show={show}

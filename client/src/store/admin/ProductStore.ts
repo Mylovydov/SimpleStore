@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 export type TypeProduct = {
 	_id: string
@@ -9,8 +9,8 @@ export type TypeProduct = {
 	orderCounter: number
 	tagsIds: string[]
 	slug: string
-	createdDate: any
-	updatedDate: any
+	createdDate: string
+	updatedDate: string
 }
 
 export interface IProductStore {

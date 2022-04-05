@@ -1,17 +1,17 @@
-import {observer} from 'mobx-react-lite';
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, Dropdown, Form} from 'react-bootstrap';
-import {Context} from '../components/AdminRouter';
-import {getAllTagTypes} from '../http/adminAPI/tagTypesAPI';
-import {createTag} from '../http/adminAPI/tagsAPI';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Card, Dropdown, Form } from 'react-bootstrap';
+import { Context } from '../components/AdminRouter';
+import { getAllTagTypes } from '../http/adminAPI/tagTypesAPI';
+import { createTag } from '../http/adminAPI/tagsAPI';
 
 const CreateTagPageContainer = observer(() => {
 
-	const {tagType} = useContext(Context);
+	const { tagType } = useContext(Context);
 
 	const [title, setTitle] = useState('');
 	const [slug, setSlug] = useState('');
-	const [type, setType] = useState({title: '', id: ''});
+	const [type, setType] = useState({ title: '', id: '' });
 
 	useEffect(() => {
 		getAllTagTypes()
@@ -19,27 +19,27 @@ const CreateTagPageContainer = observer(() => {
 	}, []);
 
 	const setTagType = (title: string, id: string) => {
-		setType({...type, title, id});
+		setType({ ...type, title, id });
 	};
 
 	const addTag = () => {
-		createTag({title, tagTypeId: type.id, slug})
+		createTag({ title, tagTypeId: type.id, slug })
 			.then(data => {
 				alert(data.message);
 				setTitle('');
 				setSlug('');
-				setType({...type, title: '', id: ''});
+				setType({ ...type, title: '', id: '' });
 			})
 			.catch(e => alert(e.response.data.message));
 	};
 
 	return (
-		<Card style={{width: 600}} className="p-5 m-auto">
+		<Card style={{ width: 600 }} className="p-5 m-auto">
 			<Form>
 				<Form.Control
 					value={title}
 					onChange={e => setTitle(e.target.value)}
-					style={{height: 50}}
+					style={{ height: 50 }}
 					placeholder="Введите название тега"
 				/>
 				<Dropdown className="mt-3">
@@ -64,7 +64,7 @@ const CreateTagPageContainer = observer(() => {
 				<Form.Control
 					value={slug}
 					onChange={e => setSlug(e.target.value)}
-					style={{height: 50}}
+					style={{ height: 50 }}
 					className="mt-3"
 					placeholder="Введите slug тега"
 				/>
@@ -73,7 +73,7 @@ const CreateTagPageContainer = observer(() => {
 				onClick={addTag}
 				className="mt-4"
 				variant="outline-success"
-				style={{height: 50}}
+				style={{ height: 50 }}
 			>
 				Добавить
 			</Button>

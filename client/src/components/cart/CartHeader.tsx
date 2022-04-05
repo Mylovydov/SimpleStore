@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {Button} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { Button } from 'react-bootstrap';
 
 export type TypeCartHeaderProps = {
 	info: { [key: string]: number }
@@ -7,7 +7,7 @@ export type TypeCartHeaderProps = {
 	navigate: () => void
 }
 
-const CartHeader: FC<TypeCartHeaderProps> = ({info, onClearCart, navigate}) => {
+const CartHeader: FC<TypeCartHeaderProps> = ({ info, onClearCart, navigate }) => {
 
 	return (
 		<div className={'basket-header'}>
@@ -18,20 +18,20 @@ const CartHeader: FC<TypeCartHeaderProps> = ({info, onClearCart, navigate}) => {
 				<div className={'header-info__prod'}>
 					Товаров в корзине:
 					<span
-						style={{color: '#198754', fontSize: 20}}
+						style={{ color: '#198754', fontSize: 20 }}
 						className={'ms-2'}
 					>
-            {info.totalItems}
-          </span>
+						{info.totalItems}
+					</span>
 				</div>
 				<div className={'header-info__prod'}>
 					Сумма к оплате:
 					<span
-						style={{color: '#198754', fontSize: 20}}
+						style={{ color: '#198754', fontSize: 20 }}
 						className={'ms-2'}
 					>
-            {info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
-          </span>
+						{info.paymentAmount.toLocaleString('ru-RU') + ' ₴'}
+					</span>
 				</div>
 			</div>
 			<div className={'basket-header__actions header-actions'}>

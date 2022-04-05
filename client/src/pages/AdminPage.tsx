@@ -1,13 +1,14 @@
 import React from 'react';
-import {Button, Card, Container} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import { Button, Card, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import {
 	ADMIN_ROUTE,
 	ADMINS_ROUTE,
 	ORDERS_ROUTE,
 	PRODUCTS_ROUTE,
+	STATISTICS_ROUTE,
 	TAGS_ROUTE,
-	STATISTICS_ROUTE, TAGTYPES_ROUTE
+	TAGTYPES_ROUTE
 } from '../utils/consts';
 
 
@@ -18,7 +19,7 @@ const AdminPage = () => {
 		<Container
 			className="d-flex justify-content-center align-items-center"
 		>
-			<Card style={{width: 600}} className="p-5">
+			<Card style={{ width: 600 }} className="p-5">
 				<h2 className="m-auto">Панель администратора</h2>
 				<Button
 					onClick={() => navigate(ADMIN_ROUTE + PRODUCTS_ROUTE)}

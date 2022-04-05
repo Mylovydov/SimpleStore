@@ -1,25 +1,25 @@
-import {observer} from 'mobx-react-lite';
-import React, {useContext, useEffect, useState} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
-import {Context} from '../components/AdminRouter';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../components/AdminRouter';
 import SearchTableInput from '../components/tables/SearchTableInput';
-import TagTypesTable, {THeadTableField} from '../components/tables/TagTypesTable';
-import {getAllTagTypes} from '../http/adminAPI/tagTypesAPI';
-import {ADMIN_ROUTE, TAGTYPES_ROUTE} from '../utils/consts';
-import {pagination} from '../utils/pagination';
+import TagTypesTable, { THeadTableField } from '../components/tables/TagTypesTable';
+import { getAllTagTypes } from '../http/adminAPI/tagTypesAPI';
+import { ADMIN_ROUTE, TAGTYPES_ROUTE } from '../utils/consts';
+import { pagination } from '../utils/pagination';
 import Pages from '../components/Pages';
 
 const FIELDS: THeadTableField[] = [
-	{_id: '_id', title: '_id', sortable: true},
-	{_id: 'title', title: 'Название', sortable: true},
-	{_id: 'slug', title: 'Slug', sortable: true},
-	{_id: 'createdDate', title: 'Дата создания', 'sortable': true},
-	{_id: 'updatedDate', title: 'Дата обновления', 'sortable': true}
+	{ _id: '_id', title: '_id', sortable: true },
+	{ _id: 'title', title: 'Название', sortable: true },
+	{ _id: 'slug', title: 'Slug', sortable: true },
+	{ _id: 'createdDate', title: 'Дата создания', 'sortable': true },
+	{ _id: 'updatedDate', title: 'Дата обновления', 'sortable': true }
 ];
 
 const TagTypeListContainer = observer(() => {
-	const {tagType} = useContext(Context);
+	const { tagType } = useContext(Context);
 
 	const navigate = useNavigate();
 

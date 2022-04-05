@@ -1,9 +1,9 @@
-import React, {FC, useEffect, useState} from 'react';
-import {Button, Col, Container, Row, Spinner} from 'react-bootstrap';
-import {NavLink, useNavigate, useParams} from 'react-router-dom';
-import {getOneProduct} from '../http/shopAPI/productAPI';
-import {TypeProduct} from '../store/admin/ProductStore';
-import {CATALOG_ROUTE} from '../utils/consts';
+import React, { FC, useEffect, useState } from 'react';
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { getOneProduct } from '../http/shopAPI/productAPI';
+import { TypeProduct } from '../store/admin/ProductStore';
+import { CATALOG_ROUTE } from '../utils/consts';
 
 const ProductPage: FC = () => {
 
@@ -18,23 +18,23 @@ const ProductPage: FC = () => {
 		tagsIds: [''],
 		slug: '',
 		createdDate: '',
-		updatedDate: '',
+		updatedDate: ''
 	});
 
-	const {slug} = useParams();
-	const navigate = useNavigate();
+	const { slug } = useParams();
 
 	useEffect(() => {
+		console.log('here');
 		getOneProduct(slug as string)
 			.then(product => setProduct(product))
 			.finally(() => setLoading(false));
-	}, []);
+	}, [slug]);
 
 	if (loading) {
 		return (
 			<Spinner
 				animation="border"
-				style={{position: 'absolute', top: '50%', left: '50%'}}
+				style={{ position: 'absolute', top: '50%', left: '50%' }}
 			/>
 		);
 	}
@@ -49,15 +49,13 @@ const ProductPage: FC = () => {
 						overflow: 'hidden',
 						minHeight: 600
 					}}>
-						<img className="img-absolute" src={`${process.env.REACT_APP_API_URL}/${product.image}`}
-								 alt="product Image"/>
+						<img className="img-absolute" src={`${process.env.REACT_APP_API_URL}/${product.image}`} alt="product Image"/>
 					</div>
 				</Col>
 				<Col md={6} className="ps-5 pt-4 pb-4 d-flex flex-column">
 					<NavLink
-						// onClick={() => navigate(CATALOG_ROUTE)}
 						to={CATALOG_ROUTE}
-						style={{textDecoration: 'none', color: '#198754', marginBottom: 30}}
+						style={{ textDecoration: 'none', color: '#198754', marginBottom: 30 }}
 					>
 						Вернуться в магазин
 					</NavLink>
@@ -65,10 +63,10 @@ const ProductPage: FC = () => {
 						<h2>{product.title}</h2>
 					</div>
 					s
-					<div style={{marginTop: 20}}>
+					<div style={{ marginTop: 20 }}>
 						<p>{product.description}</p>
 					</div>
-					<div style={{marginTop: 20, fontSize: 42, color: '#212529', fontWeight: 500}}>
+					<div style={{ marginTop: 20, fontSize: 42, color: '#212529', fontWeight: 500 }}>
 						<p>{product.price.toLocaleString('ru-RU') + '₴'}</p>
 					</div>
 					<div>

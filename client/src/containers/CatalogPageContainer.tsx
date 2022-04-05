@@ -1,27 +1,27 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Col, Container, Row, Spinner} from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import FilterProductsBar from '../components/FilterProductsBar';
 import ProductList from '../components/ProductList';
 import Pages from '../components/Pages';
-import {getAllProducts, getPaginatedProducts} from '../http/shopAPI/productAPI';
-import {pagination} from '../utils/pagination';
-import {ShopContext} from '../components/PublicRouter';
-import {observer} from 'mobx-react-lite';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE} from '../utils/consts';
-import {prepareFilterBarData} from '../utils/prepareFilterBarData';
-import {decodeQueryUrl, generateQueryUrl} from '../utils/queryString';
+import { getAllProducts, getPaginatedProducts } from '../http/shopAPI/productAPI';
+import { pagination } from '../utils/pagination';
+import { ShopContext } from '../components/PublicRouter';
+import { observer } from 'mobx-react-lite';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { CATALOG_ROUTE, SELECTED_PRODUCT_ROUTE } from '../utils/consts';
+import { prepareFilterBarData } from '../utils/prepareFilterBarData';
+import { decodeQueryUrl, generateQueryUrl } from '../utils/queryString';
 import useUpdateCartFunctions from '../hooks/useUpdateCartFunctions';
 
 const CatalogPageContainer = observer(() => {
-	const {shopProducts, shopTags} = useContext(ShopContext);
+	const { shopProducts, shopTags } = useContext(ShopContext);
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [isTouched, setIsTouched] = useState<boolean>(false);
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const {setProductToCart, removeProductFromCart} = useUpdateCartFunctions();
+	const { setProductToCart, removeProductFromCart } = useUpdateCartFunctions();
 
 	useEffect(() => {
 		const filters = location.pathname === '/catalog/'
@@ -55,7 +55,7 @@ const CatalogPageContainer = observer(() => {
 				setLoading(false);
 				setIsTouched(false);
 				shopProducts.setPrevFilters(decode.filters);
-				shopProducts.setCurrentPage(decode.page || 1);
+				shopProducts.setCurrentPage(+decode.page || 1);
 			});
 		}
 	}, [location.pathname]);
@@ -116,7 +116,7 @@ const CatalogPageContainer = observer(() => {
 	if (loading) {
 		return (<Spinner
 			animation="border"
-			style={{position: 'absolute', top: '50%', left: '50%'}}
+			style={{ position: 'absolute', top: '50%', left: '50%' }}
 		/>);
 	}
 

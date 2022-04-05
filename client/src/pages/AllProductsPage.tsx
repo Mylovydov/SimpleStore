@@ -1,8 +1,8 @@
-import React, {FC} from 'react';
-import {Button, Col, Row} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import React, { FC } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import ProductListContainer from '../containers/ProductListContainer';
-import {ADMIN_ROUTE, CREATE_PRODUCTS_ROUTE} from '../utils/consts';
+import { ADMIN_ROUTE, CREATE_PRODUCTS_ROUTE } from '../utils/consts';
 
 const AllProductsPage: FC = () => {
 	const navigate = useNavigate();

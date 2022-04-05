@@ -1,4 +1,4 @@
-import {TypeCartItem} from '../store/shop/ProductsStore';
+import { TypeCartItem } from '../store/shop/ProductsStore';
 
 export type TypeTotalCartItemsInfo = {
 	paymentAmount: number,
@@ -10,5 +10,5 @@ export const getTotalCartItemsInfo = (cartItems: TypeCartItem[]) => {
 		acc.paymentAmount += cartItem.price * cartItem.quantity;
 		acc.totalItems += cartItem.quantity;
 		return acc;
-	}, {paymentAmount: 0, totalItems: 0});
+	}, { paymentAmount: 0, totalItems: 0 });
 };

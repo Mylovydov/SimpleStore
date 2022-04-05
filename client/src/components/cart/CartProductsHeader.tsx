@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {Col, ListGroup, Row} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { Col, ListGroup, Row } from 'react-bootstrap';
 
 const CartProductsHeader: FC = () => {
 	return (

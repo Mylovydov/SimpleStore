@@ -1,30 +1,31 @@
-import React, {useContext} from 'react';
-import {Button, Col, Container, Nav, Row} from 'react-bootstrap';
-import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
 	ADMIN_ROUTE,
-	ORDERS_ROUTE,
-	PRODUCTS_ROUTE,
-	TAGS_ROUTE,
+	ADMINS_ROUTE,
 	CREATE_ADMIN_ROUTE,
 	CREATE_ORDER_ROUTE,
 	CREATE_PRODUCTS_ROUTE,
-	CREATE_TAGTYPE_ROUTE,
 	CREATE_TAG_ROUTE,
+	CREATE_TAGTYPE_ROUTE,
 	CURRENT_ADMIN_SETTINGS_ROUTE,
 	LOGIN_ROUTE,
+	ORDERS_ROUTE,
+	PRODUCTS_ROUTE,
 	STATISTICS_ROUTE,
-	TAGTYPES_ROUTE, ADMINS_ROUTE
+	TAGS_ROUTE,
+	TAGTYPES_ROUTE
 } from '../utils/consts';
-import {Context} from '../components/AdminRouter';
+import { Context } from '../components/AdminRouter';
 
 
 const AdminSydebar = () => {
 	const navigate = useNavigate();
-	const {admin} = useContext(Context);
+	const { admin } = useContext(Context);
 
 	const logOut = () => {
-		admin.setAdmin({_id: ''});
+		admin.setAdmin({ _id: '' });
 		admin.setIsAuth(false);
 		localStorage.removeItem('token');
 
@@ -35,25 +36,25 @@ const AdminSydebar = () => {
 
 	return (
 		<Container
-			style={{backgroundColor: '#212529', height: '100vh'}}
+			style={{ backgroundColor: '#212529', height: '100vh' }}
 			className={'ps-4 pt-5 pb-5 pe-4'}
 		>
-			<Row className="d-flex flex-column" style={{height: '100%'}}>
-				<Col style={{flex: '0 0 120px'}}>
-					<h1 style={{fontSize: 32, color: 'white'}}>
+			<Row className="d-flex flex-column" style={{ height: '100%' }}>
+				<Col style={{ flex: '0 0 120px' }}>
+					<h1 style={{ fontSize: 32, color: 'white' }}>
 						SimpleStore
 					</h1>
-					<span style={{fontSize: 13, color: '#9f9f9f'}}>
+					<span style={{ fontSize: 13, color: '#9f9f9f' }}>
                   ПАНЕЛЬ АДМИНИСТРАТОРА
-               </span>
+					</span>
 				</Col>
-				<Col className="p-0" style={{flex: '1 1 auto'}}>
+				<Col className="p-0" style={{ flex: '1 1 auto' }}>
 					<Nav defaultActiveKey={STATISTICS_ROUTE} className="d-flex flex-column" as="ul">
 						<Nav.Item as="li">
 							<Nav.Link
 								active={
 									location.pathname === ADMIN_ROUTE + PRODUCTS_ROUTE ||
-									location.pathname === ADMIN_ROUTE + CREATE_PRODUCTS_ROUTE ? true : false
+									location.pathname === ADMIN_ROUTE + CREATE_PRODUCTS_ROUTE
 								}
 								eventKey={PRODUCTS_ROUTE}
 								onClick={() => navigate(ADMIN_ROUTE + PRODUCTS_ROUTE)}
@@ -128,7 +129,7 @@ const AdminSydebar = () => {
 						</Nav.Item>
 					</Nav>
 				</Col>
-				<Col className="d-flex flex-column" style={{flex: '0 0 100px'}}>
+				<Col className="d-flex flex-column" style={{ flex: '0 0 100px' }}>
 					<Button
 						onClick={() => navigate(ADMIN_ROUTE + CURRENT_ADMIN_SETTINGS_ROUTE)}
 						variant="outline-light"

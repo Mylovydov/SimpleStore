@@ -1,5 +1,5 @@
-import React, {FC} from 'react';
-import {Table} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { Table } from 'react-bootstrap';
 import TableHead from './TableHead';
 
 export type THeadTableField = {
@@ -23,44 +23,44 @@ export type TTagTypesTableProps<T extends TBaseTableItem = TBaseTableItem> = {
 	onClick: (id: string) => void
 }
 
-const TagTypesTable: FC<TTagTypesTableProps> = ({tagTypes, fields, onClick}) => {
+const TagTypesTable: FC<TTagTypesTableProps> = ({ tagTypes, fields, onClick }) => {
 
 	const tagTypesTableItems = tagTypes.map(tagType => {
 		return (
-			<tr key={tagType._id} style={{cursor: 'pointer'}} onClick={() => onClick(tagType._id)}>
+			<tr key={tagType._id} style={{ cursor: 'pointer' }} onClick={() => onClick(tagType._id)}>
 				{fields.map(field => {
 					switch (field._id) {
-					case 'createdDate':
-						const createdDate = new Date(tagType[field._id]).toLocaleDateString('ru-RU');
-						const createdTime = new Date(tagType[field._id]).toLocaleTimeString('ru-RU');
-						return (
-							<td
-								key={field._id}
-							>
-								<div>{createdDate}</div>
-								<div>{createdTime}</div>
-							</td>
-						);
-					case 'updatedDate':
-						const updatedDate = new Date(tagType[field._id]).toLocaleDateString('ru-RU');
-						const updatedTime = new Date(tagType[field._id]).toLocaleTimeString('ru-RU');
+						case 'createdDate':
+							const createdDate = new Date(tagType[field._id]).toLocaleDateString('ru-RU');
+							const createdTime = new Date(tagType[field._id]).toLocaleTimeString('ru-RU');
+							return (
+								<td
+									key={field._id}
+								>
+									<div>{createdDate}</div>
+									<div>{createdTime}</div>
+								</td>
+							);
+						case 'updatedDate':
+							const updatedDate = new Date(tagType[field._id]).toLocaleDateString('ru-RU');
+							const updatedTime = new Date(tagType[field._id]).toLocaleTimeString('ru-RU');
 
-						return (
-							<td
-								key={field._id}
-							>
-								<div>{updatedDate}</div>
-								<div>{updatedTime}</div>
-							</td>
-						);
-					default:
-						return (
-							<td
-								key={field._id}
-							>
-								{tagType[field._id]}
-							</td>
-						);
+							return (
+								<td
+									key={field._id}
+								>
+									<div>{updatedDate}</div>
+									<div>{updatedTime}</div>
+								</td>
+							);
+						default:
+							return (
+								<td
+									key={field._id}
+								>
+									{tagType[field._id]}
+								</td>
+							);
 					}
 				})}
 			</tr>
@@ -69,7 +69,7 @@ const TagTypesTable: FC<TTagTypesTableProps> = ({tagTypes, fields, onClick}) => 
 
 	return (
 		<Table striped bordered hover responsive>
-			<thead style={{backgroundColor: '#212529', color: 'white', height: 70}}>
+			<thead style={{ backgroundColor: '#212529', color: 'white', height: 70 }}>
 			<TableHead fields={fields}/>
 			</thead>
 			<tbody>

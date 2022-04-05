@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
-import {ListGroup} from 'react-bootstrap';
+import React, { FC } from 'react';
+import { ListGroup } from 'react-bootstrap';
 import CartProductsListItem from './CartProductsListItem';
-import {TypeCartItem} from '../../store/shop/ProductsStore';
+import { TypeCartItem } from '../../store/shop/ProductsStore';
 
 export type TypeCartProductsListProps = {
 	onRemoveCartItem: (id: string) => void

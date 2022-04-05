@@ -1,7 +1,7 @@
-import {makeAutoObservable} from 'mobx';
-import {TypeTag} from '../admin/TagStore';
-import {TypeTagType} from '../admin/TagTypeStore';
-import {TypePrepareFilterBarData} from '../../utils/prepareFilterBarData';
+import { makeAutoObservable } from 'mobx';
+import { TypeTag } from '../admin/TagStore';
+import { TypeTagType } from '../admin/TagTypeStore';
+import { TypePrepareFilterBarData } from '../../utils/prepareFilterBarData';
 
 export type TypeShopTag = Omit<TypeTag, 'createdDate' | 'updatedDate' | '__v'>
 export type TypeShopTagType = Omit<TypeTagType, 'createdDate' | 'updatedDate' | '__v'>
@@ -27,6 +27,7 @@ class TagStore implements ITagStore {
 	}
 
 	setData(data: any): void {
+		console.log('setData', data);
 		this._tagTypes = data.allTagTypes;
 		this._tags = data.allTags;
 	}

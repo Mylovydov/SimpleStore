@@ -1,17 +1,17 @@
-import {observer} from 'mobx-react-lite';
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Card, Col, Dropdown, Form, Row} from 'react-bootstrap';
-import {Context} from '../components/AdminRouter';
-import {getAllTagTypes} from '../http/adminAPI/tagTypesAPI';
-import {getAllTags} from '../http/adminAPI/tagsAPI';
-import {createProduct} from '../http/adminAPI/productsAPI';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { Button, Card, Col, Dropdown, Form, Row } from 'react-bootstrap';
+import { Context } from '../components/AdminRouter';
+import { getAllTagTypes } from '../http/adminAPI/tagTypesAPI';
+import { getAllTags } from '../http/adminAPI/tagsAPI';
+import { createProduct } from '../http/adminAPI/productsAPI';
 
 export type TypeInfoStateItem = { typeId: string, tagId: string, number: number }
 export type TypeInfoStateItems = TypeInfoStateItem[]
 
 
 const CreateProductContainer = observer(() => {
-	const {tag, tagType} = useContext(Context);
+	const { tag, tagType } = useContext(Context);
 
 	useEffect(() => {
 		getAllTagTypes().then(data => tagType.setTagTypes(data.tagTypes)).catch(e => alert(e.response.data.message));
@@ -30,7 +30,7 @@ const CreateProductContainer = observer(() => {
 	const [info, setInfo] = useState<TypeInfoStateItems>([]);
 
 	const addInfo = () => {
-		setInfo([...info, {typeId: '', tagId: '', number: Date.now()}]);
+		setInfo([...info, { typeId: '', tagId: '', number: Date.now() }]);
 	};
 
 	const removeInfo = (number: TypeInfoStateItem['number']) => {
@@ -38,7 +38,7 @@ const CreateProductContainer = observer(() => {
 	};
 
 	const changeInfo = (key: string, value: string, number: number) => {
-		setInfo(info.map(i => i.number === number ? {...i, [key]: value} : i));
+		setInfo(info.map(i => i.number === number ? { ...i, [key]: value } : i));
 	};
 
 	const selectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,26 +81,26 @@ const CreateProductContainer = observer(() => {
 
 
 	return (
-		<Card style={{width: 600}} className="p-5 m-auto">
+		<Card style={{ width: 600 }} className="p-5 m-auto">
 			<Form>
 				<Form.Control
 					value={title}
 					onChange={(e) => setTitle(e.target.value)}
-					style={{height: 50}}
+					style={{ height: 50 }}
 					placeholder="Название продукта"
 				/>
 				<Form.Control
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
 					as="textarea"
-					style={{height: 100}}
+					style={{ height: 100 }}
 					className="mt-3"
 					placeholder="Описание продукта"
 				/>
 				<Form.Control
 					value={slug}
 					onChange={(e) => setSlug(e.target.value)}
-					style={{height: 50}}
+					style={{ height: 50 }}
 					className="mt-3"
 					placeholder="Slug"
 				/>
@@ -108,7 +108,7 @@ const CreateProductContainer = observer(() => {
 					value={price}
 					onChange={(e) => setPrice(Number(e.target.value))}
 					type="number"
-					style={{height: 50}}
+					style={{ height: 50 }}
 					className="mt-3"
 					placeholder="Стоимость"
 				/>
@@ -210,7 +210,7 @@ const CreateProductContainer = observer(() => {
 				onClick={addProduct}
 				className="mt-3"
 				variant="outline-success"
-				style={{height: 50}}
+				style={{ height: 50 }}
 			>
 				Добавить
 			</Button>

@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
-import {Button, Modal} from 'react-bootstrap';
-import {TypeCartItem} from '../../store/shop/ProductsStore';
+import React, { FC } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import { TypeCartItem } from '../../store/shop/ProductsStore';
 import CartProductsList from '../cart/CartProductsList';
 
 export type TypeCheckoutModalProps = {

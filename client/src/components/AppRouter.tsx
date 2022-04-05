@@ -1,6 +1,6 @@
-import React, {FC} from 'react';
-import {Routes, Route} from 'react-router-dom';
-import {ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE} from '../utils/consts';
+import React, { FC } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
 import AdminRouter from './AdminRouter';
 import PublicRouter from './PublicRouter';
 import AuthPage from '../pages/AuthPage';

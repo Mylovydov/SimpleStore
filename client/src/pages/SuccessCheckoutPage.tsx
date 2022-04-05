@@ -1,5 +1,4 @@
 import React from 'react';
-import {SUCCESS_ROUTE} from '../utils/consts';
 
 const SuccessCheckoutPage = () => {
 	return (

@@ -1,11 +1,11 @@
-import React, {createContext, FC} from 'react';
-import {Navigate, Route, Routes} from 'react-router-dom';
+import React, { createContext, FC } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import PublicLayout from './layout/PublicLayout';
-import {publicRoutes} from '../routes';
-import ProductsStore, {IProductsStore} from '../store/shop/ProductsStore';
-import {CANCEL_ROUTE, CATALOG_ROUTE, CHECKOUT_ROUTE, SHOP_ROUTE, SUCCESS_ROUTE} from '../utils/consts';
+import { publicRoutes } from '../routes';
+import ProductsStore, { IProductsStore } from '../store/shop/ProductsStore';
+import { CANCEL_ROUTE, CATALOG_ROUTE, CHECKOUT_ROUTE, SHOP_ROUTE, SUCCESS_ROUTE } from '../utils/consts';
 import HomePage from '../pages/HomePage';
-import TagStore, {ITagStore} from '../store/shop/TagStore';
+import TagStore, { ITagStore } from '../store/shop/TagStore';
 import CatalogPage from '../pages/CatalogPage';
 import CheckoutPage from '../pages/CheckoutPage';
 import SuccessCheckoutPage from '../pages/SuccessCheckoutPage';
@@ -31,7 +31,7 @@ const PublicRouter: FC = () => {
 			<Routes>
 				<Route path="/" element={<PublicLayout/>}>
 					<Route index element={<HomePage/>}/>
-					{publicRoutes.map(({path, Component}) => {
+					{publicRoutes.map(({ path, Component }) => {
 						return <Route key={path} path={path} element={Component}/>;
 					})}
 					<Route path={CATALOG_ROUTE} element={<CatalogPage/>}>

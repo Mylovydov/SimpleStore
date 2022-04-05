@@ -1,13 +1,13 @@
-import React, {ChangeEvent, useContext, useState} from 'react';
-import {Badge, Button, Col, Container, FormControl, Row} from 'react-bootstrap';
-import {NavLink, useNavigate} from 'react-router-dom';
-import {CART_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE} from '../utils/consts';
-import {ShopContext} from '../components/PublicRouter';
-import {observer} from 'mobx-react-lite';
-import {useGetCartItems} from '../hooks/useGetCartItems';
+import React, { ChangeEvent, useContext, useState } from 'react';
+import { Badge, Button, Col, Container, FormControl, Row } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { CART_ROUTE, CATALOG_ROUTE, SEARCH_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { ShopContext } from '../components/PublicRouter';
+import { observer } from 'mobx-react-lite';
+import { useGetCartItems } from '../hooks/useGetCartItems';
 
 const NavBarContainer = observer(() => {
-	const {shopProducts} = useContext(ShopContext);
+	const { shopProducts } = useContext(ShopContext);
 
 	const [search, setSearch] = useState<string>('');
 
@@ -27,7 +27,7 @@ const NavBarContainer = observer(() => {
 				<Col lg={2}>
 					<NavLink
 						to={SHOP_ROUTE}
-						style={{color: 'white', textDecoration: 'none', fontSize: 22}}
+						style={{ color: 'white', textDecoration: 'none', fontSize: 22 }}
 					>
 						SimpleStore
 					</NavLink>
@@ -59,7 +59,7 @@ const NavBarContainer = observer(() => {
 				<Col lg={2} className={'d-flex justify-content-end'}>
 					<Button
 						variant="dark"
-						style={{height: 38}}
+						style={{ height: 38 }}
 						onClick={() => navigate(CART_ROUTE)}
 						className={'d-flex align-items-center justify-content-center'}
 					>
@@ -68,7 +68,7 @@ const NavBarContainer = observer(() => {
 							className={'ms-2'}
 							src="/assets/cart.svg"
 							alt="cart-icon"
-							style={{width: 20, height: 20}}
+							style={{ width: 20, height: 20 }}
 						/>
 						{
 							shopProducts.cart.length >= 1 &&

@@ -10,7 +10,7 @@ export const CREATE_TAGTYPE_ROUTE = '/tag-types/create';
 export const TAGS_ROUTE = '/tags';
 export const CREATE_TAG_ROUTE = '/tags/create';
 
-export const PRODUCTS_ROUTE = `/products`;
+export const PRODUCTS_ROUTE = '/products';
 export const CREATE_PRODUCTS_ROUTE = '/products/create';
 
 export const ORDERS_ROUTE = '/orders';

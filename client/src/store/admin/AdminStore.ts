@@ -1,4 +1,4 @@
-import {makeAutoObservable} from 'mobx';
+import { makeAutoObservable } from 'mobx';
 
 export type TypeAdmin = {
 	_id: string
@@ -16,8 +16,8 @@ export interface IAdminStore {
 }
 
 class AdminStore implements IAdminStore {
-	_isAuth: boolean = false;
-	_admin: TypeAdmin = {_id: ''};
+	_isAuth = false;
+	_admin: TypeAdmin = { _id: '' };
 
 	constructor() {
 		this._isAuth = false;

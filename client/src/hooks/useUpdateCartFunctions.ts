@@ -1,17 +1,17 @@
-import {useCallback, useContext} from 'react';
-import {ShopContext} from '../components/PublicRouter';
-import {TypeProduct} from '../store/admin/ProductStore';
+import { useCallback, useContext } from 'react';
+import { ShopContext } from '../components/PublicRouter';
+import { TypeProduct } from '../store/admin/ProductStore';
 
 
 const useUpdateCartFunctions = () => {
-	const {shopProducts} = useContext(ShopContext);
+	const { shopProducts } = useContext(ShopContext);
 
 	const setProductToCart = useCallback((product: TypeProduct) => {
 		const candidateForAddingToCart = shopProducts.cart.find(cartItem => cartItem._id === product._id);
 
 		if (!candidateForAddingToCart) {
-			const {_id, title, price, image} = product;
-			shopProducts.setCart([...shopProducts.cart, {_id, title, price, image, quantity: 1}]);
+			const { _id, title, price, image } = product;
+			shopProducts.setCart([...shopProducts.cart, { _id, title, price, image, quantity: 1 }]);
 
 			localStorage.setItem('cart', JSON.stringify(shopProducts.cart));
 		}
@@ -24,7 +24,7 @@ const useUpdateCartFunctions = () => {
 					?
 					cartItem
 					:
-					{...cartItem, quantity: cartItem.quantity + (isIncrease ? 1 : -1)};
+					{ ...cartItem, quantity: cartItem.quantity + (isIncrease ? 1 : -1) };
 			}
 			return cartItem;
 		}));

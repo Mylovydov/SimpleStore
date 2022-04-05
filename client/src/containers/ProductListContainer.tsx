@@ -1,32 +1,32 @@
-import {observer} from 'mobx-react-lite';
-import React, {useContext, useEffect, useState} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
-import {Context} from '../components/AdminRouter';
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../components/AdminRouter';
 import Pages from '../components/Pages';
 import ProductTable from '../components/tables/ProductTable';
 import SearchTableInput from '../components/tables/SearchTableInput';
-import {THeadTableField} from '../components/tables/TagTypesTable';
-import {getAllProducts} from '../http/adminAPI/productsAPI';
-import {getAllTags} from '../http/adminAPI/tagsAPI';
-import {ADMIN_ROUTE, PRODUCTS_ROUTE} from '../utils/consts';
-import {pagination} from '../utils/pagination';
+import { THeadTableField } from '../components/tables/TagTypesTable';
+import { getAllProducts } from '../http/adminAPI/productsAPI';
+import { getAllTags } from '../http/adminAPI/tagsAPI';
+import { ADMIN_ROUTE, PRODUCTS_ROUTE } from '../utils/consts';
+import { pagination } from '../utils/pagination';
 
 const FIELDS: THeadTableField[] = [
-	{_id: '_id', title: '# _id', sortable: true},
-	{_id: 'title', title: 'Заголовок', sortable: true},
-	{_id: 'price', title: 'Цена', sortable: true},
-	{_id: 'image', title: 'Фото', sortable: true},
-	{_id: 'description', title: 'Описание', sortable: true},
-	{_id: 'orderCounter', title: 'Кол-во покупок', sortable: true},
-	{_id: 'tagsIds', title: 'Теги', sortable: true},
-	{_id: 'slug', title: 'Slug', sortable: true},
-	{_id: 'createdDate', title: 'Дата создания', 'sortable': true},
-	{_id: 'updatedDate', title: 'Дата обновления', 'sortable': true}
+	{ _id: '_id', title: '# _id', sortable: true },
+	{ _id: 'title', title: 'Заголовок', sortable: true },
+	{ _id: 'price', title: 'Цена', sortable: true },
+	{ _id: 'image', title: 'Фото', sortable: true },
+	{ _id: 'description', title: 'Описание', sortable: true },
+	{ _id: 'orderCounter', title: 'Кол-во покупок', sortable: true },
+	{ _id: 'tagsIds', title: 'Теги', sortable: true },
+	{ _id: 'slug', title: 'Slug', sortable: true },
+	{ _id: 'createdDate', title: 'Дата создания', 'sortable': true },
+	{ _id: 'updatedDate', title: 'Дата обновления', 'sortable': true }
 ];
 
 const ProductListContainer = observer(() => {
-	const {product, tag} = useContext(Context);
+	const { product, tag } = useContext(Context);
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(true);
 	const [currentPage, setCurrentPage] = useState(1);

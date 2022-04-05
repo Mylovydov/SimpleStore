@@ -1,8 +1,8 @@
-import React, {FC} from 'react';
-import {Button, Col, Row} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import React, { FC } from 'react';
+import { Button, Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import TagTypeListContainer from '../containers/TagTypeListContainer';
-import {ADMIN_ROUTE, CREATE_TAGTYPE_ROUTE} from '../utils/consts';
+import { ADMIN_ROUTE, CREATE_TAGTYPE_ROUTE } from '../utils/consts';
 
 const AllTagTypesPage: FC = () => {
 	const navigate = useNavigate();

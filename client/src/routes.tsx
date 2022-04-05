@@ -32,7 +32,7 @@ import {
 	SELECTED_PRODUCT_ROUTE,
 	STATISTICS_ROUTE,
 	TAGS_ROUTE,
-	TAGTYPES_ROUTE,
+	TAGTYPES_ROUTE
 } from './utils/consts';
 import StatisticsPageContainer from './containers/StatisticsPageContainer';
 import SearchPage from './pages/SearchPage';
@@ -106,7 +106,7 @@ export const authRoutes = [
 	{
 		path: STATISTICS_ROUTE,
 		Component: <StatisticsPageContainer/>
-	},
+	}
 ];
 
 export const publicRoutes = [
@@ -121,5 +121,5 @@ export const publicRoutes = [
 	{
 		path: CART_ROUTE,
 		Component: <CartPage/>
-	},
+	}
 ];
